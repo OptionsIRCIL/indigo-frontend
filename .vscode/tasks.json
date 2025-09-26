@@ -9,7 +9,9 @@
         "owner": "typescript",
         "pattern": "$tsc",
         "background": {
-          "activeOnStart": true
+          "activeOnStart": true,
+          "beginsPattern": "(.*?)",
+          "endsPattern":"bundle generation complete"
         }
       }
     },
@@ -21,7 +23,9 @@
         "owner": "typescript",
         "pattern": "$tsc",
         "background": {
-          "activeOnStart": true
+          "activeOnStart": true,
+          "beginsPattern": "(.*?)",
+          "endsPattern": "bundle generation complete"
         }
       }
     }
