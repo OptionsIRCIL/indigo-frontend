@@ -9,19 +9,17 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from "@angular/forms";
+import { MatButton } from "@angular/material/button";
 
 @Component({
 	selector: "app-login",
-	imports: [
-		ReactiveFormsModule,
-		MatInputModule,
-	],
+	imports: [ReactiveFormsModule, MatInputModule, MatButton],
 	templateUrl: "./login.component.html",
 	styleUrl: "./login.component.css",
 })
 export class LoginComponent {
 	loginForm: FormGroup = new FormGroup({
-		username: new FormControl("", Validators.required),
+		email: new FormControl("", Validators.required),
 		password: new FormControl("", Validators.required),
 	});
 
@@ -29,7 +27,10 @@ export class LoginComponent {
 
 	protected attemptLogin() {
 		if (this.loginForm.valid) {
-			this.accessClient.login(this.loginForm.value.username, this.loginForm.value.password);
+			this.accessClient.login(
+				this.loginForm.value.email,
+				this.loginForm.value.password,
+			);
 		}
 	}
 }

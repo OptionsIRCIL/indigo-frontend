@@ -12,9 +12,9 @@ export class AccessClientService {
 							private tokenState: TokenState,
 							private snackBar: MatSnackBar) { }
 
-	public login(username: string, password: string) {
+	public login(email: string, password: string) {
 		this.http.post<Token>('http://acm.cs.und.edu:58080/api/v1/auth',
-      {username: username, password: password},
+      {email: email, password: password},
       {withCredentials: true}).subscribe(
 			{
 				next: (res) => {
