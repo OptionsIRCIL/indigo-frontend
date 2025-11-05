@@ -9,11 +9,12 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from "@angular/forms";
-import { MatButton } from "@angular/material/button";
+import { MatButton, MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
 	selector: "app-login",
-	imports: [ReactiveFormsModule, MatInputModule, MatButton],
+	imports: [ReactiveFormsModule, MatInputModule, MatButton, MatButtonModule, MatFormFieldModule],
 	templateUrl: "./login.component.html",
 	styleUrl: "./login.component.css",
 })
