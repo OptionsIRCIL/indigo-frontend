@@ -1,0 +1,17 @@
+.login-page {
+    display: flex;
+    font-family: 'arial', sans-serif;
+}
+.login-logo {
+    flex: 1;
+}
+.login-form {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+form {
+    display: flex;
+    flex-direction: column;
+}
