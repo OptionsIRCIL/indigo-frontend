@@ -6,12 +6,16 @@
     <div class="login-form">
         <h1>Login</h1>
         <form [formGroup]="loginForm" (submit)="attemptLogin()">
-            <label>Email</label>
-            <input type="email" formControlName="email">
+            
+            <mat-form-field appearance="outline" color="primary">
+                <mat-label>Email</mat-label>
+                <input matInput  type="email">
+            </mat-form-field>
 
-            <label>Password</label>
-            <input type="password" formControlName="password">
-
+            <mat-form-field appearance="outline" color="primary">
+                <mat-label>Password</mat-label>
+                <input matInput type="password">
+            </mat-form-field>
             <button mat-button type="submit">Sign In</button>
         </form>
     </div>
