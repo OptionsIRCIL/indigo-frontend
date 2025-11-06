@@ -1,22 +1,22 @@
 <div class="login-page">
-    <div class="login-logo">
-        <img src="./indigo-logo.svg" alt="Indigo Logo">
+    <div class="login-container">
+        <div class="login-logo">
+            <img src="./indigo-logo.svg" alt="Indigo Logo">
+        </div>
+        <div class="login-form">
+            <form [formGroup]="loginForm" (submit)="attemptLogin()">
+                <h1>Login</h1>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email">
+                </mat-form-field>
 
-    </div>
-    <div class="login-form">
-        
-        <form [formGroup]="loginForm" (submit)="attemptLogin()">
-            <h1>Login</h1>
-            <mat-form-field appearance="outline" color="primary">
-                <mat-label>Email</mat-label>
-                <input matInput type="email" formControlName="email">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" color="primary">
-                <mat-label>Password</mat-label>
-                <input matInput type="password" formControlName="password">
-            </mat-form-field>
-            <button mat-button type="submit">Sign In</button>
-        </form>
+                <mat-form-field appearance="outline" color="primary">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" formControlName="password">
+                </mat-form-field>
+                <button mat-button type="submit">Sign In</button>
+            </form>
+        </div>
     </div>
 </div>

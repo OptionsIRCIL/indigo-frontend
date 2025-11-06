@@ -1,6 +1,7 @@
 .login-page {
     display: flex;
     font-family: 'arial', sans-serif;
+    height: 100%;
 }
 .login-logo {
     flex: 1;
@@ -17,4 +18,9 @@ form {
 }
 h1 {
     align-self: center;
+}
+.login-container {
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
