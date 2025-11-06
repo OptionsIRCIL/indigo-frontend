@@ -4,9 +4,9 @@
 
     </div>
     <div class="login-form">
-        <h1>Login</h1>
+        
         <form [formGroup]="loginForm" (submit)="attemptLogin()">
-
+            <h1>Login</h1>
             <mat-form-field appearance="outline" color="primary">
                 <mat-label>Email</mat-label>
                 <input matInput type="email" formControlName="email">
