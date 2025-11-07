@@ -14,7 +14,7 @@ export class AccessClientService {
 
 	public login(email: string, password: string) {
 		this.http.post<Token>('http://acm.cs.und.edu:58080/api/v1/auth',
-      {email: email, password: password},
+      {username: email, password: password},
       {withCredentials: true}).subscribe(
 			{
 				next: (res) => {
@@ -23,7 +23,11 @@ export class AccessClientService {
 				},
 				error: (err) => {
 					this.tokenState.token.next(null);
-					this.snackBar.open(err.message, "Dismiss");
+          if (err.status === "409") {
+            this.snackBar.open("Invalid Credentials", "Dismiss");
+          } else {
+            this.snackBar.open("Something went wrong. Please try again", "Dismiss");
+          }
 				}
 			}
 		)
