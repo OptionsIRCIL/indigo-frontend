@@ -4,6 +4,7 @@ import { TokenState } from "../state/token-state.service";
 import { Token } from "../../interface/token";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
+import {environment} from '../../environments/envrionment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class AccessClientService {
 							private snackBar: MatSnackBar) { }
 
 	public login(email: string, password: string) {
-		this.http.post<Token>('http://acm.cs.und.edu:58080/api/v1/auth',
+		this.http.post<Token>(`${environment.apiUrl}auth`,
       {username: email, password: password},
       {withCredentials: true}).subscribe(
 			{
@@ -50,7 +51,7 @@ export class AccessClientService {
 	public logout() {
 		this.tokenState.token.next(null);
 		this.http
-			.delete("http://acm.cs.und.edu:58080/api/v1/auth", {
+			.delete(`${environment.apiUrl}auth`, {
 				withCredentials: true,
 			})
 			.subscribe({
