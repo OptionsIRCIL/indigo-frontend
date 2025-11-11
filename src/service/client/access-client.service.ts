@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { TokenState } from "../state/token-state.service";
 import { Token } from "../../interface/token";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 export class AccessClientService {
   constructor(private http: HttpClient,
 							private tokenState: TokenState,
+							private router: Router,
 							private snackBar: MatSnackBar) { }
 
 	public login(email: string, password: string) {
@@ -17,13 +19,25 @@ export class AccessClientService {
       {username: email, password: password},
       {withCredentials: true}).subscribe(
 			{
-				next: (res) => {
-					this.tokenState.token.next(res);
+				next: () => {
+					const token: Token = { // THIS WILL BE REPLACED WITH UPDATED USER MODEL
+						givenName: "Test",
+						familyName: "User",
+						groups: [],
+						iss: "",
+						aud: [],
+						sub: "",
+						exp: -1,
+						nbf: -1,
+						iat: -1,
+					};
+					this.tokenState.token.next(token);
 					this.snackBar.open("Login successful", "Dismiss");
+					this.router.navigate(['/main-dashboard']); // MAY BE REFACTORED TO ROUTE TO ACTIVATED ROUTE
 				},
 				error: (err) => {
 					this.tokenState.token.next(null);
-          if (err.status === "409") {
+          if (err.status === 422) {
             this.snackBar.open("Invalid Credentials", "Dismiss");
           } else {
             this.snackBar.open("Something went wrong. Please try again", "Dismiss");
@@ -31,5 +45,23 @@ export class AccessClientService {
 				}
 			}
 		)
+	}
+
+	public logout() {
+		this.tokenState.token.next(null);
+		this.http
+			.delete("http://acm.cs.und.edu:58080/api/v1/auth", {
+				withCredentials: true,
+			})
+			.subscribe({
+				next: () => {
+					this.tokenState.token.next(null);
+					this.snackBar.open("Logout successful", "Dismiss");
+					this.router.navigate(['/login']);
+				},
+				error: () => {
+					this.snackBar.open("Logout failed", "Dismiss");
+				}
+			});
 	}
 }
