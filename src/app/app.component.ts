@@ -13,8 +13,5 @@ export class AppComponent implements OnInit {
 	public constructor(private readonly router: Router) { }
 
 	ngOnInit(): void {
-		// AUTOMATICALLY ROUTE TO LOGIN FOR TESTING
-		// THIS WILL BE CHANGED LATER
-		this.router.navigate(['/login']);
 	}
 }

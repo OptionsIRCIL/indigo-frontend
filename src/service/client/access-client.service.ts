@@ -5,6 +5,7 @@ import { Token } from "../../interface/token";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import {environment} from '../../environments/envrionment';
+import { tap } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -16,25 +17,13 @@ export class AccessClientService {
 							private snackBar: MatSnackBar) { }
 
 	public login(email: string, password: string) {
-		this.http.post<Token>(`${environment.apiUrl}auth`,
+		return this.http.post<Token>(`${environment.apiUrl}/auth`,
       {username: email, password: password},
       {withCredentials: true}).subscribe(
 			{
 				next: () => {
-					const token: Token = { // THIS WILL BE REPLACED WITH UPDATED USER MODEL
-						givenName: "Test",
-						familyName: "User",
-						groups: [],
-						iss: "",
-						aud: [],
-						sub: "",
-						exp: -1,
-						nbf: -1,
-						iat: -1,
-					};
-					this.tokenState.token.next(token);
 					this.snackBar.open("Login successful", "Dismiss");
-					this.router.navigate(['/main-dashboard']); // MAY BE REFACTORED TO ROUTE TO ACTIVATED ROUTE
+					this.router.navigate(['/main-dashboard']).then(); // MAY BE REFACTORED TO ROUTE TO ACTIVATED ROUTE
 				},
 				error: (err) => {
 					this.tokenState.token.next(null);
@@ -51,7 +40,7 @@ export class AccessClientService {
 	public logout() {
 		this.tokenState.token.next(null);
 		this.http
-			.delete(`${environment.apiUrl}auth`, {
+			.delete(`${environment.apiUrl}/auth`, {
 				withCredentials: true,
 			})
 			.subscribe({
@@ -65,4 +54,17 @@ export class AccessClientService {
 				}
 			});
 	}
+
+  public get() {
+    return this.http.get<unknown>(`${environment.apiUrl}`, {withCredentials: true}).pipe(tap(
+      {
+        next: () => {
+          //ADD EMPLOYEE OBJECT RETURNED BY REQUEST
+        },
+        error: err => {
+          this.router.navigate(['/login']);
+        }
+      }
+    ));
+  }
 }
