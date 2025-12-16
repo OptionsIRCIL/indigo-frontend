@@ -1,2 +1,98 @@
 <p>main-dashboard works!</p>
 <button mat-button (click)="logout()">Logout</button>
+
+<div class="search-page">
+    <header class="search-header">
+        <mat-form-field appearance="outline" class="search-form-field">
+            <mat-label>Search</mat-label>
+            <button mat-icon-button matPrefix aria-label="Filters" (click)="openFilters()">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+            <input matInput type="text" />
+            <button mat-icon-button matSuffix aria-label="Search" (click)="search()">
+                <mat-icon>search</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <mat-chip-set class="chip-row">
+            <mat-chip
+            *ngFor="let f of selectedFilters"
+                [removable]="true"
+                (removed)="removeFilter(f)"
+                >
+                {{f}}
+                <button matChipRemove aria-label="Remove filter">
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-chip>
+        </mat-chip-set>
+
+        <button mat-button (click)="addNewPerson()">
+            Add Person
+        </button>
+    </header>
+</div>
+
+<div class="search-results">
+    <mat-accordion multi>
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Organizations
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <!----
+            <mat-card class="result-organizations" *ngFor="let o of organizationResults">
+                <div class = "card-grid">
+                    <div class="name">{{o.name}}</div>
+                    <div class="title">{{o.title}}</div>
+                    <div class="company">{{o.company}}</div>
+                    <div class="space"></div>
+                    <div class="location">{{o.location}}</div>
+                    <div class="last-contact">{{o.lastContact}}</div>
+                </div>
+            </mat-card>
+            -->
+            <mat-card class="result-organizations">
+                <div class = "card-grid">
+                    <div class="name">John Doe</div>
+                    <div class="title">Benefactor</div>
+                    <div class="company">Company ABC</div>
+                    <div class="space"></div>
+                    <div class="location">Duluth, MN</div>
+                    <div class="last-contact">Last Contacted 5 days ago</div>
+                </div>
+            </mat-card>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Individuals
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            
+            <!----
+            <mat-card class="result-organizations" *ngFor="let o of organizationResults">
+                <div class = "card-grid">
+                    <div class="name">{{o.name}}</div>
+                    <div class="title">{{o.title}}</div>
+                    <div class="space"></div>
+                    <div class="space"></div>
+                    <div class="location">{{o.location}}</div>
+                    <div class="last-contact">{{o.lastContact}}</div>
+                </div>
+            </mat-card>
+            -->
+            <mat-card class="result-organizations">
+                <div class = "card-grid">
+                    <div class="name">Ben Clarke</div>
+                    <div class="title">Relative of Individual w/ Disability</div>
+                    <div class="space"></div>
+                    <div class="space"></div>
+                    <div class="location">Fargo, ND</div>
+                    <div class="last-contact">Last Contacted 2 days ago</div>
+                </div>
+            </mat-card>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>
