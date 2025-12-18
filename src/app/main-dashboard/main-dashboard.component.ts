@@ -8,6 +8,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
 import { AccessClientService } from "../../service/client/access-client.service";
 import { NgFor } from '@angular/common';
+import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
 	selector: "app-main-dashboard",
@@ -19,14 +20,14 @@ import { NgFor } from '@angular/common';
 		MatChipsModule,
 		MatExpansionModule,
 		MatCardModule,
-		NgFor
+		NgFor,
+		MatToolbar,
 	],
 	templateUrl: "./main-dashboard.component.html",
 	styleUrl: "./main-dashboard.component.css",
 })
 export class MainDashboardComponent {
-	public constructor(private readonly accessClient: AccessClientService) {
-	}
+	public constructor(private readonly accessClient: AccessClientService) {}
 	selectedFilters: string[] = ["State - ND", "City - Grand Forks", "Test"];
 
 	protected logout() {
@@ -38,7 +39,7 @@ export class MainDashboardComponent {
 	}
 
 	removeFilter(filter: string) {
-		this.selectedFilters = this.selectedFilters.filter(f => f !== filter);
+		this.selectedFilters = this.selectedFilters.filter((f) => f !== filter);
 	}
 
 	search() {
