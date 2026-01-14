@@ -7,22 +7,21 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
 import { AccessClientService } from "../../service/client/access-client.service";
-import { NgFor } from '@angular/common';
+
 import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
 	selector: "app-main-dashboard",
 	imports: [
-		MatButtonModule,
-		MatFormField,
-		MatInputModule,
-		MatIconModule,
-		MatChipsModule,
-		MatExpansionModule,
-		MatCardModule,
-		NgFor,
-		MatToolbar,
-	],
+    MatButtonModule,
+    MatFormField,
+    MatInputModule,
+    MatIconModule,
+    MatChipsModule,
+    MatExpansionModule,
+    MatCardModule,
+    MatToolbar
+],
 	templateUrl: "./main-dashboard.component.html",
 	styleUrl: "./main-dashboard.component.css",
 })
