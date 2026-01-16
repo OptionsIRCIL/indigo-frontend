@@ -1,3 +1,38 @@
+.dialog-title {
+  display: flex;
+  align-items: start;
+}
+.spacer {
+  flex: 10;
+}
+.custom-dialog .mat-dialog-container{
+  padding: 0 !important;
+  overflow: visible !important;
+  display: block;
+
+}
+.dialog-card {
+  display: block;
+  width: 100%;
+  height: 100%;              
+  box-sizing: border-box;
+  margin: 0;
+}
+.mat-card {
+  display: block;
+}
 .modal-container{
   padding: 25px 50px 75px 100px;
+  display: grid;
+  place-items: center;
 }
+div {
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+}
+mat-icon {
+  max-width: 100%;
+  height: auto;
+}
+

@@ -1,5 +1,8 @@
 import { Component, Inject, Injectable} from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Injectable({ providedIn: 'root' })
 export class AddPersonDialogService {
@@ -7,7 +10,11 @@ export class AddPersonDialogService {
 
   openMyDialog(message: string) {
     return this.dialog.open(AddPersonContentDialog, {
-      width: '700px',
+      width: 'fit-content',
+      height:'fit-content',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      panelClass: 'custom-dialog',
       data: { message }
     });
   }
@@ -16,6 +23,12 @@ export class AddPersonDialogService {
 @Component({
   selector: 'add-person-content-dialog',
   templateUrl: 'add-person-content.html',
+  imports: [
+    MatDialogModule,
+    MatIconModule,
+    MatCardModule,
+    MatButtonModule
+  ]
 })
 export class AddPersonContentDialog {
   constructor(
