@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { AccessClientService } from "../../service/client/access-client.service";
 
 import { MatToolbar } from '@angular/material/toolbar';
-import { AddPersonDialogService} from './add-person.component';
+import { AddPersonDialogService} from './add-person/add-person.component';
 
 @Component({
 	selector: "app-main-dashboard",
@@ -48,7 +48,7 @@ export class MainDashboardComponent {
 
 	addNewPerson() {
 		console.log("Adding new person...");
-		this.addPerson.openMyDialog('Hello via Service!');
+		this.addPerson.openMyDialog('Open add person');
 	}
 
 	organizationResults() {

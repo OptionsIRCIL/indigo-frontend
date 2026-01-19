@@ -2,9 +2,6 @@
   display: flex;
   align-items: start;
 }
-.spacer {
-  flex: 10;
-}
 .custom-dialog .mat-dialog-container{
   padding: 0 !important;
   overflow: visible !important;
