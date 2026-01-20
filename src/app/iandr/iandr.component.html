@@ -1,0 +1,64 @@
+<div class="IandR-form">
+    <header class="form-header">
+        <h2>Information and Referral</h2>
+    </header>
+
+    <div class="form-body">
+        <form [formGroup]="iandrForm">
+            <div class = "form-column">
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Date</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="picker"
+                    [matDatepickerFilter]="myFilter"
+                    formControlName="date"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Category</mat-label>
+                <mat-chip-grid #chipGrid>
+                    <mat-chip-row
+                        *ngFor="let c of selectedCategories"
+                        (removed)="removeCategory(c)"
+                        >
+                        {{c}}
+                        <button matChipRemove>
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-chip-row>
+
+                    <input
+                        matInput
+                        [matChipInputFor]="chipGrid"
+                        [matAutocomplete]="auto"
+                        [formControl]="categoryCtrl"
+                        />
+                </mat-chip-grid>
+
+                <mat-autocomplete
+                    #auto="matAutocomplete"
+                    (optionSelected)="addCategory($event.option.value)"
+                    >
+                    <mat-option *ngFor="let option of filteredCategories" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Regarding</mat-label>
+                <textarea matInput formControlName="regarding"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Outcome</mat-label>
+                <textarea matInput formControlName="outcome"></textarea>
+            </mat-form-field>
+        </div>
+        </form>
+    </div>
+</div>
