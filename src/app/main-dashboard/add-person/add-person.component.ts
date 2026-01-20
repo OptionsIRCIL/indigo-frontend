@@ -3,6 +3,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Injectable({ providedIn: 'root' })
 export class AddPersonDialogService {
@@ -77,11 +82,16 @@ export class AddPersonContentDialog {
 @Component({
   selector: 'individual-content-dialog',
   templateUrl: 'individual-content.html',
+  styleUrls: ['individual-content.css'],
   imports: [
     MatDialogModule,
     MatIconModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
   ]
 })
 export class IndividualContentDialog {

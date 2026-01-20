@@ -8,9 +8,94 @@
         <mat-card-header>
             <mat-card-title> Add Individual</mat-card-title>
         </mat-card-header>
+        <br>
         <mat-card-content>
-            <p>This is where the user will enter contact information and disability info about a given individual</p>
+            <mat-form-field class="individual-form-field">
+                <mat-label>First Name</mat-label>
+                <input matInput placeholder="First Name" required>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Last Name</mat-label>
+                <input matInput placeholder="Last Name" required>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Salutation</mat-label>
+                <mat-select placeholder="Salutation">
+                <mat-option value="Mr.">Mr.</mat-option>
+                <mat-option value="Mrs.">Mrs.</mat-option>
+                <mat-option value="Ms.">Ms.</mat-option>
+                <mat-option value="Miss">Miss</mat-option>
+                <mat-option value="Mx.">Mx.</mat-option>
+                <mat-option value="Mx.">Dr.</mat-option>
+                <mat-option value="">--</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Date of Birth</mat-label>
+                <input matInput placeholder="Date of Birth" >
+            </mat-form-field>
+            <mat-label class="individual-form-field">Withheld</mat-label>
+            <mat-checkbox></mat-checkbox>
+            <br>
+            <br>
+            <mat-card-subtitle>Enter Mailing Address</mat-card-subtitle>
+            <mat-label class="individual-form-field">Withheld</mat-label>
+            <mat-checkbox></mat-checkbox>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Street Address</mat-label>
+                <input matInput placeholder="Street Address" required>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Street Address line 2</mat-label>
+                <input matInput placeholder="Street Address line 2" required>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>City</mat-label>
+                <input matInput placeholder="City" required>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>State</mat-label>
+                <mat-select placeholder="State">
+                <mat-option value=""></mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>County</mat-label>
+                <input matInput placeholder="County" required>
+            </mat-form-field>
+            <br>
+            <mat-label class="individual-form-field">Opt-ed into Newsletter</mat-label>
+            <mat-checkbox></mat-checkbox>
             
+            <br>
+            <mat-card-subtitle>Enter Contact Information</mat-card-subtitle>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email" required type="email">
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Phone Number</mat-label>
+                <input matInput placeholder="Phone Number" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required >
+            </mat-form-field>
+
+            <br>
+            <mat-card-subtitle>Enter Other Information</mat-card-subtitle>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Aliases</mat-label>
+                <input matInput placeholder="Aliases">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Memberships</mat-label>
+                <input matInput placeholder="Memberships">
+            </mat-form-field>
+
+
             <div>
                 <mat-dialog-actions>
                 </mat-dialog-actions>
