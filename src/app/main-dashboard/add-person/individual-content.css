@@ -3,3 +3,7 @@
   margin-right: 10px;
   appearance: outline;
 }
+
+.chip-list {
+  width: 100%;
+}

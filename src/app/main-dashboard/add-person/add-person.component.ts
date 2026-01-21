@@ -8,6 +8,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { CommonModule } from '@angular/common';
+
 
 @Injectable({ providedIn: 'root' })
 export class AddPersonDialogService {
@@ -53,7 +57,7 @@ export class AddPersonDialogService {
     MatDialogModule,
     MatIconModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
   ]
 })
 export class AddPersonContentDialog {
@@ -79,6 +83,66 @@ export class AddPersonContentDialog {
   }
 }
 
+/*
+Alias interface and Chip Input Component
+*/
+
+export interface Alias {
+  name: string;
+}
+
+@Component({
+  selector: 'chips-input-alias',
+  template: `<mat-form-field class="chip-list" appearance="fill">
+                <mat-label>Aliases</mat-label>
+                <mat-chip-grid #chipGrid aria-label="Alias List">
+                    <mat-chip-row *ngFor="let alias of aliases"
+                            [removable]="removable" (removed)="remove(alias)">
+                    {{alias.name}}
+                    <button matChipRemove *ngIf="removable">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                    </mat-chip-row>
+                    <input placeholder="New Alias..."
+                        [matChipInputFor]="chipGrid"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="add($event)">
+                </mat-chip-grid>
+            </mat-form-field>`,
+  styleUrls: ['individual-content.css',],
+  imports: [MatFormFieldModule, MatChipsModule, MatIconModule, CommonModule],
+})
+export class AliasChipsInput {
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  aliases: Alias[] = [
+  ];
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our fruit
+    if (value) {
+      this.aliases.push({name: value});
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+  }
+
+  remove(alias: Alias): void {
+    const index = this.aliases.indexOf(alias);
+
+    if (index >= 0) {
+      this.aliases.splice(index, 1);
+    }
+  }
+}
+
+
 @Component({
   selector: 'individual-content-dialog',
   templateUrl: 'individual-content.html',
@@ -92,6 +156,8 @@ export class AddPersonContentDialog {
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatChipsModule,
+    AliasChipsInput,
   ]
 })
 export class IndividualContentDialog {
