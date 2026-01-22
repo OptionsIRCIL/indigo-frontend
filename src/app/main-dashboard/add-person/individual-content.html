@@ -86,16 +86,39 @@
             <mat-card-subtitle>Enter Other Information</mat-card-subtitle>
             <br>
             <p>Type a new alias name and hit ENTER.</p>
-            <chips-input-alias class="alias-chip-list"></chips-input-alias>
+            <chips-input-alias class="chip-list"></chips-input-alias>
             <br>
-            <mat-form-field class="individual-form-field">
-                <mat-label>Memberships</mat-label>
-                <input matInput placeholder="Memberships">
-            </mat-form-field>
+            <p>Select or search for a membership.</p>
+            <chips-autocomplete-selector class="chip-list" optionType="Memberships" optionTypeText = "New Membership..."></chips-autocomplete-selector>
+
+            <br>
+            <mat-card-subtitle>Does the individual have a disability?</mat-card-subtitle>
+            <radio-ng-model></radio-ng-model>
+            <br>
+            <div id="disability-info">
+                <mat-form-field class="individual-form-field">
+                <mat-label>Primary Disability</mat-label>
+                <mat-select placeholder="Primary Disability">
+                <mat-option value=""></mat-option>
+                </mat-select>
+                </mat-form-field>
+                <mat-form-field class="individual-form-field" style="width: 50%;">
+                <mat-label>Primary Disability Classification</mat-label>
+                <mat-select placeholder="Primary Disability Classification">
+                <mat-option value=""></mat-option>
+                </mat-select>
+                </mat-form-field>
+                <p>Select or search for an additional disability.</p>
+                <chips-autocomplete-selector class="chip-list" optionType="AdditionalDisability" optionTypeText = "New Disability..."></chips-autocomplete-selector>
+            </div>
+            
 
 
             <div>
                 <mat-dialog-actions>
+                    <button mat-button class = "submitbtn" mat-dialog-submit aria-label="Submit Individual" align="end">
+                        Submit
+                    </button>
                 </mat-dialog-actions>
             </div>
             <div><br></div>
