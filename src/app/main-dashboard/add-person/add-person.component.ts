@@ -42,16 +42,16 @@ export class AddPersonDialogService {
       data: { message }
     });
   }
-  // openOrganization(message: string) {
-  //   return this.dialog.open(OrganizationContentDialog, {
-  //     width: 'fit-content',
-  //     height:'fit-content',
-  //     maxWidth: '90vw',
-  //     maxHeight: '90vh',
-  //     panelClass: 'custom-dialog',
-  //     data: { message }
-  //   });
-  // }
+  openOrganization(message: string) {
+    return this.dialog.open(OrganizationContentDialog, {
+      width: 'fit-content',
+      height:'fit-content',
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      panelClass: 'custom-dialog',
+      data: { message }
+    });
+  }
 }
 
 @Component({
@@ -82,6 +82,7 @@ export class AddPersonContentDialog {
 
     } else {
       // show html page for organization
+      this.addPerson.openOrganization("");
     }
 
   }
@@ -321,6 +322,39 @@ export class RadioNgModel {
 export class IndividualContentDialog {
   constructor(
     public dialogRef: MatDialogRef<IndividualContentDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  onCancelClick(): void {
+    this.dialogRef.close();
+  }
+  
+}
+
+/* Organization Dialog box content */
+
+@Component({
+  selector: 'organization-content-dialog',
+  templateUrl: 'organization-content.html',
+  styleUrls: ['organization-content.css'],
+  imports: [
+    MatDialogModule,
+    MatIconModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    AliasChipsInput,
+    ChipsAutocompleteOption,
+    MatRadioModule,
+    RadioNgModel,
+  ]
+})
+export class OrganizationContentDialog {
+  constructor(
+    public dialogRef: MatDialogRef<OrganizationContentDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onCancelClick(): void {
