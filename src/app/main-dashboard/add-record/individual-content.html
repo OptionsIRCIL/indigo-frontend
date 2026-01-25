@@ -10,6 +10,7 @@
         </mat-card-header>
         <br>
         <mat-card-content>
+        <form [formGroup]="form">
             <mat-form-field class="individual-form-field">
                 <mat-label>First Name</mat-label>
                 <input matInput placeholder="First Name" required>
@@ -33,32 +34,32 @@
             <br>
             <mat-form-field class="individual-form-field">
                 <mat-label>Date of Birth</mat-label>
-                <input matInput placeholder="Date of Birth" >
+                <input matInput placeholder="Date of Birth" formControlName="dateOfBirth">
             </mat-form-field>
             <mat-label class="individual-form-field">Withheld</mat-label>
-            <mat-checkbox></mat-checkbox>
+            <mat-checkbox formControlName="withheldDOB"></mat-checkbox>
             <br>
             <br>
             <mat-card-subtitle>Enter Mailing Address</mat-card-subtitle>
-            <mat-label class="individual-form-field">Withheld</mat-label>
-            <mat-checkbox></mat-checkbox>
+            <mat-label class="individual-form-field" >Withheld</mat-label>
+            <mat-checkbox formControlName="withheldAddress"></mat-checkbox>
             <br>
             <mat-form-field class="individual-form-field">
                 <mat-label>Street Address</mat-label>
-                <input matInput placeholder="Street Address" required>
+                <input matInput placeholder="Street Address" formControlName="addressInfo">
             </mat-form-field>
             <mat-form-field class="individual-form-field">
                 <mat-label>Street Address line 2</mat-label>
-                <input matInput placeholder="Street Address line 2" required>
+                <input matInput placeholder="Street Address line 2" formControlName="addressInfo">
             </mat-form-field>
             <br>
             <mat-form-field class="individual-form-field">
                 <mat-label>City</mat-label>
-                <input matInput placeholder="City" required>
+                <input matInput placeholder="City" required formControlName="addressInfo">
             </mat-form-field>
             <mat-form-field class="individual-form-field">
                 <mat-label>State</mat-label>
-                <mat-select placeholder="State">
+                <mat-select placeholder="State" formControlName="addressInfo">
                 <mat-option value=""></mat-option>
                 </mat-select>
             </mat-form-field>
@@ -122,6 +123,7 @@
                 </mat-dialog-actions>
             </div>
             <div><br></div>
+        </form>
         </mat-card-content> 
     </mat-card>
     <br>

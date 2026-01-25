@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Injectable, Input, ViewChild} from '@angular/core';
+import { Component, ElementRef, Inject, Injectable, Input, ViewChild, EventEmitter, Output} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, startWith, map } from 'rxjs';
 import {MatAutocompleteSelectedEvent, MatAutocomplete, MatAutocompleteModule} from '@angular/material/autocomplete';
+import { FormBuilder, FormGroup } from '@angular/forms';
+
 
 
 @Injectable({ providedIn: 'root' })
@@ -287,14 +289,14 @@ export class ChipsAutocompleteOption {
 @Component({
   selector: 'radio-ng-model',
   standalone: true,
-  template: `<mat-radio-group aria-label="Select an option" [(ngModel)]="selectedOption">
-                <mat-radio-button value="CommunityResource">Community Resource</mat-radio-button>
-                <mat-radio-button value="ServiceProvider">Service Provider</mat-radio-button>
+  template: `<mat-radio-group aria-label="Select an option" [(ngModel)]="selectedOption" >
+                <mat-radio-button value='Yes'>Yes</mat-radio-button>
+                <mat-radio-button value='No'>No</mat-radio-button>
             </mat-radio-group>`,
-  imports: [MatRadioModule, FormsModule],
+  imports: [MatRadioModule, FormsModule, CommonModule, ReactiveFormsModule, ],
 })
 export class RadioNgModel {
-  selectedOption!: string;
+  selectedOption = 'No';
 }
 
 /* Individual Dialog box content */
@@ -317,17 +319,37 @@ export class RadioNgModel {
     ChipsAutocompleteOption,
     MatRadioModule,
     RadioNgModel,
+    ReactiveFormsModule,
+    CommonModule
   ]
 })
 export class IndividualContentDialog {
   constructor(
-    public dialogRef: MatDialogRef<IndividualContentDialog>,
+    public dialogRef: MatDialogRef<IndividualContentDialog>, private fb: FormBuilder, 
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  onCancelClick(): void {
-    this.dialogRef.close();
-  }
-  
+    form!: FormGroup;
+
+    ngOnInit() {
+      this.form = this.fb.group({
+        withheldDOB: [false],
+        dateOfBirth: [{ value: '', disabled: false }],
+        withheldAddress: [false],
+        addressInfo: [{ value: '', disabled: false }],
+      });
+
+      this.form.get('withheldDOB')!.valueChanges.subscribe(disabled => {
+        const field = this.form.get('dateOfBirth')!;
+        disabled ? field.disable() : field.enable();
+      });
+      this.form.get('withheldAddress')!.valueChanges.subscribe(disabled => {
+        const field = this.form.get('addressInfo')!;
+        disabled ? field.disable() : field.enable();
+      });
+    }
+    onCancelClick(): void {
+      this.dialogRef.close();
+    }
 }
 
 /* Organization Dialog box content */
