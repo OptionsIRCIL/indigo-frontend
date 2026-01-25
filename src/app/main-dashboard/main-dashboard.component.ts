@@ -52,4 +52,8 @@ export class MainDashboardComponent {
 	organizationResults() {
 		console.log("Showing organization results...");
 	}
+	
+	viewRecord() {
+		console.log("Opening a record to view...");
+	}
 }
