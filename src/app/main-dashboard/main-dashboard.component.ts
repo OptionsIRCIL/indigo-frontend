@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { AccessClientService } from "../../service/client/access-client.service";
 
 import { MatToolbar } from '@angular/material/toolbar';
-import { AddPersonDialogService} from './add-person/add-person.component';
+import { addRecordDialogService} from './add-record/add-record.component';
 
 @Component({
 	selector: "app-main-dashboard",
@@ -27,7 +27,7 @@ import { AddPersonDialogService} from './add-person/add-person.component';
 	styleUrl: "./main-dashboard.component.css",
 })
 export class MainDashboardComponent {
-	public constructor(private readonly accessClient: AccessClientService, private addPerson: AddPersonDialogService) {}
+	public constructor(private readonly accessClient: AccessClientService, private addRecord: addRecordDialogService) {}
 	selectedFilters: string[] = ["State - ND", "City - Grand Forks", "Test"];
 
 	protected logout() {
@@ -46,9 +46,9 @@ export class MainDashboardComponent {
 		console.log("Searching...");
 	}
 
-	addNewPerson() {
+	addNewRecord() {
 		console.log("Adding new person...");
-		this.addPerson.openMyDialog('Open add person');
+		this.addRecord.openMyDialog('Open Add Record');
 	}
 
 	organizationResults() {

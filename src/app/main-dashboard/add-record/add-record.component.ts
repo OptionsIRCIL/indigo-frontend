@@ -18,11 +18,11 @@ import {MatAutocompleteSelectedEvent, MatAutocomplete, MatAutocompleteModule} fr
 
 
 @Injectable({ providedIn: 'root' })
-export class AddPersonDialogService {
+export class addRecordDialogService {
   constructor(private dialog: MatDialog) {}
 
   openMyDialog(message: string) {
-    return this.dialog.open(AddPersonContentDialog, {
+    return this.dialog.open(addRecordContentDialog, {
       width: 'fit-content',
       height:'fit-content',
       maxWidth: '90vw',
@@ -55,8 +55,8 @@ export class AddPersonDialogService {
 }
 
 @Component({
-  selector: 'add-person-content-dialog',
-  templateUrl: 'add-person-content.html',
+  selector: 'add-record-content-dialog',
+  templateUrl: 'add-record-content.html',
   imports: [
     MatDialogModule,
     MatIconModule,
@@ -64,25 +64,25 @@ export class AddPersonDialogService {
     MatButtonModule,
   ]
 })
-export class AddPersonContentDialog {
+export class addRecordContentDialog {
   constructor(
-    public dialogRef: MatDialogRef<AddPersonContentDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any,  private addPerson: AddPersonDialogService) { }
+    public dialogRef: MatDialogRef<addRecordContentDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,  private addRecord: addRecordDialogService) { }
 
   onCancelClick(): void {
     this.dialogRef.close();
   }
 
-  personTypeClick(type: string){
+  recordTypeClick(type: string){
     if (type == "Individual"){
       this.dialogRef.close();
       
       // show html page for individual
-      this.addPerson.openIndividual("");
+      this.addRecord.openIndividual("");
 
     } else {
       // show html page for organization
-      this.addPerson.openOrganization("");
+      this.addRecord.openOrganization("");
     }
 
   }
@@ -288,8 +288,8 @@ export class ChipsAutocompleteOption {
   selector: 'radio-ng-model',
   standalone: true,
   template: `<mat-radio-group aria-label="Select an option" [(ngModel)]="selectedOption">
-                <mat-radio-button value="Yes">Yes</mat-radio-button>
-                <mat-radio-button value="No">No</mat-radio-button>
+                <mat-radio-button value="CommunityResource">Community Resource</mat-radio-button>
+                <mat-radio-button value="ServiceProvider">Service Provider</mat-radio-button>
             </mat-radio-group>`,
   imports: [MatRadioModule, FormsModule],
 })
