@@ -1,0 +1,125 @@
+<mat-dialog-content>
+    <mat-card class="dialog-card">
+        <div align="end">
+            <button class = "closebtn" matIconButton mat-dialog-close aria-label="Close dialog" align="end">
+                <mat-icon>close</mat-icon><span class="spacer"></span>
+            </button>
+        </div>
+        <mat-card-header>
+            <mat-card-title> Add Organization</mat-card-title>
+        </mat-card-header>
+        <br>
+        <mat-card-content>
+            <mat-form-field class="individual-form-field--full-field">
+                <mat-label>Organization Name</mat-label>
+                <input matInput placeholder="First Name" required>
+            </mat-form-field>
+            <br>
+            <p>Type a new alias name and hit ENTER.</p>
+            <chips-input-alias class="chip-list"></chips-input-alias>
+            <br>
+            <mat-card-subtitle>Enter Contact Information</mat-card-subtitle>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email" required type="email">
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Phone Number</mat-label>
+                <input matInput placeholder="Phone Number" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required >
+            </mat-form-field>
+            <br>
+            <mat-card-subtitle>Enter Address</mat-card-subtitle>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Street Address</mat-label>
+                <input matInput placeholder="Street Address" required>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Street Address line 2</mat-label>
+                <input matInput placeholder="Street Address line 2" required>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>City</mat-label>
+                <input matInput placeholder="City" required>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>State</mat-label>
+                <mat-select placeholder="State" required>
+                <mat-option value=""></mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>County</mat-label>
+                <input matInput placeholder="County" required>
+            </mat-form-field>
+            <br>
+            <br>
+            <mat-card-subtitle>Enter Representative Information</mat-card-subtitle>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>First Name</mat-label>
+                <input matInput placeholder="First Name" required>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Last Name</mat-label>
+                <input matInput placeholder="Last Name" required>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Position</mat-label>
+                <input matInput placeholder="Position" required>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Department</mat-label>
+                <input matInput placeholder="Department" required>
+            </mat-form-field>
+            <br>
+            <mat-card-subtitle>Is the organization a community resource or service provider?</mat-card-subtitle>
+            <radio-ng-model></radio-ng-model>
+            <br>
+            <div id="servicesOffered">
+                <mat-card-subtitle>Services Offered</mat-card-subtitle>
+                <mat-form-field class="individual-form-field" style="width:100%;">
+                    <mat-label>Description of Services</mat-label>
+                    <textarea matInput placeholder="Description of Services"></textarea>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="individual-form-field" style="width:100%;">
+                    <mat-label>Eligibility Requirements</mat-label>
+                    <textarea matInput placeholder="Eligibility Requirements"></textarea>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="individual-form-field" style="width:100%;">
+                    <mat-label>Intake Procedures</mat-label>
+                    <textarea matInput placeholder="Intake Procedures"></textarea>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="individual-form-field" style="width:50%;">
+                    <mat-label>Fees Charged</mat-label>
+                    <textarea matInput placeholder="Fees Charged"></textarea>
+                </mat-form-field>
+                <mat-form-field class="individual-form-field" style="width:40%;">
+                    <mat-label>Hours of Operation</mat-label>
+                    <textarea matInput placeholder="Hours of Operation"></textarea>
+                </mat-form-field>
+                <br>
+                <mat-form-field class="individual-form-field" style="width:100%;">
+                    <mat-label>Other</mat-label>
+                    <textarea matInput placeholder="Other"></textarea>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-dialog-actions>
+                    <button mat-button class = "submitbtn" mat-dialog-submit aria-label="Submit Individual" align="end">
+                        Submit
+                    </button>
+                </mat-dialog-actions>
+            </div>
+            <div><br></div>
+        </mat-card-content> 
+    </mat-card>
+    <br>
+</mat-dialog-content>
+  
