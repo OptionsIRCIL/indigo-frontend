@@ -58,6 +58,31 @@
                 <mat-label>Outcome</mat-label>
                 <textarea matInput formControlName="outcome"></textarea>
             </mat-form-field>
+
+
+            <button mat-raised-button color="primary" (click)="addRow()">Add Row</button>
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Employee </th>
+                    <td mat-cell *matCellDef="let element">{{element.name}}</td>
+                </ng-container>
+                <ng-container matColumnDef="grant">
+                    <th mat-header-cell *matHeaderCellDef> Grant </th>
+                    <td mat-cell *matCellDef="let element">{{element.grant}}</td>
+                </ng-container>
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef> Type </th>
+                    <td mat-cell *matCellDef="let element">{{element.type}}</td>
+                </ng-container>
+                <ng-container matColumnDef="hours">
+                    <th mat-header-cell *matHeaderCellDef> Hours </th>
+                    <td mat-cell *matCellDef="let element">{{element.hours}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
         </div>
         </form>
     </div>

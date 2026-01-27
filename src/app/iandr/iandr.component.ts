@@ -8,6 +8,21 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+
+  export interface EmployeeEffort {
+    name: string;
+    grant: string;
+    type: string;
+    hours: number;
+  }
+
+  const EMPLOYEE_DATA: EmployeeEffort[] = [
+    {name: 'Daisy Codenys', grant: 'Grant A', type: 'Type 1', hours: 10.5},
+    {name: 'John Doe', grant: 'Grant B', type: 'Type 2', hours: 15.25},
+    {name: 'Jane Smith', grant: 'Grant C', type: 'Type 1', hours: 20.75},
+    {name: 'Alice Johnson', grant: 'Grant A', type: 'Type 3', hours: 8},
+  ];
 
 @Component({
   selector: 'app-iandr',
@@ -22,6 +37,7 @@ import { CommonModule } from '@angular/common';
     MatAutocompleteModule,
     MatChipsModule,
     MatIconModule,
+    MatTableModule,
   ],
   templateUrl: './iandr.component.html',
   styleUrl: './iandr.component.css',
@@ -73,6 +89,19 @@ export class IandrComponent {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    return d !== null && d <= today;    
+    return d !== null && d <= today;
+  }
+
+  displayedColumns: string[] = ['name', 'grant', 'type', 'hours'];
+  dataSource: EmployeeEffort[] = [...EMPLOYEE_DATA];
+
+  addRow() {
+    const newRow: EmployeeEffort = {
+      name: '',
+      grant: '',
+      type: '',
+      hours: 0,
+    };
+    this.dataSource = [...this.dataSource, newRow];
   }
 }
