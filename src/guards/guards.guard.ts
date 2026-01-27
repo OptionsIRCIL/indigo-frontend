@@ -1,13 +1,16 @@
-import { CanActivateFn } from '@angular/router';
+import { CanActivateFn, Router } from "@angular/router";
 import { inject } from "@angular/core";
-import { AccessClientService } from '../service/client/access-client.service';
-import { map } from 'rxjs';
+import { map, take } from "rxjs";
+import { TokenState } from '../service/state/token-state.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const accessClient = inject(AccessClientService);
-  return accessClient.get().pipe(map(
-    data => {
-      return !!data;
-    }
-  ));
+  const tokenState = inject(TokenState);
+	const router = inject(Router);
+  return tokenState.token.pipe(
+		take(1),
+		map(token => {
+			if (token) return true;
+			router.navigate(["/login"]);
+			return false;
+  	}))
 };
