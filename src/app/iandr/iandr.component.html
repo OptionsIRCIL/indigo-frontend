@@ -6,7 +6,7 @@
     <div class="form-body">
         <form [formGroup]="iandrForm">
             <div class = "form-column">
-            <mat-form-field appearance="outline" floatLabel="always">
+            <mat-form-field class="date-field" appearance="outline" floatLabel="always">
                 <mat-label>Date</mat-label>
                 <input
                     matInput
@@ -59,8 +59,6 @@
                 <textarea matInput formControlName="outcome"></textarea>
             </mat-form-field>
 
-
-            <button mat-raised-button color="primary" (click)="addRow()">Add Row</button>
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                 <ng-container matColumnDef="name">
                     <th mat-header-cell *matHeaderCellDef> Employee </th>
@@ -83,6 +81,11 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
             </table>
+            
+            <button mat-icon-button type="button" aria-label="Add Row"(click)="addRow()">
+                <mat-icon>add</mat-icon>
+            </button>
+
         </div>
         </form>
     </div>
