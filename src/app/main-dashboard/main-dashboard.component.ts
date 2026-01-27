@@ -6,31 +6,47 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
-import { AccessClientService } from "../../service/client/access-client.service";
-
 import { MatToolbar } from '@angular/material/toolbar';
+import { AccessClientService } from '../../service/client/access-client.service';
+import { Router } from '@angular/router';
+import { TokenState } from '../../service/state/token-state.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
 	selector: "app-main-dashboard",
 	imports: [
-    MatButtonModule,
-    MatFormField,
-    MatInputModule,
-    MatIconModule,
-    MatChipsModule,
-    MatExpansionModule,
-    MatCardModule,
-    MatToolbar
-],
+		MatButtonModule,
+		MatFormField,
+		MatInputModule,
+		MatIconModule,
+		MatChipsModule,
+		MatExpansionModule,
+		MatCardModule,
+		MatToolbar,
+	],
 	templateUrl: "./main-dashboard.component.html",
 	styleUrl: "./main-dashboard.component.css",
 })
 export class MainDashboardComponent {
-	public constructor(private readonly accessClient: AccessClientService) {}
+	public constructor(
+		private readonly accessClient: AccessClientService,
+		protected readonly router: Router,
+		protected readonly tokenState: TokenState,
+		private readonly snackBar: MatSnackBar,
+	) {}
 	selectedFilters: string[] = ["State - ND", "City - Grand Forks", "Test"];
 
-	protected logout() {
-		this.accessClient.logout();
+	protected logout(): void {
+		this.accessClient.logout().subscribe({
+			next: () => {
+				this.tokenState.token.next(null);
+				this.snackBar.open("Logout successful", "Dismiss");
+				this.router.navigate(["/login"]);
+			},
+			error: () => {
+				this.snackBar.open("Logout failed", "Dismiss");
+			},
+		});
 	}
 
 	openFilters() {

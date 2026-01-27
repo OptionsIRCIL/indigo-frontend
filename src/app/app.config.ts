@@ -15,9 +15,9 @@ export const appConfig: ApplicationConfig = {
 		provideZoneChangeDetection({ eventCoalescing: true }),
 		provideRouter(routes),
 		provideHttpClient(),
-		/*provideEnvironmentInitializer(() => {
+		provideEnvironmentInitializer(() => {
 			return inject(AccessClientService).get().subscribe();
 		}
-		),*/
+		),
 	],
 };
