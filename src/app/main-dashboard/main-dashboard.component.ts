@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Injector } from '@angular/core';
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormField } from '@angular/material/input';
 import { MatInputModule } from '@angular/material/input';
@@ -11,6 +11,7 @@ import { AccessClientService } from '../../service/client/access-client.service'
 import { Router } from '@angular/router';
 import { TokenState } from '../../service/state/token-state.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { addRecordDialogService} from './add-record/add-record.component';
 
 @Component({
 	selector: "app-main-dashboard",
@@ -33,6 +34,7 @@ export class MainDashboardComponent {
 		protected readonly router: Router,
 		protected readonly tokenState: TokenState,
 		private readonly snackBar: MatSnackBar,
+    private addRecord: addRecordDialogService
 	) {}
 	selectedFilters: string[] = ["State - ND", "City - Grand Forks", "Test"];
 
@@ -61,8 +63,9 @@ export class MainDashboardComponent {
 		console.log("Searching...");
 	}
 
-	addNewPerson() {
+	addNewRecord() {
 		console.log("Adding new person...");
+		this.addRecord.openMyDialog('Open Add Record');
 	}
 
 	organizationResults() {
