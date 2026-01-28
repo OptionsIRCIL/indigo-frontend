@@ -6,7 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
-import { AccessClientService } from "../../../service/client/access-client.service";
+import { AccessClientService } from "../../service/client/access-client.service";
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatMenuModule } from '@angular/material/menu'; 
 
 import { MatToolbar } from '@angular/material/toolbar';
 
@@ -20,12 +23,14 @@ import { MatToolbar } from '@angular/material/toolbar';
     MatChipsModule,
     MatExpansionModule,
     MatCardModule,
-    MatToolbar
+    MatSelectModule,
+    MatCheckboxModule,
+    MatMenuModule
 ],
 	templateUrl: "./view-record.component.html",
 	styleUrl: "./view-record.component.css",
 })
 export class ViewRecordComponent {
-	public constructor(private readonly accessClient: AccessClientService) {}
+	public constructor() {}
 
 }

@@ -1,0 +1,9 @@
+.infoCard {
+    width: 90%;
+}
+
+.fileNavButtons {
+    align-items: left;
+    padding: 10px;
+    padding-left: 10%;
+}

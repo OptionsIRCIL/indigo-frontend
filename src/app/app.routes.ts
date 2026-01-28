@@ -5,6 +5,7 @@ import { MainDashboardComponent } from "./main-dashboard/main-dashboard.componen
 import { NotFoundComponent } from "./error-components/not-found/not-found.component";
 import { ForbiddenComponent } from "./error-components/forbidden/forbidden.component";
 import { AppComponent } from "./app.component";
+import { ViewRecordComponent } from "./view-record/view-record.component";
 
 export const routes: Routes = [
 	{
@@ -20,6 +21,10 @@ export const routes: Routes = [
 				path: "main-dashboard",
 				canActivate: [authGuard],
 				component: MainDashboardComponent,
+			},
+			{
+				path: "view-record",
+				component: ViewRecordComponent,
 			},
 			{
 				path: "login",

@@ -1,0 +1,81 @@
+
+<div align="center">
+        <div class="toolButtons" align="right">
+            <button mat-icon-button matPrefix aria-label="Menu" [matMenuTriggerFor]="menu"> 
+                <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-icon-button matPrefix aria-label="Edit">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </mat-menu>
+            
+        </div>    
+    
+        <header align="center"> 
+            <h1>View Record</h1>
+        </header>
+        <br>
+        <mat-card class="infoCard">
+                <mat-card-content>
+                    <br>
+                    Name: Bob Mackey (Mr.)
+                    <br>
+                    Aliases: None listed.
+                    <br>
+                    <br>
+                    Date of Birth: 09/09/1998
+                    <br>
+                    <mat-card-subtitle>Mailing Address</mat-card-subtitle>
+                    <br>
+                    <mat-card-subtitle>Contact Information</mat-card-subtitle>
+                    Email:
+                    <br>
+                    Phone:
+                </mat-card-content>
+            </mat-card>
+            <br>
+            <br>
+            <div class="viewFiles">
+                <div class="fileNavButtons" align="left">
+                    <button mat-button class="fNavBtn">Information and Referral</button>
+                    <button  mat-button class="fNavBtn">Direct Service</button>
+                    <button  mat-button class="fNavBtn">Attachments</button>
+                </div>
+                
+                <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                file 1
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                file 2
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                file 3
+                            </mat-card-content>
+                        </mat-card>
+
+                    </mat-card-content>
+                </mat-card>
+
+            </div>
+            
+            <br>
+            <br>
+            <div>
+                <table outline="black">
+
+                </table>
+            </div>
+            <mat-card-subtitle>Notes:</mat-card-subtitle>
+            <br>
+            <p>these are the notes for a specific individual</p>
+</div>
