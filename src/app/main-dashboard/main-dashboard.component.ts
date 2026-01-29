@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormField } from '@angular/material/input';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { TokenState } from '../../service/state/token-state.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { addRecordDialogService} from './add-record/add-record.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
 	selector: "app-main-dashboard",
@@ -24,6 +25,7 @@ import { addRecordDialogService} from './add-record/add-record.component';
 		MatExpansionModule,
 		MatCardModule,
 		MatToolbar,
+    MatSidenavModule,
 	],
 	templateUrl: "./main-dashboard.component.html",
 	styleUrl: "./main-dashboard.component.css",
