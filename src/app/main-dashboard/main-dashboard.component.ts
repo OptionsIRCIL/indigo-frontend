@@ -13,6 +13,7 @@ import { TokenState } from '../../service/state/token-state.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { addRecordDialogService} from './add-record/add-record.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatCheckboxModule } from "@angular/material/checkbox";
 
 @Component({
 	selector: "app-main-dashboard",
@@ -26,11 +27,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 		MatCardModule,
 		MatToolbar,
     MatSidenavModule,
+		MatCheckboxModule
 	],
 	templateUrl: "./main-dashboard.component.html",
 	styleUrl: "./main-dashboard.component.css",
 })
 export class MainDashboardComponent {
+
+	protected toDoList: {task: string, isDone: boolean}[] = [];
+
 	public constructor(
 		private readonly accessClient: AccessClientService,
 		protected readonly router: Router,
@@ -72,5 +77,14 @@ export class MainDashboardComponent {
 
 	organizationResults() {
 		console.log("Showing organization results...");
+	}
+
+	addToDoItem() {
+		this.toDoList.push({task: "Item", isDone: false});
+		this.toDoList.push({task: "Item 2", isDone: false});
+	}
+
+	deleteToDoItem(task: {task: string, isDone: boolean}) {
+		this.toDoList.splice(this.toDoList.indexOf(task), 1);
 	}
 }

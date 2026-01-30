@@ -6,12 +6,19 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav #drawer>
-    <ol>
-      <li>Item 1</li>
-      <li>Item 2</li>
-      <li>Item 3</li>
-    </ol>
+  <mat-sidenav #drawer class="drawer">
+    <label for="notes">Notes: </label>
+    <textarea name="notes"></textarea>
+    <p class="todo-list">To Do List: </p>
+    <ul>
+      @for (task of toDoList; track task){
+        <mat-checkbox [checked]="task.isDone">
+          {{task.task}}
+        </mat-checkbox>
+        <button mat-button (click)="deleteToDoItem(task)"><mat-icon fontIcon="delete"/></button>
+      }
+    </ul>
+    <button mat-button (click)="addToDoItem()"><mat-icon fontIcon="add"/></button>
   </mat-sidenav>
   <mat-sidenav-container class="main-container">
     <div class="search-page">
