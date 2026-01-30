@@ -10,7 +10,7 @@ import { AccessClientService } from "../../service/client/access-client.service"
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu'; 
-
+import { MatTabsModule } from '@angular/material/tabs'; 
 import { MatToolbar } from '@angular/material/toolbar';
 
 @Component({
@@ -25,7 +25,8 @@ import { MatToolbar } from '@angular/material/toolbar';
     MatCardModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTabsModule
 ],
 	templateUrl: "./view-record.component.html",
 	styleUrl: "./view-record.component.css",
