@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormField } from '@angular/material/input';
 import { MatInputModule } from '@angular/material/input';
@@ -32,7 +32,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 	templateUrl: "./main-dashboard.component.html",
 	styleUrl: "./main-dashboard.component.css",
 })
-export class MainDashboardComponent {
+export class MainDashboardComponent implements OnInit {
 
 	protected toDoList: {task: string, isDone: boolean}[] = [];
 
@@ -44,6 +44,13 @@ export class MainDashboardComponent {
     private addRecord: addRecordDialogService
 	) {}
 	selectedFilters: string[] = ["State - ND", "City - Grand Forks", "Test"];
+
+  ngOnInit() {
+    const tempToDoList = localStorage.getItem("toDoList");
+    if (tempToDoList) {
+      this.toDoList = JSON.parse(tempToDoList);
+    }
+  }
 
 	protected logout(): void {
 		this.accessClient.logout().subscribe({
@@ -79,9 +86,9 @@ export class MainDashboardComponent {
 		console.log("Showing organization results...");
 	}
 
-	addToDoItem() {
-		this.toDoList.push({task: "Item", isDone: false});
-		this.toDoList.push({task: "Item 2", isDone: false});
+	addToDoItem(newTask: string) {
+		this.toDoList.push({task: newTask, isDone: false});
+    localStorage.setItem("toDoList", JSON.stringify(this.toDoList));
 	}
 
 	deleteToDoItem(task: {task: string, isDone: boolean}) {

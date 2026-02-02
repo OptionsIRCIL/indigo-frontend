@@ -18,7 +18,18 @@
         <button mat-button (click)="deleteToDoItem(task)"><mat-icon fontIcon="delete"/></button>
       }
     </ul>
-    <button mat-button (click)="addToDoItem()"><mat-icon fontIcon="add"/></button>
+    <span #addToDoSpan class="new-todo" [hidden]="true">
+    <input #newToDoItem
+           matInput
+           (keyup.enter)="
+           addToDoItem(newToDoItem.value);
+           addToDoSpan.hidden=true;
+           newToDoItem.value='';"
+    >
+      <button mat-button (click)="addToDoSpan.hidden=true"><mat-icon fontIcon="delete"/></button>
+      <br>
+    </span>
+    <button mat-button (click)="addToDoSpan.hidden=false;"><mat-icon fontIcon="add"/></button>
   </mat-sidenav>
   <mat-sidenav-container class="main-container">
     <div class="search-page">
