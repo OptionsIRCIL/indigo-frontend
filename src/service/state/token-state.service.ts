@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import {ReplaySubject} from 'rxjs';
-import { Token } from '../../interface/token';
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenState {
 
-  private _token = new ReplaySubject<Token | null>(1);
+  private _token = new BehaviorSubject<string | null>(null);
 
   constructor() { }
 	public get token() {
