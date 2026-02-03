@@ -43,5 +43,7 @@
 
 <div mat-dialog-actions align="end">
     <button mat-button (click)="close()">Cancel</button>
-    <button mat-button (click)="addEmployee()">Add</button>
+    <button mat-button (click)="addEmployee()">
+        {{ data ? 'Save' : 'Add' }}
+    </button>
 </div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { EmailValidator, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -97,7 +97,7 @@ export class IandrComponent {
     return d !== null && d <= today;
   }
 
-  displayedColumns: string[] = ['employee', 'grant', 'type', 'hours'];
+  displayedColumns: string[] = ['employee', 'grant', 'type', 'hours', 'actions'];
   dataSource: EmployeeEffort[] = [...EMPLOYEE_DATA];
 
   addRow() {
@@ -108,6 +108,20 @@ export class IandrComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (!result) return;
       this.dataSource = [...this.dataSource, result];
+    });
+  }
+
+  editRow(row: EmployeeEffort, index: number) {
+    const dialogRef = this.dialog.open(AddEmployeeIandrComponent, {
+      width: '400px',
+      data: row,
+    });
+
+    dialogRef.afterClosed().subscribe((result: EmployeeEffort | undefined) => {
+      if (!result) return;
+      const updated = [...this.dataSource];
+      updated[index] = result;
+      this.dataSource = updated;
     });
   }
 }

@@ -6,6 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add-employee-iandr',
@@ -23,7 +25,18 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './add-employee-iandr.component.css',
 })
 export class AddEmployeeIandrComponent {
-  constructor(private dialogRef: MatDialogRef<AddEmployeeIandrComponent>) {}
+  constructor(
+    private dialogRef: MatDialogRef<AddEmployeeIandrComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+
+  if (data) {
+    this.newEmployee = data.employee ?? '';
+    this.newGrant = data.grant ?? '';
+    this.newType = data.type ?? '';
+    this.newHours = data.hours ?? 0;
+  }
+}
 
   employees: string[] = [
     'John Doe',
