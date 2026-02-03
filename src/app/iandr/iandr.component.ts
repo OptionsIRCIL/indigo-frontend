@@ -9,19 +9,22 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { AddEmployeeIandrComponent } from '../add-employee-iandr/add-employee-iandr.component';
+
 
   export interface EmployeeEffort {
-    name: string;
+    employee: string;
     grant: string;
     type: string;
     hours: number;
   }
 
   const EMPLOYEE_DATA: EmployeeEffort[] = [
-    {name: 'Daisy Codenys', grant: 'Grant A', type: 'Type 1', hours: 10.5},
-    {name: 'John Doe', grant: 'Grant B', type: 'Type 2', hours: 15.25},
-    {name: 'Jane Smith', grant: 'Grant C', type: 'Type 1', hours: 20.75},
-    {name: 'Alice Johnson', grant: 'Grant A', type: 'Type 3', hours: 8},
+    {employee: 'Daisy Codenys', grant: 'Grant A', type: 'Type 1', hours: 10.5},
+    {employee: 'John Doe', grant: 'Grant B', type: 'Type 2', hours: 15.25},
+    {employee: 'Jane Smith', grant: 'Grant C', type: 'Type 1', hours: 20.75},
+    {employee: 'Alice Johnson', grant: 'Grant A', type: 'Type 3', hours: 8},
   ];
 
 @Component({
@@ -38,6 +41,7 @@ import { MatTableModule } from '@angular/material/table';
     MatChipsModule,
     MatIconModule,
     MatTableModule,
+    MatDialogModule,
   ],
   templateUrl: './iandr.component.html',
   styleUrl: './iandr.component.css',
@@ -45,6 +49,7 @@ import { MatTableModule } from '@angular/material/table';
 
 export class IandrComponent {
 
+  constructor(private dialog: MatDialog) {}
   today = new Date(new Date().setHours(0, 0, 0, 0));
 
   categories: string[] = [
@@ -92,16 +97,17 @@ export class IandrComponent {
     return d !== null && d <= today;
   }
 
-  displayedColumns: string[] = ['name', 'grant', 'type', 'hours'];
+  displayedColumns: string[] = ['employee', 'grant', 'type', 'hours'];
   dataSource: EmployeeEffort[] = [...EMPLOYEE_DATA];
 
   addRow() {
-    const newRow: EmployeeEffort = {
-      name: '',
-      grant: '',
-      type: '',
-      hours: 0,
-    };
-    this.dataSource = [...this.dataSource, newRow];
+    const dialogRef = this.dialog.open(AddEmployeeIandrComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) return;
+      this.dataSource = [...this.dataSource, result];
+    });
   }
 }
