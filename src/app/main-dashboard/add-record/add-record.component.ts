@@ -16,7 +16,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable, startWith, map } from 'rxjs';
 import {MatAutocompleteSelectedEvent, MatAutocomplete, MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
+import { Router } from "@angular/router";
 
 
 @Injectable({ providedIn: 'root' })
@@ -324,7 +324,7 @@ export class RadioNgModel {
   ]
 })
 export class IndividualContentDialog {
-  constructor(
+  constructor( private readonly router: Router,
     public dialogRef: MatDialogRef<IndividualContentDialog>, private fb: FormBuilder, 
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -349,6 +349,26 @@ export class IndividualContentDialog {
     }
     onCancelClick(): void {
       this.dialogRef.close();
+    }
+
+    addIndividualInfo(): void {
+
+      // handle adding record to the db here
+
+      // get the corresponding id of the record in the db
+      let recordId = 12345;
+
+      // handles navigation to view-record page
+      this.dialogRef.close();
+
+      try {
+        let url = this.router.serializeUrl(
+           this.router.createUrlTree(['/view-record', 'individual', recordId])
+          );
+        window.open(url, '_blank'); // opens in a new tab
+      } catch (error) {
+        console.error('Navigation error:', error);
+      }
     }
 }
 
@@ -375,12 +395,30 @@ export class IndividualContentDialog {
   ]
 })
 export class OrganizationContentDialog {
-  constructor(
+  constructor( private readonly router: Router,
     public dialogRef: MatDialogRef<OrganizationContentDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onCancelClick(): void {
     this.dialogRef.close();
   }
-  
+
+  addOrganizationInfo(): void {
+    // handle adding record to the db here
+      // get the corresponding id of the record in the db
+      let recordId = 12345;
+
+
+    // handles navigation to view-record page
+    this.dialogRef.close();
+
+     try {
+        let url = this.router.serializeUrl(
+           this.router.createUrlTree(['/view-record', 'organization', recordId])
+          );
+        window.open(url, '_blank'); // opens in a new tab
+      } catch (error) {
+        console.error('Navigation error:', error);
+      }
+    }
 }
