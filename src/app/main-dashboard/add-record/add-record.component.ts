@@ -324,9 +324,13 @@ export class RadioNgModel {
   ]
 })
 export class IndividualContentDialog {
+  titleText: string = ""; 
   constructor( private readonly router: Router,
     public dialogRef: MatDialogRef<IndividualContentDialog>, private fb: FormBuilder, 
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) { 
+      if (data?.message == "e"){ this.titleText = "Edit Record - Individual";}
+      else { this.titleText = "Add Record - Individual";}
+    }
 
     form!: FormGroup;
 
@@ -395,9 +399,13 @@ export class IndividualContentDialog {
   ]
 })
 export class OrganizationContentDialog {
+  titleText: string = "";
   constructor( private readonly router: Router,
     public dialogRef: MatDialogRef<OrganizationContentDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any){
+      if (data?.message == "e"){ this.titleText = "Edit Record - Organization";}
+      else { this.titleText = "Add Record - Organization";}
+    }
 
   onCancelClick(): void {
     this.dialogRef.close();
