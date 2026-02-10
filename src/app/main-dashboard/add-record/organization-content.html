@@ -6,7 +6,7 @@
             </button>
         </div>
         <mat-card-header>
-            <mat-card-title> Add Organization</mat-card-title>
+            <mat-card-title> {{titleText}} </mat-card-title>
         </mat-card-header>
         <br>
         <mat-card-content>
@@ -112,7 +112,7 @@
             </div>
             <div>
                 <mat-dialog-actions>
-                    <button mat-button class = "submitbtn" mat-dialog-submit aria-label="Submit Individual" align="end">
+                    <button mat-button class = "submitbtn" mat-dialog-submit aria-label="Submit Individual" align="end" (click)="addOrganizationInfo()">
                         Submit
                     </button>
                 </mat-dialog-actions>
