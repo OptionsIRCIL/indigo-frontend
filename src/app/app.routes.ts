@@ -5,6 +5,7 @@ import { MainDashboardComponent } from "./main-dashboard/main-dashboard.componen
 import { NotFoundComponent } from "./error-components/not-found/not-found.component";
 import { ForbiddenComponent } from "./error-components/forbidden/forbidden.component";
 import { AppComponent } from "./app.component";
+import { IandrComponent } from "./iandr/iandr.component";
 import { IndividualViewRecordComponent, OrganizationViewRecordComponent } from "./view-record/view-record.component";
 
 export const routes: Routes = [
@@ -38,6 +39,10 @@ export const routes: Routes = [
 			{
 				path: "login",
 				component: LoginComponent,
+			},
+			{
+				path: "iandr",
+				component: IandrComponent,
 			},
 			{
 				path: "error",

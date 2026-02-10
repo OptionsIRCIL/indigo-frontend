@@ -1,0 +1,12 @@
+.form-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-column > mat-form-field {
+    max-width: 500px;
+}
+
+.date-field {
+    width: 260px;
+}

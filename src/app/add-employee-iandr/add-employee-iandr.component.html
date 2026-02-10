@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Add Employee Effort</h2>
+
+<div mat-dialog-content class="dialog-content">
+
+    <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Employee Name</mat-label>
+        <mat-select [(value)]="newEmployee">
+            <mat-option *ngFor="let e of employees" [value]="e">
+                {{ e }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Grant</mat-label>
+        <mat-select [(value)]="newGrant">
+            <mat-option *ngFor="let g of grants" [value]="g">
+                {{ g }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Service Type</mat-label>
+        <mat-select [(value)]="newType">
+            <mat-option *ngFor="let t of types" [value]="t">
+                {{ t }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Hours</mat-label>
+        <input
+            matInput
+            type="number"
+            step="0.25"
+            min="0"
+            [(ngModel)]="newHours"
+        />
+    </mat-form-field>
+</div>
+
+<div mat-dialog-actions align="end">
+    <button mat-button (click)="close()">Cancel</button>
+    <button mat-button (click)="addEmployee()">
+        {{ data ? 'Save' : 'Add' }}
+    </button>
+</div>

@@ -1,0 +1,100 @@
+<div class="IandR-form">
+    <header class="form-header">
+        <h2>Information and Referral</h2>
+    </header>
+
+    <div class="form-body">
+        <form [formGroup]="iandrForm">
+            <div class = "form-column">
+            <mat-form-field class="date-field" appearance="outline" floatLabel="always">
+                <mat-label>Date</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="picker"
+                    [matDatepickerFilter]="myFilter"
+                    formControlName="date"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Category</mat-label>
+                <mat-chip-grid #chipGrid>
+                    <mat-chip-row
+                        *ngFor="let c of selectedCategories"
+                        (removed)="removeCategory(c)"
+                        >
+                        {{c}}
+                        <button matChipRemove>
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-chip-row>
+
+                    <input
+                        matInput
+                        [matChipInputFor]="chipGrid"
+                        [matAutocomplete]="auto"
+                        [formControl]="categoryCtrl"
+                        />
+                </mat-chip-grid>
+
+                <mat-autocomplete
+                    #auto="matAutocomplete"
+                    (optionSelected)="addCategory($event.option.value)"
+                    >
+                    <mat-option *ngFor="let option of filteredCategories" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Regarding</mat-label>
+                <textarea matInput formControlName="regarding"></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" floatLabel="always">
+                <mat-label>Outcome</mat-label>
+                <textarea matInput formControlName="outcome"></textarea>
+            </mat-form-field>
+
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                        <button mat-icon-button type="button" aria-label="Edit row" (click)="editRow(element, i)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="employee">
+                    <th mat-header-cell *matHeaderCellDef> Employee </th>
+                    <td mat-cell *matCellDef="let element">{{element.employee}}</td>
+                </ng-container>
+                <ng-container matColumnDef="grant">
+                    <th mat-header-cell *matHeaderCellDef> Grant </th>
+                    <td mat-cell *matCellDef="let element">{{element.grant}}</td>
+                </ng-container>
+                <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef> Type </th>
+                    <td mat-cell *matCellDef="let element">{{element.type}}</td>
+                </ng-container>
+                <ng-container matColumnDef="hours">
+                    <th mat-header-cell *matHeaderCellDef> Hours </th>
+                    <td mat-cell *matCellDef="let element">{{element.hours}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+            
+            <button mat-icon-button type="button" aria-label="Add Row" (click)="addRow()">
+                <mat-icon>add</mat-icon>
+            </button>
+
+        </div>
+        </form>
+    </div>
+</div>
