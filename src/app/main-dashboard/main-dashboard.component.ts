@@ -93,5 +93,8 @@ export class MainDashboardComponent implements OnInit {
 
 	deleteToDoItem(task: {task: string, isDone: boolean}) {
 		this.toDoList.splice(this.toDoList.indexOf(task), 1);
+	
+	viewRecord() {
+		console.log("Opening a record to view...");
 	}
 }

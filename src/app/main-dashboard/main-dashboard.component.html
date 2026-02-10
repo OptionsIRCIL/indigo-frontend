@@ -65,43 +65,43 @@
       </header>
     </div>
 
-    <div class="search-results">
-      <mat-accordion multi>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Organizations
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <!----
-          <mat-card class="result-organizations" *ngFor="let o of organizationResults">
-            <div class = "card-grid">
-              <div class="name">{{o.name}}</div>
-              <div class="title">{{o.title}}</div>
-              <div class="company">{{o.company}}</div>
-              <div class="space"></div>
-              <div class="location">{{o.location}}</div>
-              <div class="last-contact">{{o.lastContact}}</div>
-            </div>
-          </mat-card>
-          -->
-          <mat-card class="result-organizations">
-            <div class = "card-grid">
-              <div class="name">John Doe</div>
-              <div class="title">Benefactor</div>
-              <div class="company">Company ABC</div>
-              <div class="space"></div>
-              <div class="location">Duluth, MN</div>
-              <div class="last-contact">Last Contacted 5 days ago</div>
-            </div>
-          </mat-card>
-        </mat-expansion-panel>
-        <mat-expansion-panel [expanded]="true">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Individuals
-            </mat-panel-title>
-          </mat-expansion-panel-header>
+<div class="search-results">
+  <mat-accordion multi>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Organizations
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <!----
+      <mat-card class="result-organizations" *ngFor="let o of organizationResults">
+        <div class = "card-grid">
+          <div class="name">{{o.name}}</div>
+          <div class="title">{{o.title}}</div>
+          <div class="company">{{o.company}}</div>
+          <div class="space"></div>
+          <div class="location">{{o.location}}</div>
+          <div class="last-contact">{{o.lastContact}}</div>
+        </div>
+      </mat-card>
+      -->
+      <mat-card class="result-organizations">
+        <div class = "card-grid" (click)="viewRecord()">
+          <div class="name">John Doe</div>
+          <div class="title">Benefactor</div>
+          <div class="company">Company ABC</div>
+          <div class="space"></div>
+          <div class="location">Duluth, MN</div>
+          <div class="last-contact">Last Contacted 5 days ago</div>
+        </div>
+      </mat-card>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Individuals
+        </mat-panel-title>
+      </mat-expansion-panel-header>
 
           <!----
           <mat-card class="result-organizations" *ngFor="let o of organizationResults">
