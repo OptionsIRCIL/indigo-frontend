@@ -1,0 +1,33 @@
+.infoCard {
+    width: 90%;
+}
+
+.fileNavButtons {
+    align-items: left;
+    padding: 10px;
+    padding-left: 10%;
+}
+
+.primaryID {
+    display: flex;
+    flex-direction: row;
+    font-size: 17px;
+    padding: 5px;
+    width: 80%;
+}
+
+.primaryID div {
+    margin: 10px 20px;
+    width: 80%
+}
+
+#notes {
+    border: 2px solid;
+    width: 80%;
+    padding: 10px;
+}
+#notesTitle {
+
+    padding-left: 10%;
+}
+
