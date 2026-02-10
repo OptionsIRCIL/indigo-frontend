@@ -357,12 +357,12 @@ export class IndividualContentDialog {
 
     addIndividualInfo(): void {
 
-      // handle adding record to the db here
+      // TODO handle adding record to the db here
 
-      // get the corresponding id of the record in the db
+      // TODO get the corresponding id of the record in the db
       let recordId = 12345;
 
-      // handles navigation to view-record page
+      // TODO handles navigation to view-record page
       this.dialogRef.close();
 
       try {
@@ -412,8 +412,8 @@ export class OrganizationContentDialog {
   }
 
   addOrganizationInfo(): void {
-    // handle adding record to the db here
-      // get the corresponding id of the record in the db
+    //TODO handle adding record to the db here
+      // TODO get the corresponding id of the record in the db
       let recordId = 12345;
 
 
