@@ -41,7 +41,7 @@ export const routes: Routes = [
 				component: LoginComponent,
 			},
 			{
-				path: "iandr",
+				path: "information-and-referral",
 				component: IandrComponent,
 			},
 			{
