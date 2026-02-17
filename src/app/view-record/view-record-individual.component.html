@@ -1,4 +1,12 @@
 
+<mat-toolbar>
+    <img src="./indigo-logo.svg" width="50px" height="50px" alt="Indigo Logo">
+    <button mat-icon-button matPrefix aria-label="Home" (click)="goToMainDashboard()"> 
+        <mat-icon>home</mat-icon>
+    </button>
+  <span class="spacer"></span>
+  <button mat-button (click)="logout()">Logout</button>
+</mat-toolbar>
 <div align="center">
         <div class="toolButtons" align="right">
             <button mat-icon-button matPrefix aria-label="Menu" [matMenuTriggerFor]="menu"> 
@@ -9,8 +17,7 @@
                     <mat-icon>edit</mat-icon> Edit Record
                 </button>
                 <button mat-menu-item> <mat-icon>folder</mat-icon>Archive Record</button>
-            </mat-menu>
-            
+            </mat-menu>    
         </div>    
     
         <header align="center"> 
@@ -124,6 +131,15 @@
                 <table outline="black">
 
                 </table>
+            </div>
+            <div>
+                <button mat-button  id = "addFormAttchBtn" (click)="openAddForm()">
+                    <mat-icon>add</mat-icon> Add Form
+                </button>
+                <span id="spacer"><br> <br></span>
+                <button mat-button id = "addFormAttchBtn" (click)="openAddAttachment()">
+                    <mat-icon>add</mat-icon> Add Attachment
+                </button>
             </div>
             <mat-card-title align="left" id="notesTitle">&nbsp; &nbsp;Notes</mat-card-title>
             <div >
