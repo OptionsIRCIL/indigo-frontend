@@ -1,10 +1,22 @@
 <h2 mat-dialog-title>Add Employee Effort</h2>
 
 <div mat-dialog-content class="dialog-content">
+    <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Date</mat-label>
+        <input
+            matInput
+            [matDatepicker]="picker"
+            [matDatepickerFilter]="myFilter"
+            [(ngModel)]="newDate"
+            name="date"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
     <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Employee Name</mat-label>
-        <mat-select [(value)]="newEmployee">
+        <mat-select [(ngModel)]="newEmployee" name="employee">
             <mat-option *ngFor="let e of employees" [value]="e">
                 {{ e }}
             </mat-option>

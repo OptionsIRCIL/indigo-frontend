@@ -10,10 +10,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { AddEmployeeIandrComponent } from '../add-employee-iandr/add-employee-iandr.component';
+import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 
 
   export interface EmployeeEffort {
+    date: Date;
     employee: string;
     grant: string;
     type: string;
@@ -21,10 +22,10 @@ import { AddEmployeeIandrComponent } from '../add-employee-iandr/add-employee-ia
   }
 
   const EMPLOYEE_DATA: EmployeeEffort[] = [
-    {employee: 'Daisy Codenys', grant: 'Grant A', type: 'Type 1', hours: 10.5},
-    {employee: 'John Doe', grant: 'Grant B', type: 'Type 2', hours: 15.25},
-    {employee: 'Jane Smith', grant: 'Grant C', type: 'Type 1', hours: 20.75},
-    {employee: 'Alice Johnson', grant: 'Grant A', type: 'Type 3', hours: 8},
+    {date: new Date('2025-02-02'), employee: 'Daisy Codenys', grant: 'Grant A', type: 'Type 1', hours: 10.5},
+    {date: new Date('2025-02-03'), employee: 'John Doe', grant: 'Grant B', type: 'Type 2', hours: 15.25},
+    {date: new Date('2025-02-04'), employee: 'Jane Smith', grant: 'Grant C', type: 'Type 1', hours: 20.75},
+    {date: new Date('2025-02-05'), employee: 'Alice Johnson', grant: 'Grant A', type: 'Type 3', hours: 8},
   ];
 
 @Component({
@@ -97,11 +98,11 @@ export class IandrComponent {
     return d !== null && d <= today;
   }
 
-  displayedColumns: string[] = ['employee', 'grant', 'type', 'hours', 'actions'];
+  displayedColumns: string[] = ['date', 'employee', 'grant', 'type', 'hours', 'actions'];
   dataSource: EmployeeEffort[] = [...EMPLOYEE_DATA];
 
   addRow() {
-    const dialogRef = this.dialog.open(AddEmployeeIandrComponent, {
+    const dialogRef = this.dialog.open(AddEmployeeComponent, {
       width: '400px',
     });
 
@@ -112,7 +113,7 @@ export class IandrComponent {
   }
 
   editRow(row: EmployeeEffort, index: number) {
-    const dialogRef = this.dialog.open(AddEmployeeIandrComponent, {
+    const dialogRef = this.dialog.open(AddEmployeeComponent, {
       width: '400px',
       data: row,
     });
