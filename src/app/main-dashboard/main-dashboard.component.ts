@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormField } from '@angular/material/input';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 import { TokenState } from '../../service/state/token-state.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { addRecordDialogService} from './add-record/add-record.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatCheckboxModule } from "@angular/material/checkbox";
 
 @Component({
 	selector: "app-main-dashboard",
@@ -24,19 +26,30 @@ import { addRecordDialogService} from './add-record/add-record.component';
 		MatExpansionModule,
 		MatCardModule,
 		MatToolbar,
+		MatSidenavModule,
+		MatCheckboxModule,
 	],
 	templateUrl: "./main-dashboard.component.html",
 	styleUrl: "./main-dashboard.component.css",
 })
-export class MainDashboardComponent {
+export class MainDashboardComponent implements OnInit {
+	protected toDoList: { task: string; isDone: boolean }[] = [];
+
 	public constructor(
 		private readonly accessClient: AccessClientService,
 		protected readonly router: Router,
 		protected readonly tokenState: TokenState,
 		private readonly snackBar: MatSnackBar,
-    private addRecord: addRecordDialogService
+		private addRecord: addRecordDialogService,
 	) {}
 	selectedFilters: string[] = ["State - ND", "City - Grand Forks", "Test"];
+
+	ngOnInit() {
+		const tempToDoList = localStorage.getItem("toDoList");
+		if (tempToDoList) {
+			this.toDoList = JSON.parse(tempToDoList);
+		}
+	}
 
 	protected logout(): void {
 		this.accessClient.logout().subscribe({
@@ -65,13 +78,22 @@ export class MainDashboardComponent {
 
 	addNewRecord() {
 		console.log("Adding new person...");
-		this.addRecord.openMyDialog('Open Add Record');
+		this.addRecord.openMyDialog("Open Add Record");
 	}
 
 	organizationResults() {
 		console.log("Showing organization results...");
 	}
-	
+
+	addToDoItem(newTask: string) {
+		this.toDoList.push({ task: newTask, isDone: false });
+		localStorage.setItem("toDoList", JSON.stringify(this.toDoList));
+	}
+
+	deleteToDoItem(task: { task: string; isDone: boolean }) {
+		this.toDoList.splice(this.toDoList.indexOf(task), 1);
+	}
+
 	viewRecord() {
 		console.log("Opening a record to view...");
 	}
