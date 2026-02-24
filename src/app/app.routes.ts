@@ -7,6 +7,7 @@ import { ForbiddenComponent } from "./error-components/forbidden/forbidden.compo
 import { AppComponent } from "./app.component";
 import { IandrComponent } from "./iandr/iandr.component";
 import { IndividualViewRecordComponent, OrganizationViewRecordComponent } from "./view-record/view-record.component";
+import { CEOComponent } from "./ceo/ceo.component";
 
 export const routes: Routes = [
 	{
@@ -41,8 +42,12 @@ export const routes: Routes = [
 				component: LoginComponent,
 			},
 			{
-				path: "iandr",
+				path: "information-and-referral",
 				component: IandrComponent,
+			},
+			{
+				path: "community-education-outreach",
+				component: CEOComponent,
 			},
 			{
 				path: "error",

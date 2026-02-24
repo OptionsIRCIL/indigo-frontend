@@ -1,0 +1,39 @@
+.form-Columns {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.form-LeftColumn{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 2;
+}
+
+.form-RightColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.form-FullWidth {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.date-field {
+    max-width: 260px;
+}
+
+.number-field {
+    max-width: 200px;
+}
+
+.form-Table {
+    margin-bottom: -16px;
+}

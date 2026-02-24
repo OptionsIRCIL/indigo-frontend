@@ -8,9 +8,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
-  selector: 'app-add-employee-iandr',
+  selector: 'app-add-employee',
   imports: [
     CommonModule,
     MatDialogModule,
@@ -19,18 +21,21 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     MatInputModule,
     MatSelectModule,
     FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   standalone: true,
-  templateUrl: './add-employee-iandr.component.html',
-  styleUrl: './add-employee-iandr.component.css',
+  templateUrl: './add-employee.component.html',
+  styleUrl: './add-employee.component.css',
 })
-export class AddEmployeeIandrComponent {
+export class AddEmployeeComponent {
   constructor(
-    private dialogRef: MatDialogRef<AddEmployeeIandrComponent>,
+    private dialogRef: MatDialogRef<AddEmployeeComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
 
   if (data) {
+    this.newDate = data.date ? new Date(data.date) : new Date();
     this.newEmployee = data.employee ?? '';
     this.newGrant = data.grant ?? '';
     this.newType = data.type ?? '';
@@ -54,6 +59,7 @@ export class AddEmployeeIandrComponent {
     'C',
   ];
 
+  newDate: Date = new Date();
   newEmployee!: string;
   newGrant!: string;
   newType!: string;
@@ -61,12 +67,21 @@ export class AddEmployeeIandrComponent {
 
   addEmployee() {
     this.dialogRef.close({
+      date: this.newDate,
       employee: this.newEmployee,
       grant: this.newGrant,
       type: this.newType,
       hours: this.newHours,
     });
   }
+
+  myFilter = (d: Date | null): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return d !== null && d <= today;
+  }
+
   close() {
     this.dialogRef.close();
   }

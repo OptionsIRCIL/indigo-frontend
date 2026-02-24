@@ -7,7 +7,7 @@
         <form [formGroup]="iandrForm">
             <div class = "form-column">
             <mat-form-field class="date-field" appearance="outline" floatLabel="always">
-                <mat-label>Date</mat-label>
+                <mat-label>Initial Date</mat-label>
                 <input
                     matInput
                     [matDatepicker]="picker"
@@ -59,13 +59,21 @@
                 <textarea matInput formControlName="outcome"></textarea>
             </mat-form-field>
 
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <table mat-table class="form-Table" [dataSource]="dataSource">
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let element; let i = index">
                         <button mat-icon-button type="button" aria-label="Edit row" (click)="editRow(element, i)">
                             <mat-icon>edit</mat-icon>
                         </button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef> Date </th>
+                    <td mat-cell *matCellDef="let element">
+                        <time [dateTime]="element.date | date:'yyyy-MM-dd'">
+                            {{element.date | date:'MM/dd/yyyy'}}
+                        </time>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="employee">
@@ -90,7 +98,7 @@
 
             </table>
             
-            <button mat-icon-button type="button" aria-label="Add Row" (click)="addRow()">
+            <button class="form-Table" mat-icon-button type="button" aria-label="Add Row" (click)="addRow()">
                 <mat-icon>add</mat-icon>
             </button>
 

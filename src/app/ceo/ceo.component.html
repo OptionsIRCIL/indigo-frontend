@@ -1,0 +1,157 @@
+<div class="IandR-form">
+    <header class="form-header">
+        <h2>Community, Education, and Outreach</h2>
+    </header>
+
+    <div class="form-body">
+        <form [formGroup]="ceoForm">
+            <div class = "form-Columns">
+                <div class = "form-LeftColumn">
+                    <mat-form-field class="date-field" appearance="outline" floatLabel="always">
+                        <mat-label>Initial Date</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="picker"
+                            [matDatepickerFilter]="myFilter"
+                            formControlName="date"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Category</mat-label>
+                        <mat-chip-grid #categoryChipGrid>
+                            <mat-chip-row
+                                *ngFor="let c of selectedCategories"
+                                (removed)="removeCategory(c)"
+                                >
+                                {{c}}
+                                <button matChipRemove>
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-chip-row>
+
+                            <input
+                                matInput
+                                [matChipInputFor]="categoryChipGrid"
+                                [matAutocomplete]="catAuto"
+                                [formControl]="categoryCtrl"
+                                />
+                        </mat-chip-grid>
+                        <mat-autocomplete
+                            #catAuto="matAutocomplete"
+                            (optionSelected)="addCategory($event.option.value)"
+                            >
+                            <mat-option *ngFor="let option of filteredCategories" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Future Reference</mat-label>
+                        <mat-chip-grid #referenceChipGrid>
+                            <mat-chip-row
+                                *ngFor="let c of selectedFutureReferences"
+                                (removed)="removeFutureReference(c)"
+                                >
+                                {{c}}
+                                <button matChipRemove>
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-chip-row>
+
+                            <input
+                                matInput
+                                [matChipInputFor]="referenceChipGrid"
+                                [matAutocomplete]="refAuto"
+                                [formControl]="futureReferenceCtrl"
+                                />
+                        </mat-chip-grid>
+                        <mat-autocomplete
+                            #refAuto="matAutocomplete"
+                            (optionSelected)="addFutureReference($event.option.value)"
+                            >
+                            <mat-option *ngFor="let option of filteredFutureReferences" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
+                </div>
+                <div class = "form-RightColumn">
+
+                    <mat-form-field class="number-field" appearance="outline" floatLabel="always">
+                        <mat-label>Number of Publications</mat-label>
+                        <input matInput type="number" min="0" step="1" formControlName="numPublications" />
+                    </mat-form-field>
+                    <mat-form-field class="number-field" appearance="outline" floatLabel="always">
+                        <mat-label>Persons with Disabilities</mat-label>
+                        <input matInput type="number" min="0" step="1" formControlName="numPersonsWithDisabilities" />
+                    </mat-form-field>
+                    <mat-form-field class="number-field" appearance="outline" floatLabel="always">
+                        <mat-label>General Public</mat-label>
+                        <input matInput type="number" min="0" step="1" formControlName="numGeneralPublic" />
+                    </mat-form-field>
+
+                </div>
+            </div>
+            <div class = "form-FullWidth">
+
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Description of Service</mat-label>
+                    <textarea matInput formControlName="descriptionOfService"></textarea>
+                </mat-form-field>
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Outcome</mat-label>
+                    <textarea matInput formControlName="outcome"></textarea>
+                </mat-form-field>
+
+                <table mat-table class="form-Table" [dataSource]="dataSource">
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element; let i = index">
+                            <button mat-icon-button type="button" aria-label="Edit row" (click)="editRow(element, i)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> Date </th>
+                        <td mat-cell *matCellDef="let element">
+                            <time [dateTime]="element.date | date:'yyyy-MM-dd'">
+                                {{element.date | date:'MM/dd/yyyy'}}
+                            </time>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="employee">
+                        <th mat-header-cell *matHeaderCellDef> Employee </th>
+                        <td mat-cell *matCellDef="let element">{{element.employee}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="grant">
+                        <th mat-header-cell *matHeaderCellDef> Grant </th>
+                        <td mat-cell *matCellDef="let element">{{element.grant}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef> Type </th>
+                        <td mat-cell *matCellDef="let element">{{element.type}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="hours">
+                        <th mat-header-cell *matHeaderCellDef> Hours </th>
+                        <td mat-cell *matCellDef="let element">{{element.hours}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                </table>
+                
+                <button mat-icon-button class="form-Table" type="button" aria-label="Add Row" (click)="addRow()">
+                    <mat-icon>add</mat-icon>
+                </button>
+
+            </div>
+        </form>
+    </div>
+</div>
