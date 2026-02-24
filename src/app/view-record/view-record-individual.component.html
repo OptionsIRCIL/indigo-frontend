@@ -1,4 +1,3 @@
-
 <div align="center">
         <div class="toolButtons" align="right">
             <button mat-icon-button matPrefix aria-label="Menu" [matMenuTriggerFor]="menu"> 
@@ -9,8 +8,7 @@
                     <mat-icon>edit</mat-icon> Edit Record
                 </button>
                 <button mat-menu-item> <mat-icon>folder</mat-icon>Archive Record</button>
-            </mat-menu>
-            
+            </mat-menu>    
         </div>    
     
         <header align="center"> 
@@ -102,6 +100,52 @@
                     </mat-card-content>
                 </mat-card>
                 </mat-tab>
+                <mat-tab label="Goals">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-20 goal
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-06 goal
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-01 goal
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
+                <mat-tab label="Consumer Service Record">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-20 consumer service record
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-06 consumer service record
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-01 consumer service record
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
                 <mat-tab label="Attachments">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
@@ -124,6 +168,15 @@
                 <table outline="black">
 
                 </table>
+            </div>
+            <div>
+                <button mat-button  id = "addFormAttchBtn" (click)="openAddForm('i')">
+                    <mat-icon>add</mat-icon> Add Form
+                </button>
+                <span id="spacer"><br> <br></span>
+                <button mat-button id = "addFormAttchBtn" (click)="openAddAttachment()">
+                    <mat-icon>add</mat-icon> Add Attachment
+                </button>
             </div>
             <mat-card-title align="left" id="notesTitle">&nbsp; &nbsp;Notes</mat-card-title>
             <div >
