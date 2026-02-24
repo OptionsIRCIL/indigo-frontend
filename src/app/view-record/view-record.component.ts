@@ -11,10 +11,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu'; 
 import { MatTabsModule } from '@angular/material/tabs'; 
-import { MatToolbar } from '@angular/material/toolbar';
 import { IndividualContentDialog, OrganizationContentDialog } from '../main-dashboard/add-record/add-record.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router,ActivatedRoute } from '@angular/router';
+import { TokenState } from '../../service/state/token-state.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AddFormContentDialog, AddAttachmentContentDialog} from './add-form-or-attachment/add-form-or-attachment.component';
 
 @Component({
 	selector: "app-view-record",
@@ -29,7 +31,6 @@ import { Router,ActivatedRoute } from '@angular/router';
     MatCheckboxModule,
     MatMenuModule,
     MatTabsModule,
-    IndividualContentDialog,
 ],
 	templateUrl: "./view-record-individual.component.html",
 	styleUrl: "./view-record.component.css",
@@ -39,8 +40,14 @@ export class IndividualViewRecordComponent {
   private id?: number;
   private sub: any;
   
-	public constructor(private dialog: MatDialog, _Activatedroute:ActivatedRoute,
-               private _router:Router,) {}
+	public constructor(
+    private dialog: MatDialog, 
+    _Activatedroute:ActivatedRoute,
+    private _router:Router,
+    private readonly accessClient: AccessClientService,
+    protected readonly tokenState: TokenState,
+    private readonly snackBar: MatSnackBar,
+  ) {}
 
   ngOnInit() {
     // get the id from the route
@@ -56,6 +63,50 @@ export class IndividualViewRecordComponent {
         data: { message }
       });
     }
+  openAddForm( message: string){
+    return this.dialog.open(AddFormContentDialog, {
+          width: 'fit-content',
+          height:'fit-content',
+          maxWidth: '90vw',
+          maxHeight: '90vh',
+          panelClass: 'custom-dialog',
+          data: { message }
+      });
+  }
+  openAddAttachment(){
+    return this.dialog.open(AddAttachmentContentDialog, {
+          width: 'fit-content',
+          height:'fit-content',
+          maxWidth: '90vw',
+          maxHeight: '90vh',
+          panelClass: 'custom-dialog',
+          data: {}
+      });
+  }
+  //TODO determine why main dash redirect function is not working
+  // FIXME logs the user out instead of navigating to main dashboard
+  goToMainDashboard(): void {
+    console.log("routing to main dashboard");
+    try {
+      this._router.navigate(["/main-dashboard"]);
+    } catch (error) {
+      console.error("Error:", error)
+    }
+    
+	}
+
+  protected logout(): void {
+		this.accessClient.logout().subscribe({
+			next: () => {
+				this.tokenState.token.next(null);
+				this.snackBar.open("Logout successful", "Dismiss");
+				this._router.navigate(["/login"]);
+			},
+			error: () => {
+				this.snackBar.open("Logout failed", "Dismiss");
+			},
+		});
+	}
 }
 
 @Component({
@@ -71,7 +122,6 @@ export class IndividualViewRecordComponent {
     MatCheckboxModule,
     MatMenuModule,
     MatTabsModule,
-    IndividualContentDialog,
 ],
 	templateUrl: "./view-record-organization.component.html",
 	styleUrl: "./view-record.component.css",
@@ -89,4 +139,25 @@ export class OrganizationViewRecordComponent {
           data: { message }
         });
       }
+
+    openAddForm(message?: string){
+    return this.dialog.open(AddFormContentDialog, {
+          width: 'fit-content',
+          height:'fit-content',
+          maxWidth: '90vw',
+          maxHeight: '90vh',
+          panelClass: 'custom-dialog',
+          data: {message}
+      });
+  }
+  openAddAttachment(){
+    return this.dialog.open(AddAttachmentContentDialog, {
+          width: 'fit-content',
+          height:'fit-content',
+          maxWidth: '90vw',
+          maxHeight: '90vh',
+          panelClass: 'custom-dialog',
+          data: {}
+      });
+  }
 }

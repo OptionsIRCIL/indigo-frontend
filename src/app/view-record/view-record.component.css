@@ -30,4 +30,15 @@
 
     padding-left: 10%;
 }
+.spacer {
+  flex: 1 1 auto;
+}
 
+.toolButtons {
+  padding-right: 2%;
+}
+
+
+#addFormAttchBtn {
+    font-size: 19px;
+}
