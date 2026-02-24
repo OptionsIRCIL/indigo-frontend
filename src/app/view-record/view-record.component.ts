@@ -11,7 +11,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu'; 
 import { MatTabsModule } from '@angular/material/tabs'; 
-import { MatToolbar } from '@angular/material/toolbar';
 import { IndividualContentDialog, OrganizationContentDialog } from '../main-dashboard/add-record/add-record.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router,ActivatedRoute } from '@angular/router';
@@ -32,10 +31,6 @@ import { AddFormContentDialog, AddAttachmentContentDialog} from './add-form-or-a
     MatCheckboxModule,
     MatMenuModule,
     MatTabsModule,
-    IndividualContentDialog,
-    MatToolbar,
-    AddFormContentDialog,
-    AddAttachmentContentDialog
 ],
 	templateUrl: "./view-record-individual.component.html",
 	styleUrl: "./view-record.component.css",
@@ -68,14 +63,14 @@ export class IndividualViewRecordComponent {
         data: { message }
       });
     }
-  openAddForm(){
+  openAddForm( message: string){
     return this.dialog.open(AddFormContentDialog, {
           width: 'fit-content',
           height:'fit-content',
           maxWidth: '90vw',
           maxHeight: '90vh',
           panelClass: 'custom-dialog',
-          data: {}
+          data: { message }
       });
   }
   openAddAttachment(){
@@ -127,7 +122,6 @@ export class IndividualViewRecordComponent {
     MatCheckboxModule,
     MatMenuModule,
     MatTabsModule,
-    IndividualContentDialog,
 ],
 	templateUrl: "./view-record-organization.component.html",
 	styleUrl: "./view-record.component.css",
@@ -145,4 +139,25 @@ export class OrganizationViewRecordComponent {
           data: { message }
         });
       }
+
+    openAddForm(message?: string){
+    return this.dialog.open(AddFormContentDialog, {
+          width: 'fit-content',
+          height:'fit-content',
+          maxWidth: '90vw',
+          maxHeight: '90vh',
+          panelClass: 'custom-dialog',
+          data: {message}
+      });
+  }
+  openAddAttachment(){
+    return this.dialog.open(AddAttachmentContentDialog, {
+          width: 'fit-content',
+          height:'fit-content',
+          maxWidth: '90vw',
+          maxHeight: '90vh',
+          panelClass: 'custom-dialog',
+          data: {}
+      });
+  }
 }

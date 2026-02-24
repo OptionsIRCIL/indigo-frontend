@@ -393,7 +393,6 @@ export class IndividualContentDialog {
     MatCheckboxModule,
     MatChipsModule,
     AliasChipsInput,
-    ChipsAutocompleteOption,
     MatRadioModule,
     RadioNgModel,
   ]

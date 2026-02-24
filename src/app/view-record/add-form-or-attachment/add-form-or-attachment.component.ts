@@ -1,10 +1,9 @@
-import { Component, ElementRef, Inject, Injectable, Input, ViewChild, EventEmitter, Output} from '@angular/core';
+import { Component, Inject, Injectable} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButton} from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatInputModule, MatLabel } from '@angular/material/input';
-import { MatSelect, MatOption, MatSelectModule } from '@angular/material/select';
+import { MatSelect, MatOption} from '@angular/material/select';
 
 
 @Component({
@@ -13,6 +12,8 @@ import { MatSelect, MatOption, MatSelectModule } from '@angular/material/select'
                 <mat-select placeholder="Form">
                     <mat-option value="Information and Referral">Information and Referral</mat-option>
                     <mat-option value="Direct service">Direct service</mat-option>
+                    <mat-option value="Direct service">Goal</mat-option>
+                    <mat-option value="Direct service">Consumer Service Record</mat-option>
                 </mat-select>
                 <br><br>
                 <mat-dialog-actions>
@@ -20,9 +21,27 @@ import { MatSelect, MatOption, MatSelectModule } from '@angular/material/select'
                 </mat-dialog-actions>
             </div>`,
   styleUrls: [],
-  imports: [MatIconModule, MatDialogModule, MatSelectModule, MatButtonModule],
+  imports: [MatIconModule, MatDialogModule, MatSelect, MatOption, MatButton],
 })
 export class IndividualFormSelector {
+}
+
+@Component({
+  selector: 'organization-form-selector',
+  template: `<div id = "organizationForms">
+                <mat-select placeholder="Form">
+                    <mat-option value="Information and Referral">Information and Referral</mat-option>
+                    <mat-option value="Direct service">Community, Education, and Outreach</mat-option>
+                </mat-select>
+                <br><br>
+                <mat-dialog-actions>
+                    <button mat-raised-button style="margin: 10px;">Submit</button>
+                </mat-dialog-actions>
+            </div>`,
+  styleUrls: [],
+  imports: [MatIconModule, MatDialogModule, MatSelect, MatOption, MatButton],
+})
+export class OrganizationFormSelector {
 }
 
 @Injectable({ providedIn: 'root' })
@@ -58,17 +77,17 @@ export class AddFormOrAttachmentDialog {
     MatDialogModule,
     MatIconModule,
     MatCardModule,
-    MatButtonModule,
-    MatLabel,
-    MatSelect,
-    MatOption,
-    IndividualFormSelector
+    IndividualFormSelector,
+    OrganizationFormSelector
   ]
 })
 export class AddFormContentDialog {
+  isIndividual: boolean = false; 
   constructor(
     public dialogRef: MatDialogRef<AddFormContentDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) { 
+      if (data?.message == "i"){ this.isIndividual = true; }
+    }
 
   onCancelClick(): void {
     this.dialogRef.close();
@@ -82,11 +101,6 @@ export class AddFormContentDialog {
     MatDialogModule,
     MatIconModule,
     MatCardModule,
-    MatButtonModule,
-    MatLabel,
-    MatSelect,
-    MatOption,
-    IndividualFormSelector,
   ]
 })
 export class AddAttachmentContentDialog {

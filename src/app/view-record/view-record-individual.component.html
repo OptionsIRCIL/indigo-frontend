@@ -1,12 +1,3 @@
-
-<mat-toolbar>
-    <img src="./indigo-logo.svg" width="50px" height="50px" alt="Indigo Logo">
-    <button mat-icon-button matPrefix aria-label="Home" (click)="goToMainDashboard()"> 
-        <mat-icon>home</mat-icon>
-    </button>
-  <span class="spacer"></span>
-  <button mat-button (click)="logout()">Logout</button>
-</mat-toolbar>
 <div align="center">
         <div class="toolButtons" align="right">
             <button mat-icon-button matPrefix aria-label="Menu" [matMenuTriggerFor]="menu"> 
@@ -109,6 +100,52 @@
                     </mat-card-content>
                 </mat-card>
                 </mat-tab>
+                <mat-tab label="Goals">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-20 goal
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-06 goal
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-01 goal
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
+                <mat-tab label="Consumer Service Record">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-20 consumer service record
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-06 consumer service record
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-01 consumer service record
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
                 <mat-tab label="Attachments">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
@@ -133,7 +170,7 @@
                 </table>
             </div>
             <div>
-                <button mat-button  id = "addFormAttchBtn" (click)="openAddForm()">
+                <button mat-button  id = "addFormAttchBtn" (click)="openAddForm('i')">
                     <mat-icon>add</mat-icon> Add Form
                 </button>
                 <span id="spacer"><br> <br></span>
