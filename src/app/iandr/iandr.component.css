@@ -1,0 +1,13 @@
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.date-field {
+    max-width: 260px;
+}
+
+.form-Table {
+    margin-bottom: -16px;
+}

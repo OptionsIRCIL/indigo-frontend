@@ -6,7 +6,7 @@
             </button>
         </div>
         <mat-card-header>
-            <mat-card-title> Add Individual</mat-card-title>
+            <mat-card-title> {{ titleText }} </mat-card-title>
         </mat-card-header>
         <br>
         <mat-card-content>
@@ -32,13 +32,26 @@
                 </mat-select>
             </mat-form-field>
             <br>
+            <mat-label class="individual-form-field">Withheld</mat-label>
+            <mat-checkbox formControlName="withheldDOB"></mat-checkbox>
             <mat-form-field class="individual-form-field">
                 <mat-label>Date of Birth</mat-label>
                 <input matInput placeholder="Date of Birth" formControlName="dateOfBirth">
             </mat-form-field>
-            <mat-label class="individual-form-field">Withheld</mat-label>
-            <mat-checkbox formControlName="withheldDOB"></mat-checkbox>
+            <span class="spacer">&nbsp;</span>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Gender</mat-label>
+                <mat-select placeholder="Gender">
+                <mat-option value=""></mat-option>
+                </mat-select>
+            </mat-form-field>
             <br>
+            <mat-form-field class="individual-form-field" style="width:98%">
+                <mat-label>Race / Ethnicity</mat-label>
+                <mat-select placeholder="Race / Ethnicity">
+                <mat-option value=""></mat-option>
+                </mat-select>
+            </mat-form-field>
             <br>
             <mat-card-subtitle>Enter Mailing Address</mat-card-subtitle>
             <mat-label class="individual-form-field" >Withheld</mat-label>
@@ -117,7 +130,7 @@
 
             <div>
                 <mat-dialog-actions>
-                    <button mat-button class = "submitbtn" mat-dialog-submit aria-label="Submit Individual" align="end">
+                    <button mat-button class = "submitbtn" mat-dialog-submit aria-label="Submit Individual" align="end" (click)="addIndividualInfo()">
                         Submit
                     </button>
                 </mat-dialog-actions>

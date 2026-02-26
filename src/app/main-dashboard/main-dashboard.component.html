@@ -1,35 +1,69 @@
-<div class="search-page">
-  <header class="search-header">
-    <mat-form-field appearance="outline" class="search-form-field">
-      <mat-label>Search</mat-label>
-      <button mat-icon-button matPrefix aria-label="Filters" (click)="openFilters()">
-        <mat-icon>filter_list</mat-icon>
-      </button>
-      <input matInput type="text" />
-      <button mat-icon-button matSuffix aria-label="Search" (click)="search()">
-        <mat-icon>search</mat-icon>
-      </button>
-    </mat-form-field>
+<mat-toolbar class="toolbar">
+  <img src="./indigo-logo.svg" width="50px" height="50px" alt="Indigo Logo">
+  <button mat-button (click)="drawer.toggle()"><mat-icon fontIcon="edit_note"/></button>
+  <span class="spacer"></span>
+  <button mat-button (click)="logout()">Logout</button>
+</mat-toolbar>
 
-    <mat-chip-set class="chip-row">
-      @for (f of selectedFilters; track f) {
-        <mat-chip
-          [removable]="true"
-          (removed)="removeFilter(f)"
-          >
-          {{f}}
-          <button matChipRemove aria-label="Remove filter">
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
+<mat-sidenav-container>
+  <mat-sidenav #drawer class="drawer">
+    <label for="notes">Notes: </label>
+    <textarea name="notes"></textarea>
+    <p class="todo-list">To Do List: </p>
+    <ul>
+      @for (task of toDoList; track task){
+        <mat-checkbox [checked]="task.isDone">
+          {{task.task}}
+        </mat-checkbox>
+        <button mat-button (click)="deleteToDoItem(task)"><mat-icon fontIcon="delete"/></button>
       }
-    </mat-chip-set>
+    </ul>
+    <span #addToDoSpan class="new-todo" [hidden]="true">
+    <input #newToDoItem
+           matInput
+           (keyup.enter)="
+           addToDoItem(newToDoItem.value);
+           addToDoSpan.hidden=true;
+           newToDoItem.value='';"
+    >
+      <button mat-button (click)="addToDoSpan.hidden=true"><mat-icon fontIcon="delete"/></button>
+      <br>
+    </span>
+    <button mat-button (click)="addToDoSpan.hidden=false;"><mat-icon fontIcon="add"/></button>
+  </mat-sidenav>
+  <mat-sidenav-container class="main-container">
+    <div class="search-page">
+      <header class="search-header">
+        <mat-form-field appearance="outline" class="search-form-field">
+          <mat-label>Search</mat-label>
+          <button mat-icon-button matPrefix aria-label="Filters" (click)="openFilters()">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+          <input matInput type="text" />
+          <button mat-icon-button matSuffix aria-label="Search" (click)="search()">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
 
-    <button mat-button (click)="addNewRecord()">
-      Add Record
-    </button>
-  </header>
-</div>
+        <mat-chip-set class="chip-row">
+          @for (f of selectedFilters; track f) {
+            <mat-chip
+              [removable]="true"
+              (removed)="removeFilter(f)"
+              >
+              {{f}}
+              <button matChipRemove aria-label="Remove filter">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          }
+        </mat-chip-set>
+
+        <button mat-button (click)="addNewRecord()">
+          Add Record
+        </button>
+      </header>
+    </div>
 
 <div class="search-results">
   <mat-accordion multi>
@@ -52,7 +86,7 @@
       </mat-card>
       -->
       <mat-card class="result-organizations">
-        <div class = "card-grid">
+        <div class = "card-grid" (click)="viewRecord()">
           <div class="name">John Doe</div>
           <div class="title">Benefactor</div>
           <div class="company">Company ABC</div>
@@ -69,28 +103,30 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <!----
-      <mat-card class="result-organizations" *ngFor="let o of organizationResults">
-        <div class = "card-grid">
-          <div class="name">{{o.name}}</div>
-          <div class="title">{{o.title}}</div>
-          <div class="space"></div>
-          <div class="space"></div>
-          <div class="location">{{o.location}}</div>
-          <div class="last-contact">{{o.lastContact}}</div>
-        </div>
-      </mat-card>
-      -->
-      <mat-card class="result-organizations">
-        <div class = "card-grid">
-          <div class="name">Ben Clarke</div>
-          <div class="title">Relative of Individual w/ Disability</div>
-          <div class="space"></div>
-          <div class="space"></div>
-          <div class="location">Fargo, ND</div>
-          <div class="last-contact">Last Contacted 2 days ago</div>
-        </div>
-      </mat-card>
-    </mat-expansion-panel>
-  </mat-accordion>
-</div>
+          <!----
+          <mat-card class="result-organizations" *ngFor="let o of organizationResults">
+            <div class = "card-grid">
+              <div class="name">{{o.name}}</div>
+              <div class="title">{{o.title}}</div>
+              <div class="space"></div>
+              <div class="space"></div>
+              <div class="location">{{o.location}}</div>
+              <div class="last-contact">{{o.lastContact}}</div>
+            </div>
+          </mat-card>
+          -->
+          <mat-card class="result-organizations">
+            <div class = "card-grid">
+              <div class="name">Ben Clarke</div>
+              <div class="title">Relative of Individual w/ Disability</div>
+              <div class="space"></div>
+              <div class="space"></div>
+              <div class="location">Fargo, ND</div>
+              <div class="last-contact">Last Contacted 2 days ago</div>
+            </div>
+          </mat-card>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </mat-sidenav-container>
+</mat-sidenav-container>

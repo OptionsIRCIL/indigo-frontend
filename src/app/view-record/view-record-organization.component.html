@@ -1,0 +1,141 @@
+
+<div align="center">
+        <div class="toolButtons" align="right">
+            <button mat-icon-button matPrefix aria-label="Menu" [matMenuTriggerFor]="menu"> 
+                <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openEditRecord('e')">
+                    <mat-icon>edit</mat-icon> Edit Record
+                </button>
+                <button mat-menu-item> <mat-icon>folder</mat-icon>Archive Record</button>
+            </mat-menu>
+            
+        </div>    
+    
+        <header align="center"> 
+            <h1>View Record</h1>
+        </header>
+        <br>
+            <mat-card class="infoCard">
+                <mat-card-content>
+                    <mat-card-title align="left">&nbsp; &nbsp; Organization Identification</mat-card-title>
+                    <div class="primaryID">
+                        <div id="name">Organization Name: Wheelchair Delivery Co.</div>
+                    </div>
+                    <div class="primaryID">
+                        <div id="alias"> Aliases: None listed.</div>
+                    </div> 
+                    <br>
+                    <mat-card-title align="left">&nbsp; &nbsp;Address and Contact Information</mat-card-title>
+                    <mat-card-subtitle>Contact Information</mat-card-subtitle>
+                    <br>
+                    <div id="email"> Email: wheenchairdeliveryco@email.com</div>
+                    <div id="phone"> Phone: (123) 456- 7890 </div>
+                    <br>
+                    <mat-card-subtitle>Address</mat-card-subtitle>
+                    <br>
+                        <div id="street address"> 1234 Fakename Blvd.</div>
+                        <div id="city"> Random City</div>
+                        <div id="state"> North Dakota</div>
+                        <div id="county"> County: Blue Valley</div>
+
+                    <br>
+
+                    <mat-card-title align="left">&nbsp; &nbsp; Organization Representative</mat-card-title>
+                    <div class="primaryID">
+                        <div id="fname">First Name: Fred</div>
+                        <div id="lname"> Last Name: Alvarez</div>
+                    </div>
+                    <div class="primaryID">
+                        <div id="position"> Position: Manager</div>
+                        <div id="dptmt"> Department: Customer Outreach Services </div>
+                    </div> 
+                </mat-card-content>
+            </mat-card>
+            <br>
+            <br>
+            <div class="viewFiles">
+                <mat-tab-group animationDuration="0ms">
+                <mat-tab label="Information and Referral">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-03-20 - service inquiry
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
+                <mat-tab label="Community, Education, and Outreach">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-20 Spring Expo
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-06 ceo file 
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-01 ceo file 
+                            </mat-card-content>
+                        </mat-card>
+
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
+                <mat-tab label="Attachments">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-03-20 - Wheelchair event flyer
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-03-20 - Wheelchair catalog
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
+                </mat-tab-group>
+                
+
+            </div>
+            
+            <br>
+            <br>
+            <div>
+                <table outline="black">
+
+                </table>
+            </div>
+            <div>
+                <button mat-button  id = "addFormAttchBtn" (click)="openAddForm()">
+                    <mat-icon>add</mat-icon> Add Form
+                </button>
+                <span id="spacer"><br> <br></span>
+                <button mat-button id = "addFormAttchBtn" (click)="openAddAttachment()">
+                    <mat-icon>add</mat-icon> Add Attachment
+                </button>
+            </div>
+            <mat-card-title align="left" id="notesTitle">&nbsp; &nbsp;Notes</mat-card-title>
+            <div >
+            <p id="notes">these are the notes for a specific organization</p>
+            </div>
+            <br>
+            <br>
+</div>

@@ -1,0 +1,35 @@
+<mat-dialog-content>
+    <mat-card class="dialog-card">
+        <div align="end">
+            <button class = "closebtn" matIconButton mat-dialog-close aria-label="Close dialog" align="end">
+                <mat-icon>close</mat-icon><span class="spacer"></span>
+            </button>
+        </div>
+        <mat-card-header>
+            <mat-card-title>Add Attachment</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <br><br>
+            <input 
+                matInput 
+                type="file"
+                id="fileUploadField"
+                style="display: block; margin: 10px auto;"
+                accept=".pdf,.docx"
+            >
+            <div 
+                id="drop-zone"
+                ondrop="handleDrop(event)"
+                ondragover="event.preventDefault()"
+                tabindex="0"
+                role="button"
+                aria-label="Drop the file here or use the box above to select a file."
+                style="border: 2px dashed #aaa; padding: 30px; text-align: center;"
+                >
+                Drag and drop your file here
+            </div>
+            <div><br></div>
+        </mat-card-content> 
+    </mat-card>
+    <br>
+</mat-dialog-content>

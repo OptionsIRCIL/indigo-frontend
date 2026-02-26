@@ -1,0 +1,187 @@
+<div align="center">
+        <div class="toolButtons" align="right">
+            <button mat-icon-button matPrefix aria-label="Menu" [matMenuTriggerFor]="menu"> 
+                <mat-icon>menu</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openEditRecord('e')">
+                    <mat-icon>edit</mat-icon> Edit Record
+                </button>
+                <button mat-menu-item> <mat-icon>folder</mat-icon>Archive Record</button>
+            </mat-menu>    
+        </div>    
+    
+        <header align="center"> 
+            <h1>View Record</h1>
+        </header>
+        <br>
+        <mat-card class="infoCard">
+            <br>
+            <mat-card-title align="left">&nbsp; &nbsp; Primary Identification</mat-card-title>
+                <mat-card-content>
+                    <div class="primaryID">
+                        <div id="fname">First Name: Bob</div>
+                        <div id="lname"> Last Name: Mackey</div>
+                        <div id="salutation"> Salutation: Mr.</div>
+                    </div>
+                    <div class="primaryID">
+                        <div id="alias"> Aliases: None listed.</div>
+                        <div id="DOB"> Date of Birth: 09/09/1998</div>
+                    </div> 
+                    <div class="primaryID">
+                        <div id="gender"> Gender: Male</div>
+                    <div id="race"> Race/Ethnicity: Caucasian</div>
+                        </div>
+                    <br>
+                    <mat-card-title align="left">&nbsp; &nbsp;Address and Contact Information</mat-card-title>
+                    <mat-card-subtitle>Address</mat-card-subtitle>
+                    <br>
+                        <div id="street address"> 1234 Fakename Blvd.</div>
+                        <div id="city"> Random City</div>
+                        <div id="state"> North Dakota</div>
+                        <div id="county"> County: Blue Valley</div>
+
+                    <br>
+                    <mat-card-subtitle>Contact Information</mat-card-subtitle>
+                    <br>
+                    <div id="email"> Email: bobMack@email.com</div>
+                    <div id="phone"> Phone: (123) 456- 7890 </div>
+                </mat-card-content>
+            </mat-card>
+            <br>
+            <br>
+            <div class="viewFiles">
+                <mat-tab-group animationDuration="0ms">
+                <mat-tab label="Information and Referral">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-03-20 - Picked Up Wheelchair
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-03-14 - Asked about Medicare
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-03-11 - Asked about transportation
+                            </mat-card-content>
+                        </mat-card>
+
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
+                <mat-tab label="Direct Service">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-20 direct service file 
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-06 direct service file 
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-01 direct service file 
+                            </mat-card-content>
+                        </mat-card>
+
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
+                <mat-tab label="Goals">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-20 goal
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-06 goal
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-01 goal
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
+                <mat-tab label="Consumer Service Record">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-20 consumer service record
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-06 consumer service record
+                            </mat-card-content>
+                        </mat-card>
+                        <br>
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-06-01 consumer service record
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
+                <mat-tab label="Attachments">
+                    <mat-card class="infoCard">
+                    <mat-card-content class="fileList">
+                        <mat-card>
+                            <mat-card-content class="file">
+                                2025-03-20 - Wheelchair receipt
+                            </mat-card-content>
+                        </mat-card>
+                    </mat-card-content>
+                </mat-card>
+                </mat-tab>
+                </mat-tab-group>
+                
+
+            </div>
+            
+            <br>
+            <br>
+            <div>
+                <table outline="black">
+
+                </table>
+            </div>
+            <div>
+                <button mat-button  id = "addFormAttchBtn" (click)="openAddForm('i')">
+                    <mat-icon>add</mat-icon> Add Form
+                </button>
+                <span id="spacer"><br> <br></span>
+                <button mat-button id = "addFormAttchBtn" (click)="openAddAttachment()">
+                    <mat-icon>add</mat-icon> Add Attachment
+                </button>
+            </div>
+            <mat-card-title align="left" id="notesTitle">&nbsp; &nbsp;Notes</mat-card-title>
+            <div >
+            <p id="notes">these are the notes for a specific individual</p>
+            </div>
+            <br>
+            <br>
+</div>
