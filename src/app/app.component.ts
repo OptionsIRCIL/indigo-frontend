@@ -5,19 +5,29 @@ import { TokenState } from '../service/state/token-state.service';
 import { AccessClientService } from '../service/client/access-client.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from "@angular/material/icon";
+import { MatCheckbox } from "@angular/material/checkbox";
+import { MatInput } from "@angular/material/input";
+import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
 
 @Component({
 	selector: "app-root",
 	imports: [
-    RouterOutlet,
-    MatToolbarModule,
-    MatButtonModule,
-  ],
+		RouterOutlet,
+		MatToolbarModule,
+		MatButtonModule,
+		MatIcon,
+		MatCheckbox,
+		MatInput,
+		MatSidenav,
+		MatSidenavContainer,
+	],
 	templateUrl: "./app.component.html",
 	styleUrl: "./app.component.css",
 })
 export class AppComponent implements OnInit {
 	title = "indigo-frontend";
+	protected toDoList: { task: string; isDone: boolean }[] = [];
 
 	public constructor(
 		private readonly accessClient: AccessClientService,
@@ -26,7 +36,12 @@ export class AppComponent implements OnInit {
 		private readonly snackBar: MatSnackBar,
 	) {}
 
-	ngOnInit(): void {}
+	ngOnInit() {
+		const tempToDoList = localStorage.getItem("toDoList");
+		if (tempToDoList) {
+			this.toDoList = JSON.parse(tempToDoList);
+		}
+	}
 
 	protected logout(): void {
 		this.accessClient.logout().subscribe({
@@ -39,5 +54,15 @@ export class AppComponent implements OnInit {
 				this.snackBar.open("Logout failed", "Dismiss");
 			},
 		});
+	}
+
+	addToDoItem(newTask: string) {
+		this.toDoList.push({ task: newTask, isDone: false });
+		localStorage.setItem("toDoList", JSON.stringify(this.toDoList));
+	}
+
+	deleteToDoItem(task: { task: string; isDone: boolean }) {
+		this.toDoList.splice(this.toDoList.indexOf(task), 1);
+		localStorage.setItem("toDoList", JSON.stringify(this.toDoList));
 	}
 }

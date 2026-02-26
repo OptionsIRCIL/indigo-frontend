@@ -1,7 +1,39 @@
-<mat-toolbar>
+<mat-toolbar class="toolbar">
   <img src="./indigo-logo.svg" width="50px" height="50px" alt="Indigo Logo">
+  <button mat-button (click)="drawer.toggle()"><mat-icon fontIcon="edit_note"/></button>
   <span class="spacer"></span>
   <button mat-button (click)="logout()" [hidden]="tokenState.token.value === null">Logout</button>
 </mat-toolbar>
 
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+  <mat-sidenav #drawer class="drawer">
+    <label for="notes">Notes: </label>
+    <textarea name="notes"></textarea>
+    <p class="todo-list">To Do List: </p>
+    <ul>
+      @for (task of toDoList; track task){
+        <mat-checkbox [checked]="task.isDone">
+          {{task.task}}
+        </mat-checkbox>
+        <button mat-button (click)="deleteToDoItem(task)"><mat-icon fontIcon="delete"/></button>
+      }
+    </ul>
+    <span #addToDoSpan class="new-todo" [hidden]="true">
+    <input #newToDoItem
+           matInput
+           (keyup.enter)="
+           addToDoItem(newToDoItem.value);
+           addToDoSpan.hidden=true;
+           newToDoItem.value='';"
+    >
+      <button mat-button (click)="addToDoSpan.hidden=true"><mat-icon fontIcon="delete"/></button>
+      <br>
+    </span>
+    <button mat-button (click)="addToDoSpan.hidden=false;"><mat-icon fontIcon="add"/></button>
+  </mat-sidenav>
+  <mat-sidenav-container class="main-container">
+
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-container>
+</mat-sidenav-container>
