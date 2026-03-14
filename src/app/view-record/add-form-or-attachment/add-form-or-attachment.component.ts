@@ -4,44 +4,73 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButton} from '@angular/material/button';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect, MatOption} from '@angular/material/select';
-
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common'
+import { FormControl, Validators } from '@angular/forms';
+import { MatError } from '@angular/material/select';
 
 @Component({
-  selector: 'individual-form-selector',
-  template: `<div id = "individualForms">
-                <mat-select placeholder="Form">
-                    <mat-option value="Information and Referral">Information and Referral</mat-option>
-                    <mat-option value="Direct service">Direct service</mat-option>
-                    <mat-option value="Direct service">Goal</mat-option>
-                    <mat-option value="Direct service">Consumer Service Record</mat-option>
+  selector: 'form-selector',
+  standalone: true,
+  imports: [MatIconModule, MatDialogModule, MatSelect, MatOption, MatButton, FormsModule, CommonModule, MatError],
+  template: `<div id = "forms">
+              <form id="form">
+                <mat-select name="formSelect" [(ngModel)]="selectedForm">
+                    <mat-option *ngFor="let option of options" [value]="option">
+                      {{ option }}
+                    </mat-option>
                 </mat-select>
                 <br><br>
                 <mat-dialog-actions>
-                    <button mat-raised-button style="margin: 10px;">Submit</button>
+                    <button mat-raised-button style="margin: 10px;" type = "submit" (click)="submitForm()">Submit</button>
                 </mat-dialog-actions>
+              </form>
             </div>`,
   styleUrls: [],
-  imports: [MatIconModule, MatDialogModule, MatSelect, MatOption, MatButton],
+ 
 })
-export class IndividualFormSelector {
-}
+export class FormSelector {
+  options: string[] = [];
+  constructor( private readonly router: Router,  @Inject(MAT_DIALOG_DATA) public data: any) { 
+      if (data?.message == "i"){ 
+        this.options =  ['Information and Referral', 'Direct service', 'Goal', 'Consumer Service Record'];
+      } else {
+        this.options = ['Information and Referral', 'Community, Education, and Outreach'];
+      }
+    }
 
-@Component({
-  selector: 'organization-form-selector',
-  template: `<div id = "organizationForms">
-                <mat-select placeholder="Form">
-                    <mat-option value="Information and Referral">Information and Referral</mat-option>
-                    <mat-option value="Direct service">Community, Education, and Outreach</mat-option>
-                </mat-select>
-                <br><br>
-                <mat-dialog-actions>
-                    <button mat-raised-button style="margin: 10px;">Submit</button>
-                </mat-dialog-actions>
-            </div>`,
-  styleUrls: [],
-  imports: [MatIconModule, MatDialogModule, MatSelect, MatOption, MatButton],
-})
-export class OrganizationFormSelector {
+  selectedForm: string = 'Information and Referral';
+
+  submitForm(): void {
+    if (this.selectedForm == null){  
+
+      return;
+    }
+    let url = this.router.serializeUrl(
+                this.router.createUrlTree(['/error', 'not-found'])
+              );
+    switch (this.selectedForm) {
+      case 'Information and Referral' :
+        url = this.router.serializeUrl(
+                this.router.createUrlTree(['/information-and-referral'])
+              );
+        break;
+      case 'Community, Education, and Outreach' :
+        url = this.router.serializeUrl(
+                this.router.createUrlTree(['/community-education-outreach'])
+              );
+        break;
+      default:
+        break;
+    }
+
+    try { 
+      window.open(url, '_blank'); // opens in a new tab
+    } catch (error) {
+      console.error('Navigation error:', error);
+    } 
+  }
 }
 
 @Injectable({ providedIn: 'root' })
@@ -77,8 +106,8 @@ export class AddFormOrAttachmentDialog {
     MatDialogModule,
     MatIconModule,
     MatCardModule,
-    IndividualFormSelector,
-    OrganizationFormSelector
+    FormSelector,
+    CommonModule,
   ]
 })
 export class AddFormContentDialog {
@@ -101,6 +130,7 @@ export class AddFormContentDialog {
     MatDialogModule,
     MatIconModule,
     MatCardModule,
+    CommonModule
   ]
 })
 export class AddAttachmentContentDialog {
