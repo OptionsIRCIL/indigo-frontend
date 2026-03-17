@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
 		provideRouter(routes),
 		provideHttpClient(),
 		provideEnvironmentInitializer(() => {
-			return inject(AccessClientService).get().subscribe();
+			//return inject(AccessClientService).get().subscribe();
 		}
 		),
 	],
