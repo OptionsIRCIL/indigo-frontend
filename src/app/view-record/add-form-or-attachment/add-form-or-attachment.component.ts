@@ -13,7 +13,7 @@ import { MatError } from '@angular/material/select';
 @Component({
   selector: 'form-selector',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, MatSelect, MatOption, MatButton, FormsModule, CommonModule, MatError],
+  imports: [MatIconModule, MatDialogModule, MatSelect, MatOption, MatButton, FormsModule, CommonModule],
   template: `<div id = "forms">
               <form id="form">
                 <mat-select name="formSelect" [(ngModel)]="selectedForm">
