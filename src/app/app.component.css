@@ -17,3 +17,6 @@ mat-sidenav-container {
 .drawer {
   display: flex;
 }
+mat-sidenav-container {
+  padding-bottom: 5rem;
+}

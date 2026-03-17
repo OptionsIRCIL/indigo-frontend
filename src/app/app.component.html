@@ -2,7 +2,7 @@
   <img src="./indigo-logo.svg" width="50px" height="50px" alt="Indigo Logo">
   <button mat-button (click)="drawer.toggle()"><mat-icon fontIcon="edit_note"/></button>
   <span class="spacer"></span>
-  <button mat-button (click)="logout()" [hidden]="tokenState.token.value === null">Logout</button>
+  <button value="open notes" mat-button (click)="logout()" [hidden]="tokenState.token.value === null">Logout</button>
 </mat-toolbar>
 
 <mat-sidenav-container>
@@ -29,7 +29,9 @@
       <button mat-button (click)="addToDoSpan.hidden=true"><mat-icon fontIcon="delete"/></button>
       <br>
     </span>
-    <button mat-button (click)="addToDoSpan.hidden=false;"><mat-icon fontIcon="add"/></button>
+    <button mat-button (click)="addToDoSpan.hidden=false;" value="add to do item"><mat-icon fontIcon="add"/></button>
+    <br>
+    <button mat-button (click)="drawer.toggle()">Close Sidebar</button>
   </mat-sidenav>
   <mat-sidenav-container class="main-container">
 
