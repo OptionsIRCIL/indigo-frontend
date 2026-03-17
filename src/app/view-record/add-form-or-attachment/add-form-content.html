@@ -11,11 +11,8 @@
         <mat-card-content>
             <br><br>
             <p>Choose a form type: </p>
-            <div id = "individualForms" [hidden]="!isIndividual" >
-                <individual-form-selector></individual-form-selector>
-            </div>
-            <div id = "organizationForms" [hidden]="isIndividual" >
-                <organization-form-selector></organization-form-selector>
+            <div id = "forms">
+                <form-selector></form-selector>
             </div>
             
             <div><br></div>
