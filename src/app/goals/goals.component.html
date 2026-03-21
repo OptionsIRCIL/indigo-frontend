@@ -1,0 +1,43 @@
+<div class="Goals-form">
+    <header class="form-header">
+        <h2>Goals</h2>
+    </header>
+
+    <div class="form-body">
+        <form [formGroup]="goalsForm">
+            <div class = "form-Columns">
+                <div class = "form-LeftColumn">
+                    <mat-form-field class="date-field" appearance="outline" floatLabel="always">
+                        <mat-label>Initial Date</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="initialDatePicker"
+                            [matDatepickerFilter]="myFilter"
+                            formControlName="initialDate"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="initialDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #initialDatePicker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Type</mat-label>
+                        <mat-select formControlName="type">
+                            <mat-option *ngFor="let t of typeOptions" [value]="t">
+                                {{t}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Future Reference</mat-label>
+                        <mat-select formControlName="futureReference">
+                            <mat-option *ngFor="let f of futureReferenceOptions" [value]="f">
+                                {{f}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    
+            </div>
+        </form>
+    </div>
+</div>

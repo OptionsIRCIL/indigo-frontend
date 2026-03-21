@@ -114,7 +114,6 @@ export class ConsumerServiceRecordComponent {
 
   addRow() {
         const dialogRef = this.dialog.open(AddEmployeeComponent, {
-          width: '400px',
         });
     
         dialogRef.afterClosed().subscribe(result => {
@@ -125,7 +124,6 @@ export class ConsumerServiceRecordComponent {
     
       editRow(row: EmployeeEffort, index: number) {
         const dialogRef = this.dialog.open(AddEmployeeComponent, {
-          width: '400px',
           data: row,
         });
   }
