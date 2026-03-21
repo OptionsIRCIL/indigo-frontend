@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { EmailValidator, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -12,7 +12,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 import { MatSelectModule } from '@angular/material/select';
-
 
   export interface EmployeeEffort {
     date: Date;

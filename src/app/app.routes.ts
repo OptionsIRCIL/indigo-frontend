@@ -8,7 +8,7 @@ import { AppComponent } from "./app.component";
 import { IandrComponent } from "./iandr/iandr.component";
 import { IndividualViewRecordComponent, OrganizationViewRecordComponent } from "./view-record/view-record.component";
 import { CEOComponent } from "./ceo/ceo.component";
-
+import { ConsumerServiceRecordComponent } from './consumer/consumer.component';
 export const routes: Routes = [
 	{
 		path: "",
@@ -48,6 +48,10 @@ export const routes: Routes = [
 			{
 				path: "community-education-outreach",
 				component: CEOComponent,
+			},
+			{
+				path: "consumer-service-record",
+				component: ConsumerServiceRecordComponent,
 			},
 			{
 				path: "error",
