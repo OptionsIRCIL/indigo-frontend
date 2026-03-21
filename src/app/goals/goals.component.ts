@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-goals',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -36,14 +37,29 @@ export class GoalsComponent {
     initialDate: new FormControl<Date | null>(null),
     type: new FormControl(''),
     futureReference: new FormControl(''),
+    grant: new FormControl(''),
+    goalStatus: new FormControl(''),
+    estCompletionDate: new FormControl<Date | null>(null),
+    outcome: new FormControl(''),
+    outcomeDescription: new FormControl(''),
+    completionDate: new FormControl<Date | null>(null),
+    goalDescription: new FormControl(''),
   });
 
   typeOptions = ['Type 1', 'Type 2', 'Type 3'];
   futureReferenceOptions = ['Reference A', 'Reference B', 'Reference C'];
+  grantOptions = ['Grant A', 'Grant B', 'Grant C'];
+  goalStatusOptions = ['Not Started', 'In Progress', 'Completed'];
+  outcomeOptions = ['Outcome A', 'Outcome B', 'Outcome C'];
+
 
     myFilter = (d: Date | null): boolean => {
     const date = d || new Date();
     return date <= this.today;
+  };
+  futureDateFilter = (d: Date | null): boolean => {
+    const date = d || new Date();
+    return date >= this.today;
   };
 
 }

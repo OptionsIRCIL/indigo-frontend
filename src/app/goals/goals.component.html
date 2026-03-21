@@ -36,7 +36,72 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Grant</mat-label>
+                        <mat-select formControlName="grant">
+                            <mat-option *ngFor="let g of grantOptions" [value]="g">
+                                {{g}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Goal Status</mat-label>
+                        <mat-select formControlName="goalStatus">
+                            <mat-option *ngFor="let s of goalStatusOptions" [value]="s">
+                                {{s}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="date-field" appearance="outline" floatLabel="always">
+                        <mat-label>Est. Completion Date</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="estCompletionDatePicker"
+                            [matDatepickerFilter]="futureDateFilter"
+                            formControlName="estCompletionDate"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="estCompletionDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #estCompletionDatePicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class = "form-RightColumn">
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Outcome</mat-label>
+                        <mat-select formControlName="outcome">
+                            <mat-option *ngFor="let o of outcomeOptions" [value]="o">
+                                {{o}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="date-field" appearance="outline" floatLabel="always">
+                        <mat-label>Outcome Description</mat-label>
+                        <textarea matInput formControlName="outcomeDescription"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field class="date-field" appearance="outline" floatLabel="always">
+                        <mat-label>Completion Date</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="completionDatePicker"
+                            [matDatepickerFilter]="myFilter"
+                            formControlName="completionDate"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="completionDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #completionDatePicker></mat-datepicker>
+                    </mat-form-field>
+
+                </div>
+            </div>
+            <div class = "form-FullWidth">
+                <mat-form-field appearance="outline" floatLabel="always">
+                    <mat-label>Description of Goal</mat-label>
+                    <textarea matInput formControlName="goalDescription"></textarea>
+                </mat-form-field>
             </div>
         </form>
     </div>
