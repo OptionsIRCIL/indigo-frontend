@@ -9,8 +9,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AddEmployeeComponent } from '../add-employee/add-employee.component';
+import { MatDialog } from '@angular/material/dialog';
 
-  export interface ConsumerServiceRecordRow {
+  export interface EmployeeEffort {
     date: Date;
     employee: string;
     grant: string;
@@ -18,7 +20,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     hours: number;
   }
 
-  const CONSUMER_SERVICE_RECORD_DATA: ConsumerServiceRecordRow[] = [
+  const EMPLOYEE_DATA: EmployeeEffort[] = [
     {date: new Date('2025-02-02'), employee: 'Daisy Codenys', grant: 'Grant A', type: 'Type 1', hours: 10.5},
     {date: new Date('2025-02-03'), employee: 'John Doe', grant: 'Grant B', type: 'Type 2', hours: 15.25},
     {date: new Date('2025-02-04'), employee: 'Jane Smith', grant: 'Grant C', type: 'Type 1', hours: 20.75},
@@ -44,6 +46,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   styleUrl: './consumer.component.css',
 })
 export class ConsumerServiceRecordComponent {
+  constructor(private dialog: MatDialog) {}
   today = new Date(new Date().setHours(0, 0, 0, 0));
 
   consumerForm = new FormGroup({
@@ -102,38 +105,28 @@ export class ConsumerServiceRecordComponent {
     'hours',
   ];
 
-  dataSource = CONSUMER_SERVICE_RECORD_DATA;
+  dataSource = [...EMPLOYEE_DATA];
 
   myFilter = (d: Date | null): boolean => {
     const date = d || new Date();
     return date <= this.today;
   };
 
-  addRow(): void {
-    const newRow: ConsumerServiceRecordRow = {
-      date: new Date(),
-      employee: this.consumerForm.controls.primaryEmployee.value || '',
-      grant: '',
-      type: '',
-      hours: 0,
-    };
-
-    this.dataSource = [...this.dataSource, newRow];
-  }
-
-  editRow(row: ConsumerServiceRecordRow, index: number): void {
-    const updatedRow: ConsumerServiceRecordRow = {
-      ...row,
-      employee: row.employee,
-      grant: row.grant,
-      type: row.type,
-      hours: row.hours,
-    };
-
-    const updatedData = [...this.dataSource];
-    updatedData[index] = updatedRow;
-    this.dataSource = updatedData;
-
-    console.log('Edit row clicked:', row, index);
+  addRow() {
+        const dialogRef = this.dialog.open(AddEmployeeComponent, {
+          width: '400px',
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          if (!result) return;
+          this.dataSource = [...this.dataSource, result];
+        });
+      }
+    
+      editRow(row: EmployeeEffort, index: number) {
+        const dialogRef = this.dialog.open(AddEmployeeComponent, {
+          width: '400px',
+          data: row,
+        });
   }
 }
