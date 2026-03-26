@@ -34,7 +34,7 @@ export class FormSelector {
   options: string[] = [];
   constructor( private readonly router: Router,  @Inject(MAT_DIALOG_DATA) public data: any) { 
       if (data?.message == "i"){ 
-        this.options =  ['Information and Referral', 'Direct service', 'Goals', 'Consumer Information File'];
+        this.options =  ['Information and Referral', 'Goals', 'Consumer Information File'];
       } else {
         this.options = ['Information and Referral', 'Community, Education, and Outreach'];
       }
