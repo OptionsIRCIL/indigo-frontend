@@ -34,7 +34,7 @@ export class FormSelector {
   options: string[] = [];
   constructor( private readonly router: Router,  @Inject(MAT_DIALOG_DATA) public data: any) { 
       if (data?.message == "i"){ 
-        this.options =  ['Information and Referral', 'Direct service', 'Goals', 'Consumer Service Record'];
+        this.options =  ['Information and Referral', 'Direct service', 'Goals', 'Consumer Information File'];
       } else {
         this.options = ['Information and Referral', 'Community, Education, and Outreach'];
       }
@@ -66,7 +66,7 @@ export class FormSelector {
                 this.router.createUrlTree(['/goals'])
               );
         break;
-      case 'Consumer Service Record' :
+      case 'Consumer Information File' :
         url = this.router.serializeUrl(
                 this.router.createUrlTree(['/consumer-service-record'])
               );
