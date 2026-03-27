@@ -1,0 +1,169 @@
+<div class="ConsumerServiceRecord-form">
+    <header class="form-header">
+        <h2>Consumer Service Record</h2>
+    </header>
+
+    <div class="form-body">
+        <form [formGroup]="consumerForm">
+            <div class = "form-Columns">
+                <div class = "form-LeftColumn">
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>CSR File Number</mat-label>
+                        <input matInput formControlName="csrFileNumber" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Current Status</mat-label>
+                        <mat-select formControlName="currentStatus">
+                            <mat-option *ngFor="let s of statusOptions" [value]="s">
+                                {{s}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="date-field" appearance="outline" floatLabel="always">
+                        <mat-label>Activation Date</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="activationPicker"
+                            [matDatepickerFilter]="myFilter"
+                            formControlName="activationDate"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="activationPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #activationPicker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="date-field" appearance="outline" floatLabel="always">
+                        <mat-label>Closure Date</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="closurePicker"
+                            [matDatepickerFilter]="myFilter"
+                            formControlName="closureDate"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="closurePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #closurePicker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Independent Living Plan Activity</mat-label>
+                        <mat-select formControlName="independentLivingPlanActivity">
+                            <mat-option *ngFor="let a of independentLivingPlanActivityOptions" [value]="a">
+                                {{a}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="date-field" appearance="outline" floatLabel="always">
+                        <mat-label>Date of ILP Action</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="ilpActionPicker"
+                            [matDatepickerFilter]="myFilter"
+                            formControlName="ilpActionDate"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="ilpActionPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #ilpActionPicker></mat-datepicker>
+                    </mat-form-field>
+
+                </div>
+                <div class = "form-RightColumn">
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Primary Employee</mat-label>
+                        <mat-select formControlName="primaryEmployee">
+                            <mat-option *ngFor="let e of primaryEmployeeOptions" [value]="e">
+                                {{e}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="date-field" appearance="outline" floatLabel="always">
+                        <mat-label>Date of Birth</mat-label>
+                        <input
+                            matInput
+                            [matDatepicker]="dobPicker"
+                            [matDatepickerFilter]="myFilter"
+                            formControlName="dateOfBirth"
+                        />
+                        <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #dobPicker></mat-datepicker>
+                    </mat-form-field>
+                    
+                    <mat-checkbox formControlName="deceased">Deceased</mat-checkbox>
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Intake</mat-label>
+                        <mat-select formControlName="intake">
+                            <mat-option *ngFor="let i of intakeOptions" [value]="i">
+                                {{i}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>Exit</mat-label>
+                        <mat-select formControlName="exit">
+                            <mat-option *ngFor="let e of exitOptions" [value]="e">
+                                {{e}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" floatLabel="always">
+                        <mat-label>County</mat-label>
+                        <input matInput formControlName="county" />
+                    </mat-form-field>
+
+                </div>
+            </div>
+
+            <div class = "form-FullWidth">
+
+                <table mat-table class="form-Table" [dataSource]="dataSource">
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell *matCellDef="let element; let i = index">
+                            <button mat-icon-button type="button" aria-label="Edit row" (click)="editRow(element, i)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> Date </th>
+                        <td mat-cell *matCellDef="let element">
+                            <time [dateTime]="element.date | date:'yyyy-MM-dd'">
+                                {{element.date | date:'MM/dd/yyyy'}}
+                            </time>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="employee">
+                        <th mat-header-cell *matHeaderCellDef> Employee </th>
+                        <td mat-cell *matCellDef="let element">{{element.employee}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="grant">
+                        <th mat-header-cell *matHeaderCellDef> Grant </th>
+                        <td mat-cell *matCellDef="let element">{{element.grant}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef> Type </th>
+                        <td mat-cell *matCellDef="let element">{{element.type}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="hours">
+                        <th mat-header-cell *matHeaderCellDef> Hours </th>
+                        <td mat-cell *matCellDef="let element">{{element.hours}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                </table>
+                
+                <button mat-icon-button class="form-Table" type="button" aria-label="Add Row" (click)="addRow()">
+                    <mat-icon>add</mat-icon>
+                </button>
+
+            </div>
+        </form>
+    </div>
+</div>
