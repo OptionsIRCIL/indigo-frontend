@@ -20,7 +20,7 @@
                     </mat-form-field>
 
                     <mat-form-field appearance="outline" floatLabel="always">
-                        <mat-label>Type</mat-label>
+                        <mat-label>Service Type</mat-label>
                         <mat-select formControlName="type">
                             <mat-option *ngFor="let t of typeOptions" [value]="t">
                                 {{t}}
@@ -102,6 +102,14 @@
                     <mat-label>Description of Goal</mat-label>
                     <textarea matInput formControlName="goalDescription"></textarea>
                 </mat-form-field>
+            </div>
+            <div class = "form-Actions">
+                <button mat-raised-button color="primary" type="button" (click)="onCancel()">
+                    Cancel
+                </button>
+                <button mat-raised-button color="primary" type="button" (click)="onSave()">
+                    Save
+                </button>
             </div>
         </form>
     </div>

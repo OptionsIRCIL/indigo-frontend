@@ -7,7 +7,7 @@ import { ForbiddenComponent } from "./error-components/forbidden/forbidden.compo
 import { IandrComponent } from "./iandr/iandr.component";
 import { IndividualViewRecordComponent, OrganizationViewRecordComponent } from "./view-record/view-record.component";
 import { CEOComponent } from "./ceo/ceo.component";
-import { ConsumerServiceRecordComponent } from './consumer/consumer.component';
+import { ConsumerInformationFileComponent } from "./consumer/consumer.component";
 import { GoalsComponent } from "./goals/goals.component";
 
 export const routes: Routes = [
@@ -50,8 +50,8 @@ export const routes: Routes = [
 				component: CEOComponent,
 			},
 			{
-				path: "consumer-service-record",
-				component: ConsumerServiceRecordComponent,
+				path: "consumer-information-file",
+				component: ConsumerInformationFileComponent,
 			},
 			{
 				path: "goals",

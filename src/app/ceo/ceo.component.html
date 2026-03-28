@@ -1,4 +1,4 @@
-<div class="IandR-form">
+<div class="Ceo-form">
     <header class="form-header">
         <h2>Community, Education, and Outreach</h2>
     </header>
@@ -134,7 +134,7 @@
                         <td mat-cell *matCellDef="let element">{{element.grant}}</td>
                     </ng-container>
                     <ng-container matColumnDef="type">
-                        <th mat-header-cell *matHeaderCellDef> Type </th>
+                        <th mat-header-cell *matHeaderCellDef> Service Type </th>
                         <td mat-cell *matCellDef="let element">{{element.type}}</td>
                     </ng-container>
                     <ng-container matColumnDef="hours">
@@ -144,13 +144,22 @@
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
                 </table>
                 
-                <button mat-icon-button class="form-Table" type="button" aria-label="Add Row" (click)="addRow()">
+                <button class="add-table-row" mat-stroked-button type="button" aria-label="Add Row" (click)="addRow()">
                     <mat-icon>add</mat-icon>
+                    Add Row
                 </button>
 
+                
+            </div>
+            <div class = "form-Actions">
+                <button mat-raised-button color="primary" type="button" (click)="onCancel()">
+                    Cancel
+                </button>
+                <button mat-raised-button color="primary" type="button" (click)="onSave()">
+                    Save
+                </button>
             </div>
         </form>
     </div>

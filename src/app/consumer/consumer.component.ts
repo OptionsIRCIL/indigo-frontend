@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
   export interface EmployeeEffort {
     date: Date;
@@ -28,7 +30,7 @@ import { MatDialog } from '@angular/material/dialog';
   ];
 
 @Component({
-  selector: 'app-consumer-service-record',
+  selector: 'app-consumer-information-file',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,12 +43,13 @@ import { MatDialog } from '@angular/material/dialog';
     MatTableModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatButtonModule,
   ],
   templateUrl: './consumer.component.html',
   styleUrl: './consumer.component.css',
 })
-export class ConsumerServiceRecordComponent {
-  constructor(private dialog: MatDialog) {}
+export class ConsumerInformationFileComponent {
+  constructor(private dialog: MatDialog, private router: Router) {}
   today = new Date(new Date().setHours(0, 0, 0, 0));
 
   consumerForm = new FormGroup({
@@ -96,14 +99,7 @@ export class ConsumerServiceRecordComponent {
     'Withdrawn',
   ];
 
-  displayedColumns: string[] = [
-    'actions',
-    'date',
-    'employee',
-    'grant',
-    'type',
-    'hours',
-  ];
+  displayedColumns: string[] = ['date', 'employee', 'grant', 'type', 'hours', 'actions'];
 
   dataSource = [...EMPLOYEE_DATA];
 
@@ -122,9 +118,25 @@ export class ConsumerServiceRecordComponent {
         });
       }
     
-      editRow(row: EmployeeEffort, index: number) {
-        const dialogRef = this.dialog.open(AddEmployeeComponent, {
-          data: row,
-        });
+  editRow(row: EmployeeEffort, index: number) {
+    const dialogRef = this.dialog.open(AddEmployeeComponent, {
+      data: row,
+    });
+
+    dialogRef.afterClosed().subscribe((result: EmployeeEffort | undefined) => {
+      if (!result) return;
+      const updated = [...this.dataSource];
+      updated[index] = result;
+      this.dataSource = updated;
+    });
+  }
+
+  onSave(): void {
+    this.router.navigate(['/']);
+  }
+
+  onCancel(): void {
+    this.consumerForm.reset();
+    this.router.navigate(['/']);
   }
 }

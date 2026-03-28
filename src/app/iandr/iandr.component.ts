@@ -11,7 +11,8 @@ import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
-
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
   export interface EmployeeEffort {
     date: Date;
@@ -43,6 +44,7 @@ import { AddEmployeeComponent } from '../add-employee/add-employee.component';
     MatIconModule,
     MatTableModule,
     MatDialogModule,
+    MatButtonModule,
   ],
   templateUrl: './iandr.component.html',
   styleUrl: './iandr.component.css',
@@ -50,7 +52,7 @@ import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 
 export class IandrComponent {
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private router: Router) {}
   today = new Date(new Date().setHours(0, 0, 0, 0));
 
   categories: string[] = [
@@ -114,7 +116,6 @@ export class IandrComponent {
 
   editRow(row: EmployeeEffort, index: number) {
     const dialogRef = this.dialog.open(AddEmployeeComponent, {
-      width: '400px',
       data: row,
     });
 
@@ -124,5 +125,14 @@ export class IandrComponent {
       updated[index] = result;
       this.dataSource = updated;
     });
+  }
+
+  onSave(): void {
+    this.router.navigate(['/']);
+  }
+
+  onCancel(): void {
+    this.iandrForm.reset();
+    this.router.navigate(['/']);
   }
 }

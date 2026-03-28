@@ -68,7 +68,7 @@ export class FormSelector {
         break;
       case 'Consumer Information File' :
         url = this.router.serializeUrl(
-                this.router.createUrlTree(['/consumer-service-record'])
+                this.router.createUrlTree(['/consumer-information-file'])
               );
         break;
       default:
