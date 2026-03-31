@@ -1,3 +1,7 @@
+.Ceo-form {
+    padding: 20px;
+}
+
 .form-Columns {
     display: flex;
     align-items: flex-start;
@@ -35,5 +39,23 @@
 }
 
 .form-Table {
-    margin-bottom: -16px;
+    margin-bottom: -19px;
+    border: 1px solid black;
+}
+
+.mat-column-actions button {
+    float: right;
+}
+
+.add-table-row {
+    border-radius: 0;
+    border: 1px solid black;
+    border-top: none;
+}
+
+.form-Actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    padding-top: 20px;
 }

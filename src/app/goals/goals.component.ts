@@ -10,6 +10,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-goals',
@@ -25,12 +27,13 @@ import { MatDialog } from '@angular/material/dialog';
     MatTableModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatButtonModule,
   ],
   templateUrl: './goals.component.html',
   styleUrl: './goals.component.css',
 })
 export class GoalsComponent {
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private router: Router) {}
   today = new Date(new Date().setHours(0, 0, 0, 0));
 
   goalsForm = new FormGroup({
@@ -61,5 +64,14 @@ export class GoalsComponent {
     const date = d || new Date();
     return date >= this.today;
   };
+
+  onSave(): void {
+    this.router.navigate(['/']);
+  }
+
+  onCancel(): void {
+    this.goalsForm.reset();
+    this.router.navigate(['/']);
+  }
 
 }

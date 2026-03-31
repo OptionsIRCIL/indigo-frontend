@@ -12,6 +12,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 
   export interface EmployeeEffort {
     date: Date;
@@ -44,117 +46,128 @@ import { MatSelectModule } from '@angular/material/select';
     MatTableModule,
     MatDialogModule,
     MatSelectModule,
+    MatButtonModule,
   ],
   templateUrl: './ceo.component.html',
   styleUrl: './ceo.component.css',
 })
+
 export class CEOComponent {
-  constructor(private dialog: MatDialog) {}
-    today = new Date(new Date().setHours(0, 0, 0, 0));
+  constructor(private dialog: MatDialog, private router: Router) {}
+  today = new Date(new Date().setHours(0, 0, 0, 0));
   
-    categories: string[] = [
-      'Category 1',
-      'Category 2',
-      'Category 3',
-      'Category 4',
-    ];
+  categories: string[] = [
+    'Category 1',
+    'Category 2',
+    'Category 3',
+    'Category 4',
+  ];
 
-    futureReferences: string[] = [
-      'Reference A',
-      'Reference B',
-      'Reference C',
-    ];
-  
-    selectedCategories: string[] = [];
-    selectedFutureReferences: string[] = [];
-  
-    categoryCtrl = new FormControl('');
-    futureReferenceCtrl = new FormControl('');
-  
-    get filteredCategories(): string[] {
-      const value = this.categoryCtrl.value?.toLowerCase() || '';
-      return this.categories.filter(
-        c =>
-          c.toLowerCase().includes(value) &&
-          !this.selectedCategories.includes(c)
-      );
-    }
-  
-    addCategory(value: string) {
-      if (!this.selectedCategories.includes(value)) {
-        this.selectedCategories.push(value);
-        this.categoryCtrl.setValue('');
-      }
-    }
-  
-    removeCategory(category: string) {
-      this.selectedCategories = this.selectedCategories.filter(c => c !== category);
-    }
+  futureReferences: string[] = [
+    'Reference A',
+    'Reference B',
+    'Reference C',
+  ];
 
-    get filteredFutureReferences(): string[] {
-      const value = this.futureReferenceCtrl.value?.toLowerCase() || '';
-      return this.futureReferences.filter(
-        r =>
-          r.toLowerCase().includes(value) &&
-          !this.selectedFutureReferences.includes(r)
-      );
-    }
+  selectedCategories: string[] = [];
+  selectedFutureReferences: string[] = [];
 
-    addFutureReference(value: string) {
-      if (!this.selectedFutureReferences.includes(value)) {
-        this.selectedFutureReferences.push(value);
-        this.futureReferenceCtrl.setValue('');
-      }
-    }
+  categoryCtrl = new FormControl('');
+  futureReferenceCtrl = new FormControl('');
 
-    removeFutureReference(reference: string) {
-      this.selectedFutureReferences = this.selectedFutureReferences.filter(r => r !== reference);
-    }
+  get filteredCategories(): string[] {
+    const value = this.categoryCtrl.value?.toLowerCase() || '';
+    return this.categories.filter(
+      c =>
+        c.toLowerCase().includes(value) &&
+        !this.selectedCategories.includes(c)
+    );
+  }
 
-    ceoForm = new FormGroup({
-      date: new FormControl<Date | null>(this.today),
-      category: new FormControl<string[]>([]),
-      futureReference: new FormControl<string>(''),
-      numPublications: new FormControl<number>(0),
-      numPersonsWithDisabilities: new FormControl<number>(0),
-      numGeneralPublic: new FormControl<number>(0),
-      descriptionOfService: new FormControl<string>(''),
-      outcome: new FormControl<string>(''),
-    })
-  
-    myFilter = (d: Date | null): boolean => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-  
-      return d !== null && d <= today;
+  addCategory(value: string) {
+    if (!this.selectedCategories.includes(value)) {
+      this.selectedCategories.push(value);
+      this.categoryCtrl.setValue('');
     }
-  
-    displayedColumns: string[] = ['date', 'employee', 'grant', 'type', 'hours', 'actions'];
-    dataSource: EmployeeEffort[] = [...EMPLOYEE_DATA];
-  
-    addRow() {
-      const dialogRef = this.dialog.open(AddEmployeeComponent, {
-        width: '400px',
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if (!result) return;
-        this.dataSource = [...this.dataSource, result];
-      });
+  }
+
+  removeCategory(category: string) {
+    this.selectedCategories = this.selectedCategories.filter(c => c !== category);
+  }
+
+  get filteredFutureReferences(): string[] {
+    const value = this.futureReferenceCtrl.value?.toLowerCase() || '';
+    return this.futureReferences.filter(
+      r =>
+        r.toLowerCase().includes(value) &&
+        !this.selectedFutureReferences.includes(r)
+    );
+  }
+
+  addFutureReference(value: string) {
+    if (!this.selectedFutureReferences.includes(value)) {
+      this.selectedFutureReferences.push(value);
+      this.futureReferenceCtrl.setValue('');
     }
+  }
+
+  removeFutureReference(reference: string) {
+    this.selectedFutureReferences = this.selectedFutureReferences.filter(r => r !== reference);
+  }
+
+  ceoForm = new FormGroup({
+    date: new FormControl<Date | null>(this.today),
+    category: new FormControl<string[]>([]),
+    futureReference: new FormControl<string>(''),
+    numPublications: new FormControl<number>(0),
+    numPersonsWithDisabilities: new FormControl<number>(0),
+    numGeneralPublic: new FormControl<number>(0),
+    descriptionOfService: new FormControl<string>(''),
+    outcome: new FormControl<string>(''),
+  })
+
+  myFilter = (d: Date | null): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return d !== null && d <= today;
+  }
+
+  displayedColumns: string[] = ['date', 'employee', 'grant', 'type', 'hours', 'actions'];
+  dataSource: EmployeeEffort[] = [...EMPLOYEE_DATA];
+
+  addRow() {
+    const dialogRef = this.dialog.open(AddEmployeeComponent, {
+      width: '400px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) return;
+      this.dataSource = [...this.dataSource, result];
+    });
+  }
   
-    editRow(row: EmployeeEffort, index: number) {
-      const dialogRef = this.dialog.open(AddEmployeeComponent, {
-        width: '400px',
-        data: row,
-      });
-  
-      dialogRef.afterClosed().subscribe((result: EmployeeEffort | undefined) => {
-        if (!result) return;
-        const updated = [...this.dataSource];
-        updated[index] = result;
-        this.dataSource = updated;
-      });
-    }
+  editRow(row: EmployeeEffort, index: number) {
+    const dialogRef = this.dialog.open(AddEmployeeComponent, {
+      width: '400px',
+      data: row,
+    });
+
+    dialogRef.afterClosed().subscribe((result: EmployeeEffort | undefined) => {
+      if (!result) return;
+      const updated = [...this.dataSource];
+      updated[index] = result;
+      this.dataSource = updated;
+    });
+  }
+
+  onSave(): void {
+    this.router.navigate(['/']);
+  }
+
+  onCancel(): void {
+    this.ceoForm.reset();
+    this.router.navigate(['/']);
+  }
 }
 
