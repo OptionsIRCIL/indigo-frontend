@@ -30,6 +30,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    ignoreHTTPSErrors: true,
   },
 
   /* Configure projects for major browsers */
@@ -71,10 +72,9 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-     command: 'ng serve',
-     url: 'http://localhost:3000',
-     reuseExistingServer: !process.env.CI,
-     ignoreHTTPSErrors: true,
-  },
+  // webServer: {
+  //   command: 'npm run start',
+  //   url: 'http://localhost:3000',
+  //   reuseExistingServer: !process.env.CI,
+  // },
 });
