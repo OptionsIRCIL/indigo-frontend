@@ -73,8 +73,9 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-     command: 'npm run start',
-     url: 'https://localhost:443',
+     command: 'ng serve --port 4200',
+     url: 'https://localhost:4200/',
+     port: 4200
      reuseExistingServer: !process.env.CI,
   },
 });
