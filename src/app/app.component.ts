@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, RouterOutlet } from "@angular/router";
+import { Router, RouterLink, RouterOutlet } from "@angular/router";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TokenState } from '../service/state/token-state.service';
 import { AccessClientService } from '../service/client/access-client.service';
@@ -21,6 +21,7 @@ import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
 		MatInput,
 		MatSidenav,
 		MatSidenavContainer,
+    RouterLink,
 	],
 	templateUrl: "./app.component.html",
 	styleUrl: "./app.component.css",

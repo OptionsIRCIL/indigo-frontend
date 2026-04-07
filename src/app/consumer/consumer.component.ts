@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
+import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 
@@ -30,7 +30,7 @@ import { Router } from '@angular/router';
   ];
 
 @Component({
-  selector: 'app-iandr',
+  selector: 'app-consumer-information-file',
   standalone: true,
   imports: [
     CommonModule,
@@ -39,81 +39,85 @@ import { Router } from '@angular/router';
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatAutocompleteModule,
-    MatChipsModule,
     MatIconModule,
     MatTableModule,
-    MatDialogModule,
+    MatSelectModule,
+    MatCheckboxModule,
     MatButtonModule,
   ],
-  templateUrl: './iandr.component.html',
-  styleUrl: './iandr.component.css',
+  templateUrl: './consumer.component.html',
+  styleUrl: './consumer.component.css',
 })
-
-export class IandrComponent {
-
+export class ConsumerInformationFileComponent {
   constructor(private dialog: MatDialog, private router: Router) {}
   today = new Date(new Date().setHours(0, 0, 0, 0));
 
-  categories: string[] = [
-    'Category 1',
-    'Category 2',
-    'Category 3',
-    'Category 4',
+  consumerForm = new FormGroup({
+    csrFileNumber: new FormControl(''),
+    currentStatus: new FormControl(''),
+    activationDate: new FormControl<Date | null>(null),
+    closureDate: new FormControl<Date | null>(null),
+    independentLivingPlanActivity: new FormControl(''),
+    ilpActionDate: new FormControl<Date | null>(null),
+    primaryEmployee: new FormControl(''),
+    dateOfBirth: new FormControl<Date | null>(null),
+    deceased: new FormControl(false),
+    intake: new FormControl(''),
+    exit: new FormControl(''),
+    county: new FormControl(''),
+  });
+
+  statusOptions: string[] = [
+    'Open',
+    'Pending',
+    'Closed',
   ];
 
-  selectedCategories: string[] = [];
+  independentLivingPlanActivityOptions: string[] = [
+    'Created',
+    'Updated',
+    'Reviewed',
+    'Completed',
+  ];
 
-  categoryCtrl = new FormControl('');
+  primaryEmployeeOptions: string[] = [
+    'Daisy Codenys',
+    'John Doe',
+    'Jane Smith',
+    'Alice Johnson',
+  ];
 
-  get filteredCategories(): string[] {
-    const value = this.categoryCtrl.value?.toLowerCase() || '';
-    return this.categories.filter(
-      c =>
-        c.toLowerCase().includes(value) &&
-        !this.selectedCategories.includes(c)
-    );
-  }
+  intakeOptions: string[] = [
+    'Phone',
+    'Walk-in',
+    'Referral',
+  ];
 
-  addCategory(value: string) {
-    if (!this.selectedCategories.includes(value)) {
-      this.selectedCategories.push(value);
-      this.categoryCtrl.setValue('');
-    }
-  }
-
-  removeCategory(category: string) {
-    this.selectedCategories = this.selectedCategories.filter(c => c !== category);
-  }
-
-  iandrForm = new FormGroup({
-    date: new FormControl<Date | null>(this.today),
-    category: new FormControl<string[]>([]),
-    regarding: new FormControl<string>(''),
-    outcome: new FormControl<string>(''),
-  })
-
-  myFilter = (d: Date | null): boolean => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    return d !== null && d <= today;
-  }
+  exitOptions: string[] = [
+    'Completed',
+    'Transferred',
+    'Withdrawn',
+  ];
 
   displayedColumns: string[] = ['date', 'employee', 'grant', 'type', 'hours', 'actions'];
-  dataSource: EmployeeEffort[] = [...EMPLOYEE_DATA];
+
+  dataSource = [...EMPLOYEE_DATA];
+
+  myFilter = (d: Date | null): boolean => {
+    const date = d || new Date();
+    return date <= this.today;
+  };
 
   addRow() {
-    const dialogRef = this.dialog.open(AddEmployeeComponent, {
-      width: '400px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) return;
-      this.dataSource = [...this.dataSource, result];
-    });
-  }
-
+        const dialogRef = this.dialog.open(AddEmployeeComponent, {
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          if (!result) return;
+          this.dataSource = [...this.dataSource, result];
+        });
+      }
+    
   editRow(row: EmployeeEffort, index: number) {
     const dialogRef = this.dialog.open(AddEmployeeComponent, {
       data: row,
@@ -132,7 +136,7 @@ export class IandrComponent {
   }
 
   onCancel(): void {
-    this.iandrForm.reset();
+    this.consumerForm.reset();
     this.router.navigate(['/']);
   }
 }

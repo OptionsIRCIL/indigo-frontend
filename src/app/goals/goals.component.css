@@ -1,4 +1,4 @@
-.Ceo-form {
+.Goals-form {
     padding: 20px;
 }
 
@@ -12,7 +12,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    flex: 2;
+    flex: 1;
 }
 
 .form-RightColumn {
@@ -28,6 +28,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding-top: 20px;
 }
 
 .date-field {
@@ -39,18 +40,7 @@
 }
 
 .form-Table {
-    margin-bottom: -19px;
-    border: 1px solid black;
-}
-
-.mat-column-actions button {
-    float: right;
-}
-
-.add-table-row {
-    border-radius: 0;
-    border: 1px solid black;
-    border-top: none;
+    margin-bottom: -16px;
 }
 
 .form-Actions {
