@@ -9,7 +9,6 @@ import { provideRouter } from "@angular/router";
 
 import { routes } from "./app.routes";
 import { provideHttpClient } from "@angular/common/http";
-import { AccessClientService } from "../service/client/access-client.service";
 import { ConfigService } from '../config/config.service';
 
 export const appConfig: ApplicationConfig = {
@@ -21,7 +20,7 @@ export const appConfig: ApplicationConfig = {
       return inject(ConfigService).loadAppConfig();
     }),
 		provideEnvironmentInitializer(() => {
-			//return inject(AccessClientService).get().subscribe();
+			return inject(ConfigService).setToken();
 		}
 		),
 	],

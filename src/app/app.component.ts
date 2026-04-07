@@ -9,6 +9,8 @@ import { MatIcon } from "@angular/material/icon";
 import { MatCheckbox } from "@angular/material/checkbox";
 import { MatInput } from "@angular/material/input";
 import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
+import { PersonClientService } from '../service/client/person-client.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
 	selector: "app-root",
@@ -21,10 +23,12 @@ import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
 		MatInput,
 		MatSidenav,
 		MatSidenavContainer,
-    RouterLink,
+		RouterLink,
+		AsyncPipe,
 	],
 	templateUrl: "./app.component.html",
 	styleUrl: "./app.component.css",
+	standalone: true,
 })
 export class AppComponent implements OnInit {
 	title = "indigo-frontend";
@@ -35,6 +39,7 @@ export class AppComponent implements OnInit {
 		protected readonly router: Router,
 		protected readonly tokenState: TokenState,
 		private readonly snackBar: MatSnackBar,
+		private readonly personClient: PersonClientService,
 	) {}
 
 	ngOnInit() {
@@ -47,7 +52,8 @@ export class AppComponent implements OnInit {
 	protected logout(): void {
 		this.accessClient.logout().subscribe({
 			next: () => {
-				this.tokenState.token.next(null);
+				this.tokenState.token.next(false);
+				window.cookieStore.delete("IndigoAuth");
 				this.snackBar.open("Logout successful", "Dismiss");
 				this.router.navigate(["/login"]);
 			},
@@ -66,4 +72,10 @@ export class AppComponent implements OnInit {
 		this.toDoList.splice(this.toDoList.indexOf(task), 1);
 		localStorage.setItem("toDoList", JSON.stringify(this.toDoList));
 	}
+
+	protected getPerson(): void {
+		this.personClient.getPerson("1").subscribe();
+	}
+
+	protected readonly window = window;
 }
