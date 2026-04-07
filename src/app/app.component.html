@@ -3,7 +3,6 @@
     <img src="./indigo-logo.svg" width="50px" height="50px" alt="Indigo Logo">
   </a>
   <button mat-button (click)="drawer.toggle()" [hidden]="!(tokenState.token | async)" type="button" value="open notes"><mat-icon fontIcon="edit_note"/></button>
-  <button mat-button (click)="getPerson()">Get Person</button>
   <span class="spacer"></span>
   <button value="logout" mat-button type="button" (click)="logout()" [hidden]="!(tokenState.token | async)">Logout</button>
   <button value="login" mat-button type="button" [routerLink]="['/login']" [hidden]="(tokenState.token | async)">Login</button>

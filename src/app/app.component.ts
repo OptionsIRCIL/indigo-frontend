@@ -73,9 +73,5 @@ export class AppComponent implements OnInit {
 		localStorage.setItem("toDoList", JSON.stringify(this.toDoList));
 	}
 
-	protected getPerson(): void {
-		this.personClient.getPerson("1").subscribe();
-	}
-
 	protected readonly window = window;
 }
