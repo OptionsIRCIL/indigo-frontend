@@ -75,7 +75,7 @@ export default defineConfig({
   webServer: {
      command: 'ng serve --port 4200',
      url: 'https://localhost:4200/',
-     port: 4200
+     port: 4200,
      reuseExistingServer: !process.env.CI,
   },
 });
