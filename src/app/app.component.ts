@@ -9,7 +9,6 @@ import { MatIcon } from "@angular/material/icon";
 import { MatCheckbox } from "@angular/material/checkbox";
 import { MatInput } from "@angular/material/input";
 import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
-import { PersonClientService } from '../service/client/person-client.service';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -39,7 +38,6 @@ export class AppComponent implements OnInit {
 		protected readonly router: Router,
 		protected readonly tokenState: TokenState,
 		private readonly snackBar: MatSnackBar,
-		private readonly personClient: PersonClientService,
 	) {}
 
 	ngOnInit() {
@@ -72,6 +70,4 @@ export class AppComponent implements OnInit {
 		this.toDoList.splice(this.toDoList.indexOf(task), 1);
 		localStorage.setItem("toDoList", JSON.stringify(this.toDoList));
 	}
-
-	protected readonly window = window;
 }

@@ -46,15 +46,7 @@ export class LoginComponent {
 			this.accessClient
 				.login(this.loginForm.value.email, this.loginForm.value.password)
 				.subscribe({
-					next: async () => {
-						const cookie = await window.cookieStore.get("IndigoAuth");
-            if (!cookie) {
-              this.snackBar.open(
-								"Something went wrong. Please try again",
-								"Dismiss",
-							);
-              return;
-            }
+					next: () => {
 						this.tokenState.token.next(true);
 						this.snackBar.open("Login successful", "Dismiss");
 						this.router.navigate(["/main-dashboard"]).then(); // MAY BE REFACTORED TO ROUTE TO ACTIVATED ROUTE
