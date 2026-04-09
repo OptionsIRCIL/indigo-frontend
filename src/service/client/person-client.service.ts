@@ -17,6 +17,10 @@ export class PersonClientService {
 		return this.http.get<unknown>(`${this.apiUrl}person/${id}`, {withCredentials: true});
 	}
 
+	public getPersonCollection() {
+		return this.http.get<Person[]>(`${this.apiUrl}person`);
+	}
+
 	public postPerson(data: Person) {
 		return this.http.post<unknown>(`${this.apiUrl}person`, data, {withCredentials: true});
 	}

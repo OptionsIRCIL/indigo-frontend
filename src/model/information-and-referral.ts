@@ -1,25 +1,20 @@
 export class InformationAndReferral {
 
 	public constructor(
-		public callerType: string,
+		public createdAt: string | null,
 		public date: string,
 		public department: string,
-		public disability: string | null,
-		// is this set by the backend?
-		public employeeId: string,
+		public employeeId: string | null,
 		public formDate: string,
 		public grant: string,
-		public hours: number,
-		public organizationId: string,
+		public id: string | null,
+		public organizationId: string | null,
 		public outcome: string,
-		public personId: string,
+		public personId: string | null,
 		public referrer: string,
 		public serviceRequest: string,
 		public serviceType: string,
-		public travelHours: number,
-		public units: string,
+		public updatedAt: string | null,
 	){}
-
-	// TODO - make fromFormData() method
 
 }
