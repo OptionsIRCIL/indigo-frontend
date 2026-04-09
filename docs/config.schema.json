@@ -1,0 +1,16 @@
+{
+	"$schema": "https://json-schema.org",
+	"$id": "https://raw.githubusercontent.com/OptionsIRCIL/indigo-frontend/refs/heads/main/docs/config-schema.json",
+	"title": "Indigo Configuration",
+	"description": "Configuration Schema for Indigo Web Application",
+	"type": "object",
+	"properties": {
+		"apiUrl": {
+			"type": "string"
+		},
+		"production": {
+			"type": "boolean"
+		}
+	},
+	"required": ["apiUrl", "production"]
+}
