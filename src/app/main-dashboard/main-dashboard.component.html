@@ -52,7 +52,7 @@
       </mat-card>
       -->
       <mat-card class="result-organizations">
-        <div class = "card-grid" (click)="viewRecord()">
+        <div class = "card-grid" >
           <div class="name">John Doe</div>
           <div class="title">Benefactor</div>
           <div class="company">Company ABC</div>
@@ -81,13 +81,13 @@
             </div>
           </mat-card>
           -->
-          <mat-card class="result-organizations">
-            <div class = "card-grid">
-              <div class="name">Ben Clarke</div>
+            <mat-card class="result-organizations" *ngFor="let record of records">
+            <div class = "card-grid" (click)="viewRecord(record.id)">
+              <div class="name">{{record.firstName}} {{record.lastName}}</div>
               <div class="title">Relative of Individual w/ Disability</div>
               <div class="space"></div>
               <div class="space"></div>
-              <div class="location">Fargo, ND</div>
+              <div class="location">{{record.city}}, {{record.state}}</div>
               <div class="last-contact">Last Contacted 2 days ago</div>
             </div>
           </mat-card>

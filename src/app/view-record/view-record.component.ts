@@ -39,10 +39,30 @@ export class IndividualViewRecordComponent {
   private _Activatedroute: any;
   private id?: number;
   private sub: any;
+  record!: {
+    firstName: string,
+    lastName: string,
+    salutation: string,
+    email: string,
+    phone: string,
+    ethnicity: string,
+    membership: string,
+    gender: string,
+    withheldDOB: boolean,
+    optNews: boolean,
+    dateOfBirth: string,
+    withheldAddress: boolean,
+    addressLine1: string,
+    addressLine2: string,
+    city: string,
+    state: string,
+    county: string,
+  }
 
 	public constructor(
     private dialog: MatDialog,
     _Activatedroute:ActivatedRoute,
+    private route: ActivatedRoute,
     private _router:Router,
     private readonly accessClient: AccessClientService,
     protected readonly tokenState: TokenState,
@@ -52,6 +72,11 @@ export class IndividualViewRecordComponent {
   ngOnInit() {
     // get the id from the route
     // find the id in the db for individuals
+    const id = this.route.snapshot.paramMap.get('id');
+    const stored = localStorage.getItem('records');
+    const records = stored ? JSON.parse(stored) : [];
+
+    this.record =  records.find((r: any) => r.id === id);
    }
   openEditRecord(message: string) {
       return this.dialog.open(IndividualContentDialog, {

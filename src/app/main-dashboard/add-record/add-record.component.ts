@@ -336,10 +336,26 @@ export class IndividualContentDialog {
 
     ngOnInit() {
       this.form = this.fb.group({
+        firstName: [''],
+        lastName: [''],
+        salutation: [''],
+        email:[''],
+        phone:[''],
+        ethnicity:[''],
+        membership:[''],
+        gender:[''],
         withheldDOB: [false],
+        optNews: [false],
         dateOfBirth: [{ value: '', disabled: false }],
         withheldAddress: [false],
         addressInfo: [{ value: '', disabled: false }],
+        addressInfo2: [{ value: '', disabled: false }],
+        city: [{ value: '', disabled: false }],
+        state: [{ value: '', disabled: false }],
+        county: [''],
+        // primaryDisablity: [''],
+        // primaryDisablityClass: [''],
+        // additionalDisability: [''],
       });
 
       this.form.get('withheldDOB')!.valueChanges.subscribe(disabled => {
@@ -347,8 +363,8 @@ export class IndividualContentDialog {
         disabled ? field.disable() : field.enable();
       });
       this.form.get('withheldAddress')!.valueChanges.subscribe(disabled => {
-        const field = this.form.get('addressInfo')!;
-        disabled ? field.disable() : field.enable();
+        const fields = [this.form.get('addressInfo')!, this.form.get('addressInfo2')!, this.form.get('city')!,this.form.get('state')!] ;
+        fields.forEach ( f => {disabled ? f.disable() : f.enable(); });
       });
     }
     onCancelClick(): void {
@@ -358,9 +374,36 @@ export class IndividualContentDialog {
     addIndividualInfo(): void {
 
       // TODO handle adding record to the db here
+      //todo remove this later bc local storage changes
+      let records = JSON.parse(localStorage.getItem('records') || '[]');
 
-      // TODO get the corresponding id of the record in the db
-      let recordId = 12345;
+      let recordId = crypto.randomUUID();
+
+      let newRecord = {
+        active: false,
+        addressLine1: this.form.get('addressInfo')!.value,
+        addressLine2: this.form.get('addressInfo2')!.value,
+        birthday: this.form.get('dateOfBirth')!.value,
+        city: this.form.get('city')!.value,
+        county: this.form.get('county')!.value,
+        deceased: false,
+        email: this.form.get('email')!.value,
+        ethnicity: this.form.get('ethnicity')!.value,
+        firstName: this.form.get('firstName')!.value,
+        gender: this.form.get('gender')!.value,
+        lastName: this.form.get('lastName')!.value,
+        membership: 'A',
+        phone: this.form.get('phone')!.value,
+        salutation: this.form.get('salutation')!.value,
+        state: this.form.get('state')!.value,
+        id: recordId
+      };
+
+      // 3. Push object into array
+      records.push(newRecord);
+
+      // 4. Save back properly
+      localStorage.setItem('records', JSON.stringify(records));
 
       // TODO handles navigation to view-record page
       this.dialogRef.close();
