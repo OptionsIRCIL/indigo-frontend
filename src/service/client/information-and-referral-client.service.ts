@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { InformationAndReferral } from "../../model/information-and-referral";
 import { ConfigService } from "../../config/config.service";
+import { map } from 'rxjs';
 
 @Injectable({
 	providedIn: "root",
@@ -20,7 +21,9 @@ export class InformationAndReferralClientService {
 		return this.http.get<InformationAndReferral>(
 			`${this.apiUrl}information-and-referral/${id}`,
 			{ withCredentials: true },
-		);
+		).pipe(
+      map(data=> {return InformationAndReferral.fromObject(data)}),
+    );
 	}
 
 	public getInformationAndReferralCollection() {

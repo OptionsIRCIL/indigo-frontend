@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Person } from "../../model/person";
 import { ConfigService } from "../../config/config.service";
+import { map } from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,9 @@ export class PersonClientService {
 	}
 
 	public getPerson(id: string) {
-		return this.http.get<unknown>(`${this.apiUrl}person/${id}`, {withCredentials: true});
+		return this.http.get<unknown>(`${this.apiUrl}person/${id}`, {withCredentials: true}).pipe(
+			map(data=> {return Person.fromObject(data)})
+		);
 	}
 
 	public getPersonCollection() {
