@@ -396,7 +396,9 @@ export class IndividualContentDialog {
         phone: this.form.get('phone')!.value,
         salutation: this.form.get('salutation')!.value,
         state: this.form.get('state')!.value,
-        id: recordId
+        id: recordId,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
 
       // 3. Push object into array
@@ -438,25 +440,85 @@ export class IndividualContentDialog {
     AliasChipsInput,
     MatRadioModule,
     RadioNgModel,
+    ReactiveFormsModule
   ]
 })
 export class OrganizationContentDialog {
   titleText: string = "";
   constructor( private readonly router: Router,
     public dialogRef: MatDialogRef<OrganizationContentDialog>,
+    private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any){
       if (data?.message == "e"){ this.titleText = "Edit Record - Organization";}
       else { this.titleText = "Add Record - Organization";}
     }
 
-  onCancelClick(): void {
-    this.dialogRef.close();
-  }
+    form!: FormGroup;
 
-  addOrganizationInfo(): void {
-    //TODO handle adding record to the db here
-      // TODO get the corresponding id of the record in the db
-      let recordId = 12345;
+    ngOnInit() {
+      this.form = this.fb.group({
+        name: [''],
+        email:[''],
+        phone:[''],
+        addressInfo: [{ value: '', disabled: false }],
+        addressInfo2: [{ value: '', disabled: false }],
+        city: [{ value: '', disabled: false }],
+        state: [{ value: '', disabled: false }],
+        county:[''],
+        // repFirstName: [''],
+        // repLastName: [''],
+        // repPosition: [''],
+        // repDepartment: [''],
+        // descServices: [''],
+        // eligReqs: [''],
+        // intakeProc: [''],
+        // FeesChg: [''],
+        // hrsOp: [''],
+        // other: ['']
+      });
+    }
+
+    onCancelClick(): void {
+      this.dialogRef.close();
+    }
+
+    addOrganizationInfo(): void {
+      //TODO handle adding record to the db here
+      //todo remove the below code for localstorage changes
+
+      let records = JSON.parse(localStorage.getItem('org-records') || '[]');
+
+      let recordId = crypto.randomUUID();
+
+      let newRecord = {
+        name: this.form.get('name')!.value,
+        phone: this.form.get('phone')!.value,
+        email: this.form.get('email')!.value,
+        addressInfo: this.form.get('addressInfo')!.value,
+        addressInfo2: this.form.get('addressInfo2')!.value,
+
+        city: this.form.get('city')!.value,
+        county: this.form.get('county')!.value,
+        state: this.form.get('state')!.value,
+        id: recordId,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+
+        // repFirstName: this.form.get('firstName')!.value,
+        // repLastName: this.form.get('lastName')!.value,
+        // repPosition: 'A',
+        // repDepartment: this.form.get('gender')!.value,
+      };
+
+      // 3. Push object into array
+      records.push(newRecord);
+
+      // 4. Save back properly
+      localStorage.setItem('org-records', JSON.stringify(records));
+
+      // TODO handles navigation to view-record page
+      this.dialogRef.close();
+
 
 
     // handles navigation to view-record page

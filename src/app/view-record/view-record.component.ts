@@ -75,7 +75,6 @@ export class IndividualViewRecordComponent {
     const id = this.route.snapshot.paramMap.get('id');
     const stored = localStorage.getItem('records');
     const records = stored ? JSON.parse(stored) : [];
-
     this.record =  records.find((r: any) => r.id === id);
    }
   openEditRecord(message: string) {
@@ -128,7 +127,31 @@ export class IndividualViewRecordComponent {
 	styleUrl: "./view-record.component.css",
 })
 export class OrganizationViewRecordComponent {
-	public constructor(private dialog: MatDialog) {}
+	
+  orgRecord!: {
+      name: string,
+      email: string,
+      phone: string,
+      addressLine1: string,
+      addressLine2: string,
+      city: string,
+      state: string,
+      county: string,
+      id: string,
+      createdAt: Date,
+      updatedAt: Date,
+    };
+
+    public constructor(
+      private dialog: MatDialog, 
+      private route: ActivatedRoute) {}
+
+    ngOnInit (){
+        const id = this.route.snapshot.paramMap.get('id');
+        const orgStored = localStorage.getItem('org-records');
+        const orgRecords = orgStored ? JSON.parse(orgStored) : [];
+        this.orgRecord =  orgRecords.find((r: any) => r.id === id);
+    }
 
     openEditRecord(message: string) {
         return this.dialog.open(OrganizationContentDialog, {
