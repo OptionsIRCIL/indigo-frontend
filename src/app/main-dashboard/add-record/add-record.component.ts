@@ -17,6 +17,8 @@ import { Observable, startWith, map } from 'rxjs';
 import {MatAutocompleteSelectedEvent, MatAutocomplete, MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from "@angular/router";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @Injectable({ providedIn: 'root' })
@@ -204,7 +206,8 @@ export let additionalDisabilityList = ['Disability A', 'Disability B', 'Disabili
     MatChipsModule,
     MatIconModule,
     MatAutocompleteModule,
-    MatInputModule,],
+    MatInputModule,
+  ],
 })
 export class ChipsAutocompleteOption {
   visible = true;
@@ -320,7 +323,9 @@ export class RadioNgModel {
     MatRadioModule,
     RadioNgModel,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class IndividualContentDialog {
@@ -333,6 +338,13 @@ export class IndividualContentDialog {
     }
 
     form!: FormGroup;
+    newDate: Date = new Date();
+    myFilter = (d: Date | null): boolean => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      return d !== null && d <= today;
+    }
 
     ngOnInit() {
       this.form = this.fb.group({
