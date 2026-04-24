@@ -53,6 +53,7 @@ export class MainDashboardComponent {
 		id: string,
 		createdAt: Date,
 		updatedAt: Date,
+		disabilities: string;
 	}[];
 
 	orgRecords!: {

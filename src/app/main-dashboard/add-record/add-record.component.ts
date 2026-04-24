@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Injectable, Input, ViewChild, EventEmitter, Output} from '@angular/core';
+import { Component, ElementRef, Inject, Injectable, Input, ViewChild, EventEmitter, Output, importProvidersFrom} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +19,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from "@angular/router";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
 
 @Injectable({ providedIn: 'root' })
 export class addRecordDialogService {
@@ -308,6 +307,7 @@ export class RadioNgModel {
   selector: 'individual-content-dialog',
   templateUrl: 'individual-content.html',
   styleUrls: ['individual-content.css'],
+  standalone: true,
   imports: [
     MatDialogModule,
     MatIconModule,
@@ -325,8 +325,9 @@ export class RadioNgModel {
     ReactiveFormsModule,
     CommonModule,
     MatDatepickerModule,
-    MatNativeDateModule
-  ]
+    MatNativeDateModule,
+  ],
+  
 })
 export class IndividualContentDialog {
   titleText: string = ""; 
@@ -337,47 +338,81 @@ export class IndividualContentDialog {
       else { this.titleText = "Add Record - Individual";}
     }
 
-    form!: FormGroup;
-    newDate: Date = new Date();
+    today: Date = new Date();
     myFilter = (d: Date | null): boolean => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      const date = d || new Date();
+      return date <= this.today;
+    };
+    selectedDate: Date | null = null;
+    
+    
+    form!: FormGroup
 
-      return d !== null && d <= today;
-    }
-
+    showCalendar!:boolean
+      
     ngOnInit() {
-      this.form = this.fb.group({
-        firstName: [''],
-        lastName: [''],
-        salutation: [''],
-        email:[''],
-        phone:[''],
-        ethnicity:[''],
-        membership:[''],
-        gender:[''],
-        withheldDOB: [false],
-        optNews: [false],
-        dateOfBirth: [{ value: '', disabled: false }],
-        withheldAddress: [false],
-        addressInfo: [{ value: '', disabled: false }],
-        addressInfo2: [{ value: '', disabled: false }],
-        city: [{ value: '', disabled: false }],
-        state: [{ value: '', disabled: false }],
-        county: [''],
-        // primaryDisablity: [''],
-        // primaryDisablityClass: [''],
-        // additionalDisability: [''],
+      this.form = new FormGroup({
+        firstName: new FormControl(''),
+        lastName: new FormControl(''),
+        salutation: new FormControl(''),
+        email: new FormControl(''),
+        phone: new FormControl(''),
+        ethnicity: new FormControl(''),
+        membership: new FormControl(''),
+        gender: new FormControl(''),
+        withheldDOB: new FormControl(false),
+        formattedDOB: new FormControl<Date | null>({
+          value: null,
+          disabled: false
+        }),
+        dateOfBirth: new FormControl<Date | null>({
+          value: null,
+          disabled: false
+        }),
+        withheldAddress: new FormControl(false),
+        addressInfo: new FormControl<string>({
+          value: '',
+          disabled: true
+        }),
+        addressInfo2: new FormControl<string>({
+          value: '',
+          disabled: true
+        }),
+        city: new FormControl<string>({
+          value: '',
+          disabled: true
+        }),
+        state: new FormControl<string>({
+          value: '',
+          disabled: true
+        }),
+        county: new FormControl(''),
+        //disabilities: new FormControl(''),
+        optNews: new FormControl(false),
       });
 
-      this.form.get('withheldDOB')!.valueChanges.subscribe(disabled => {
+      this.showCalendar = false;
+      this.selectedDate = this.form.get('dateOfBirth')?.value ?? null;
+
+
+      this.form.get('withheldDOB')?.valueChanges.subscribe(disabled => {
         const field = this.form.get('dateOfBirth')!;
         disabled ? field.disable() : field.enable();
       });
-      this.form.get('withheldAddress')!.valueChanges.subscribe(disabled => {
+      this.form.get('withheldAddress')?.valueChanges.subscribe(disabled => {
         const fields = [this.form.get('addressInfo')!, this.form.get('addressInfo2')!, this.form.get('city')!,this.form.get('state')!] ;
         fields.forEach ( f => {disabled ? f.disable() : f.enable(); });
       });
+
+      
+    }
+
+    onDateChange(date: Date) {
+        this.selectedDate = date;
+      this.form.get('dateOfBirth')?.setValue(date);
+    }
+    asDate(value: any): Date | null {
+      return value ? new Date(value) : null;
     }
     onCancelClick(): void {
       this.dialogRef.close();

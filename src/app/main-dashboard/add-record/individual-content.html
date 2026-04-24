@@ -34,18 +34,17 @@
             <br>
             <mat-label class="individual-form-field">Withheld</mat-label>
             <mat-checkbox formControlName="withheldDOB"></mat-checkbox>
-            <mat-form-field class="individual-form-field">
+
+            <mat-form-field class="individual-form-field" appearance="outline" floatLabel="always">
                 <mat-label>Date of Birth</mat-label>
                 <input
                     matInput
-                    [matDatepicker]="picker"
+                    [matDatepicker]="dobPicker"
                     [matDatepickerFilter]="myFilter"
-                    [(ngModel)]="newDate"
-                    name="dateOfBirth"
                     formControlName="dateOfBirth"
                 />
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                <mat-datepicker #dobPicker></mat-datepicker>
             </mat-form-field>
             <span class="spacer">&nbsp;</span>
             <mat-form-field class="individual-form-field">
