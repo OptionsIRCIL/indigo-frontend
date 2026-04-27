@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Injectable, Input, ViewChild, EventEmitter, Output, importProvidersFrom} from '@angular/core';
+import { Component, ElementRef, Inject, Injectable, Input, ViewChild, EventEmitter, Output, importProvidersFrom, ViewChildren, QueryList} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -227,6 +227,7 @@ export class ChipsAutocompleteOption {
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
   @Input() optionType!: string;
   @Input() optionTypeText!: string;
+  @Input() initialOptions: string[] = [];
 
   ngOnInit(): void {
     switch (this.optionType){
@@ -238,6 +239,10 @@ export class ChipsAutocompleteOption {
         break;
       default:
         this.allOptions = [];
+    }
+
+    if (this.initialOptions?.length) {
+      this.options = this.options.concat(this.initialOptions);
     }
   }
 
@@ -282,6 +287,12 @@ export class ChipsAutocompleteOption {
       option.toLowerCase().startsWith(filterValue)
     );
   }
+
+  setOptions(values: string[]) {
+    this.options = [...values];
+    this.optionCtrl.setValue(null);
+  }
+
 }
 
 /**
@@ -318,10 +329,10 @@ export class RadioNgModel {
     MatSelectModule,
     MatCheckboxModule,
     MatChipsModule,
-    AliasChipsInput,
+    //AliasChipsInput,
     ChipsAutocompleteOption,
     MatRadioModule,
-    RadioNgModel,
+    //RadioNgModel,
     ReactiveFormsModule,
     CommonModule,
     MatDatepickerModule,
@@ -334,7 +345,7 @@ export class IndividualContentDialog {
   constructor( private readonly router: Router,
     public dialogRef: MatDialogRef<IndividualContentDialog>, private fb: FormBuilder, 
     @Inject(MAT_DIALOG_DATA) public data: any) { 
-      if (data?.message == "e"){ this.titleText = "Edit Record - Individual";}
+      if (data?.mode == "e"){ this.titleText = "Edit Record - Individual";}
       else { this.titleText = "Add Record - Individual";}
     }
 
@@ -345,51 +356,105 @@ export class IndividualContentDialog {
     };
     selectedDate: Date | null = null;
     
-    
     form!: FormGroup
 
     showCalendar!:boolean
+
+    showDisabilityList!: boolean
+
+    disabilityList!: string;
+    @ViewChildren(ChipsAutocompleteOption)
+    chipsComponents!: QueryList<ChipsAutocompleteOption>;
+
       
     ngOnInit() {
-      this.form = new FormGroup({
-        firstName: new FormControl(''),
-        lastName: new FormControl(''),
-        salutation: new FormControl(''),
-        email: new FormControl(''),
-        phone: new FormControl(''),
-        ethnicity: new FormControl(''),
-        membership: new FormControl(''),
-        gender: new FormControl(''),
-        withheldDOB: new FormControl(false),
-        formattedDOB: new FormControl<Date | null>({
-          value: null,
-          disabled: false
-        }),
-        dateOfBirth: new FormControl<Date | null>({
-          value: null,
-          disabled: false
-        }),
-        withheldAddress: new FormControl(false),
-        addressInfo: new FormControl<string>({
-          value: '',
-          disabled: true
-        }),
-        addressInfo2: new FormControl<string>({
-          value: '',
-          disabled: true
-        }),
-        city: new FormControl<string>({
-          value: '',
-          disabled: true
-        }),
-        state: new FormControl<string>({
-          value: '',
-          disabled: true
-        }),
-        county: new FormControl(''),
-        //disabilities: new FormControl(''),
-        optNews: new FormControl(false),
-      });
+      if (this.data?.mode != "e") {
+        this.form = new FormGroup({
+          firstName: new FormControl(''),
+          lastName: new FormControl(''),
+          salutation: new FormControl(''),
+          email: new FormControl(''),
+          phone: new FormControl(''),
+          ethnicity: new FormControl(''),
+          membership: new FormControl(''),
+          gender: new FormControl(''),
+          withheldDOB: new FormControl(false),
+          formattedDOB: new FormControl<Date | null>({
+            value: null,
+            disabled: false
+          }),
+          dateOfBirth: new FormControl<Date | null>({
+            value: null,
+            disabled: false
+          }),
+          withheldAddress: new FormControl(false),
+          addressInfo: new FormControl<string>({
+            value: '',
+            disabled: false
+          }),
+          addressInfo2: new FormControl<string>({
+            value: '',
+            disabled: false
+          }),
+          city: new FormControl<string>({
+            value: '',
+            disabled: false
+          }),
+          state: new FormControl<string>({
+            value: '',
+            disabled: false
+          }),
+          county: new FormControl(''),
+          optNews: new FormControl(false),
+          hasDisability: new FormControl('No'),
+        });
+      } else {
+        let addressExists = this.data.record?.addressLine1 == "" || this.data.record?.addressLine2 == "" || this.data.record?.city == "" || this.data.record?.state == "";
+        // let membership = this.data.record?.membership.split(", ");
+        // let disabilities = this.data.record?.disabilities.split(", ");
+
+        // this.chipsComponents.toArray()[0].setOptions = membership;
+        // this.chipsComponents.toArray()[1].setOptions = disabilities;
+        
+        this.form = new FormGroup({
+          firstName: new FormControl(this.data.record?.firstName),
+          lastName: new FormControl(this.data.record?.lastName),
+          salutation: new FormControl(this.data.record?.salutation + "."),
+          email: new FormControl(this.data.record?.email),
+          phone: new FormControl(this.data.record?.phone),
+          ethnicity: new FormControl(this.data.record?.ethnicity),
+          gender: new FormControl(this.data.record?.gender),
+          withheldDOB: new FormControl( this.data.record?.dateOfBirth == null),
+          dateOfBirth: new FormControl<Date | null>({
+            value: this.data.record?.dateOfBirth || null,
+            disabled: this.data.record?.dateOfBirth !== "" || false
+          }),
+          withheldAddress: new FormControl(addressExists),
+          addressInfo: new FormControl<string>({
+            value: this.data.record?.addressLine1,
+            disabled: addressExists
+          }),
+          addressInfo2: new FormControl<string>({
+            value: this.data.record?.addressLine2,
+            disabled: addressExists
+          }),
+          city: new FormControl<string>({
+            value: this.data.record?.city,
+            disabled: addressExists
+          }),
+          state: new FormControl<string>({
+            value: this.data.record?.state,
+            disabled: addressExists
+          }),
+          county: new FormControl(this.data.record?.county),
+          optNews: new FormControl(false),
+          hasDisability: new FormControl((this.data.record?.disabilities != "") ? 'Yes' : 'No'),
+        });
+
+        this.showDisabilityList = this.form.get('hasDisability')?.value;
+      }
+      
+      
 
       this.showCalendar = false;
       this.selectedDate = this.form.get('dateOfBirth')?.value ?? null;
@@ -404,7 +469,9 @@ export class IndividualContentDialog {
         fields.forEach ( f => {disabled ? f.disable() : f.enable(); });
       });
 
-      
+      this.form.get('hasDisability')?.valueChanges.subscribe(value => {
+        this.showDisabilityList = value === 'Yes';
+      });
     }
 
     onDateChange(date: Date) {
@@ -426,6 +493,9 @@ export class IndividualContentDialog {
 
       let recordId = crypto.randomUUID();
 
+      let membership = this.chipsComponents.toArray()[0].options.join(", ");
+      let disabilities = this.chipsComponents.toArray()[1].options.join(", ");
+
       let newRecord = {
         active: false,
         addressLine1: this.form.get('addressInfo')!.value,
@@ -439,20 +509,25 @@ export class IndividualContentDialog {
         firstName: this.form.get('firstName')!.value,
         gender: this.form.get('gender')!.value,
         lastName: this.form.get('lastName')!.value,
-        membership: 'A',
+        membership: membership,
         phone: this.form.get('phone')!.value,
         salutation: this.form.get('salutation')!.value,
         state: this.form.get('state')!.value,
         id: recordId,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        disabilities: disabilities,
       };
 
       // 3. Push object into array
       records.push(newRecord);
 
+      console.log('Saving records:', records);
+
       // 4. Save back properly
       localStorage.setItem('records', JSON.stringify(records));
+
+      console.log('Saved to localStorage');
 
       // TODO handles navigation to view-record page
       this.dialogRef.close();

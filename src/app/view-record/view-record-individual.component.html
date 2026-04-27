@@ -22,17 +22,17 @@
                     <div class="primaryID">
                     <table align="center">
                         <tr>
-                        <td><div id="fname"> First Name: {{record?.firstName}}</div></td>
-                        <td><div id="lname"> Last Name: {{record?.lastName}}</div></td>
-                        <td><div id="salutation"> Salutation: {{record?.salutation}}</div></td>
+                        <td><div id="fname"> First Name: {{record.firstName}}</div></td>
+                        <td><div id="lname"> Last Name: {{record.lastName}}</div></td>
+                        <td><div id="salutation"> Salutation: {{record.salutation}}</div></td>
                         </tr>
                         <tr>
                         <td><div id="alias"> Aliases: None listed.</div></td>
-                        <td><div id="DOB"> Date of Birth: {{record?.dateOfBirth || "N/A"}}</div></td>
+                        <td><div id="DOB"> Date of Birth: {{record.dateOfBirth || "N/A"}}</div></td>
                         </tr>
                         <tr> 
                         <td><div id="gender"> Gender: Male</div></td>
-                        <td><div id="race"> Race/Ethnicity: {{record?.ethnicity}}</div></td>
+                        <td><div id="race"> Race/Ethnicity: {{record.ethnicity}}</div></td>
                         </tr>
                     </table>
                     </div>
@@ -40,11 +40,11 @@
                     <mat-card-subtitle>Address</mat-card-subtitle>
                     <br>
                     <table border="1">
-                        <tr><td>&nbsp; &nbsp;Street Address Line 1&nbsp; &nbsp;</td> <td><div id="street address">&nbsp; &nbsp; {{record?.addressLine1  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
-                        <tr><td>&nbsp; &nbsp;Street Address Line 2&nbsp; &nbsp;</td> <td><div id="street address">&nbsp; &nbsp; {{record?.addressLine2  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
-                        <tr><td>&nbsp; &nbsp;City</td> <td><div id="city">&nbsp; &nbsp; {{record?.city  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
-                        <tr><td>&nbsp; &nbsp;State</td> <td><div id="state">&nbsp; &nbsp; {{record?.state  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
-                        <tr><td>&nbsp; &nbsp;County</td> <td><div id="county">&nbsp; &nbsp; {{record?.county}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;Street Address Line 1&nbsp; &nbsp;</td> <td><div id="street address">&nbsp; &nbsp; {{record.addressLine1  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;Street Address Line 2&nbsp; &nbsp;</td> <td><div id="street address">&nbsp; &nbsp; {{record.addressLine2  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;City</td> <td><div id="city">&nbsp; &nbsp; {{record.city  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;State</td> <td><div id="state">&nbsp; &nbsp; {{record.state  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;County</td> <td><div id="county">&nbsp; &nbsp; {{record.county}}&nbsp; &nbsp;</div></td></tr>
                     </table>
                         
 
@@ -52,9 +52,24 @@
                     <mat-card-subtitle>Contact Information</mat-card-subtitle>
                     <br>
                     <table border="1">
-                        <tr><td>&nbsp; &nbsp;Email&nbsp; &nbsp;</td> <td><div id="email">&nbsp; &nbsp; {{record?.email}}&nbsp; &nbsp;</div></td></tr>
-                        <tr><td>&nbsp; &nbsp;Phone&nbsp; &nbsp;</td> <td><div id="phone">&nbsp; &nbsp; {{record?.phone}} &nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;Email&nbsp; &nbsp;</td> <td><div id="email">&nbsp; &nbsp; {{record.email}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;Phone&nbsp; &nbsp;</td> <td><div id="phone">&nbsp; &nbsp; {{record.phone}} &nbsp; &nbsp;</div></td></tr>
                     </table>
+
+                    <mat-card-title align="left">&nbsp; &nbsp;Additional Information</mat-card-title>
+                    <br>
+                    <mat-card-subtitle>Memberships</mat-card-subtitle>
+                    <br>
+                    <table border="1">
+                        <tr><td><div id="email">&nbsp; &nbsp; {{record.membership || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                    </table>
+                    <br>
+                    <mat-card-subtitle>Disabilities</mat-card-subtitle>
+                    <br>
+                    <table border="1">
+                        <tr><td><div id="email">&nbsp; &nbsp; {{ record.disabilities|| "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                    </table>
+
                 </mat-card-content>
             </mat-card>
             <br>

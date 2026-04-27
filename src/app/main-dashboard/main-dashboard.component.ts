@@ -76,19 +76,21 @@ export class MainDashboardComponent {
 	) {}
 
 	ngOnInit() {
+		if (!localStorage.getItem('dataLoaded')) {
+			//todo remove this later bc local storage change
+			//load dummy data from json
+			localStorage.setItem('records', JSON.stringify(indivData));
+			localStorage.setItem('org-records', JSON.stringify(orgData));
 
-	//todo remove this later bc local storage change
-	//load dummy data from json
-    localStorage.setItem('records', JSON.stringify(indivData));
-	localStorage.setItem('org-records', JSON.stringify(orgData));
-
-    // get the id from the route
-    // find the id in the db for individuals
-	//todo remove this later bc local storage change
-    const stored = localStorage.getItem('records');
-    this.records = stored ? JSON.parse(stored) : [];
-	const orgStored = localStorage.getItem('org-records');
-    this.orgRecords = orgStored ? JSON.parse(orgStored) : [];
+			localStorage.setItem('dataLoaded', 'true');
+		}
+		// get the id from the route
+		// find the id in the db for individuals
+		//todo remove this later bc local storage change
+		const stored = localStorage.getItem('records');
+		this.records = stored ? JSON.parse(stored) : [];
+		const orgStored = localStorage.getItem('org-records');
+		this.orgRecords = orgStored ? JSON.parse(orgStored) : [];
    }
 
 	selectedFilters: string[] = ["State - ND", "City - Grand Forks", "Test"];

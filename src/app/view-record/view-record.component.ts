@@ -57,6 +57,7 @@ export class IndividualViewRecordComponent {
     city: string,
     state: string,
     county: string,
+    disabilities: string,
   }
 
 	public constructor(
@@ -77,14 +78,17 @@ export class IndividualViewRecordComponent {
     const records = stored ? JSON.parse(stored) : [];
     this.record =  records.find((r: any) => r.id === id);
    }
-  openEditRecord(message: string) {
+  openEditRecord(mode: string) {
       return this.dialog.open(IndividualContentDialog, {
         width: 'fit-content',
         height:'fit-content',
         maxWidth: '90vw',
         maxHeight: '90vh',
         panelClass: 'custom-dialog',
-        data: { message }
+        data: { 
+          mode,
+          record: this.record,
+         }
       });
     }
   openAddForm( message: string){
