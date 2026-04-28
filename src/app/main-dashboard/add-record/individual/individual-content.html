@@ -14,10 +14,12 @@
             <mat-form-field class="individual-form-field">
                 <mat-label>First Name</mat-label>
                 <input matInput placeholder="First Name" formControlName="firstName" required>
+                <mat-error *ngIf="form.get('firstName')?.hasError('required')">First Name required</mat-error>
             </mat-form-field>
             <mat-form-field class="individual-form-field">
                 <mat-label>Last Name</mat-label>
                 <input matInput placeholder="Last Name" formControlName="lastName" required>
+                <mat-error *ngIf="form.get('lastName')?.hasError('required')">Last Name required</mat-error>
             </mat-form-field>
             <mat-form-field class="individual-form-field">
                 <mat-label>Salutation</mat-label>
@@ -83,7 +85,7 @@
             <br>
             <mat-form-field class="individual-form-field">
                 <mat-label>City</mat-label>
-                <input matInput placeholder="City" required formControlName="city">
+                <input matInput placeholder="City" formControlName="city">
             </mat-form-field>
             <mat-form-field class="individual-form-field">
                 <mat-label>State</mat-label>
@@ -97,7 +99,7 @@
             </mat-form-field>
             <mat-form-field class="individual-form-field">
                 <mat-label>County</mat-label>
-                <input matInput placeholder="County" formControlName="county" required>
+                <input matInput placeholder="County" formControlName="county">
             </mat-form-field>
             <br>
             <mat-label class="individual-form-field">Opt-ed into Newsletter</mat-label>
@@ -109,10 +111,14 @@
             <mat-form-field class="individual-form-field">
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="Email" formControlName="email" required type="email">
+                <mat-error *ngIf="form.get('email')?.hasError('required')">Email required</mat-error>
+                <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
             </mat-form-field>
             <mat-form-field class="individual-form-field">
                 <mat-label>Phone Number</mat-label>
-                <input matInput placeholder="Phone Number" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" formControlName="phone" required >
+                <input matInput placeholder="Phone Number" phoneFormat type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" formControlName="phone" required >
+                <mat-error *ngIf="form.get('phone')?.hasError('required')">Phone Number required</mat-error>
+                <mat-error *ngIf="form.get('phone')?.hasError('phone')">Invalid phone number</mat-error>
             </mat-form-field>
 
             <br>
@@ -154,8 +160,12 @@
                 <chips-autocomplete-selector class="chip-list"  optionType="AdditionalDisability" optionTypeText = "New Disability..."></chips-autocomplete-selector>
             </div>
             <div>
+            <div align="end">
+                <br>
+                <mat-error *ngIf="!form.valid">Please fix or complete all required fields.</mat-error>
+            </div>
                 <mat-dialog-actions>
-                    <button mat-button class = "submitbtn" mat-dialog-submit aria-label="Submit Individual" align="end" (click)="addIndividualInfo()">
+                    <button mat-button class = "submitbtn" mat-dialog-submit aria-label="Submit Individual" align="end" [disabled]="!form.valid" (click)="addIndividualInfo()">
                         Submit
                     </button>
                 </mat-dialog-actions>

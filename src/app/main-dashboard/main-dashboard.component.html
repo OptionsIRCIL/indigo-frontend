@@ -54,7 +54,8 @@
       <mat-card class="result-organizations" *ngFor="let orgRecord of orgRecords">
         <div class = "card-grid" (click)="viewRecord(orgRecord.id, false)">
           <div class="company">{{orgRecord.name}}</div>
-          <div class="location">{{orgRecord.city}}, {{orgRecord.state}}</div>
+          <div class="location" *ngIf="orgRecord.city =='' || orgRecord.state =='' "> N/A</div>
+          <div class="location" *ngIf="orgRecord.city !='' || orgRecord.state !='' "> {{orgRecord.city}}, {{orgRecord.state}}</div>
           <div class="last-contact">Last Contacted: {{orgRecord.updatedAt | date:'mediumDate' }}</div>
         </div>
       </mat-card>
@@ -81,7 +82,8 @@
             <mat-card class="result-organizations" *ngFor="let record of records">
             <div class = "card-grid" (click)="viewRecord(record.id, true)">
               <div class="name">{{record.firstName}} {{record.lastName}}</div>
-              <div class="location">{{record.city}}, {{record.state}}</div>
+              <div class="location" *ngIf="record.city =='' || record.state =='' "> N/A</div>
+              <div class="location" *ngIf="record.city !='' || record.state !='' "> {{record.city}}, {{record.state}}</div>
               <div class="last-contact">Last Contacted: {{record.updatedAt | date:'mediumDate' }}</div>
             </div>
           </mat-card>

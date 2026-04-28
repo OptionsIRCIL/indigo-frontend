@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Injectable, Input, ViewChild, EventEmitter, Output, importProvidersFrom, ViewChildren, QueryList} from '@angular/core';
+import { Component, ElementRef, Inject, Injectable, Input, ViewChild, EventEmitter, Output, importProvidersFrom, ViewChildren, QueryList, Directive, HostListener} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -91,6 +91,30 @@ export class addRecordContentDialog {
   }
 }
 
+/* Phone formatter 
+  allows dashes to appear as user types phone number
+*/
+@Directive({
+  selector: '[phoneFormat]'
+})
+export class phoneFormatter {
+  constructor(private el: ElementRef) {}
+
+  @HostListener('input', ['$event'])
+  onInput(event: any) {
+    let value = this.el.nativeElement.value.replace(/\D/g, '');
+
+    if (value.length > 3 && value.length <= 6) {
+      value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+    } else if (value.length > 6) {
+      value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
+    }
+
+    this.el.nativeElement.value = value;
+  }
+}
+
+
 /*
 Alias interface and Chip Input Component
 */
@@ -118,7 +142,7 @@ export interface Alias {
                         (matChipInputTokenEnd)="add($event)">
                 </mat-chip-grid>
             </mat-form-field>`,
-  styleUrls: ['individual-content.css',],
+  styleUrls: ['././individual/individual-content.css',],
   imports: [MatFormFieldModule, MatChipsModule, MatIconModule, CommonModule],
 })
 export class AliasChipsInput {
@@ -198,7 +222,7 @@ export let additionalDisabilityList = ['Disability A', 'Disability B', 'Disabili
       </mat-autocomplete>
     </mat-form-field>
     `,
-  styleUrls: ['individual-content.css',],
+  styleUrls: ['././individual/individual-content.css',],
   imports: [CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -316,8 +340,8 @@ export class RadioNgModel {
 
 @Component({
   selector: 'individual-content-dialog',
-  templateUrl: 'individual-content.html',
-  styleUrls: ['individual-content.css'],
+  templateUrl: '././individual/individual-content.html',
+  styleUrls: ['././individual/individual-content.css'],
   standalone: true,
   imports: [
     MatDialogModule,
@@ -337,6 +361,7 @@ export class RadioNgModel {
     CommonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    phoneFormatter
   ],
   
 })
@@ -493,8 +518,8 @@ export class IndividualContentDialog {
 
       let recordId = crypto.randomUUID();
 
-      let membership = this.chipsComponents.toArray()[0].options.join(", ");
-      let disabilities = this.chipsComponents.toArray()[1].options.join(", ");
+      let membership = this.chipsComponents.toArray()[0]?.options.join(", ") || [];
+      let disabilities = this.chipsComponents.toArray()[1]?.options.join(", ") || [];
 
       let newRecord = {
         active: false,
@@ -547,8 +572,8 @@ export class IndividualContentDialog {
 
 @Component({
   selector: 'organization-content-dialog',
-  templateUrl: 'organization-content.html',
-  styleUrls: ['organization-content.css'],
+  templateUrl: '././organization/organization-content.html',
+  styleUrls: ['././organization/organization-content.css'],
   imports: [
     MatDialogModule,
     MatIconModule,
