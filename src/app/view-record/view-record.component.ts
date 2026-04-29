@@ -111,6 +111,44 @@ export class IndividualViewRecordComponent {
           data: {}
       });
   }
+
+
+  /* 
+  openExistingForm
+  opens any form in view-record that is listed under the form tabs
+      formChar - specifies the form type that will be opened
+  */
+ openExistingForm(formChar: string){
+    let url;
+    //get id for selected form
+    const formId = "";
+    // route to the form depending on type
+    try {
+
+      switch (formChar){
+        case "i":
+          url = this._router.serializeUrl(
+            this._router.createUrlTree(['/information-and-referral', formId])
+          );
+          break;
+        case "g":
+          url = this._router.serializeUrl(
+            this._router.createUrlTree(['/goals', formId])
+          );
+          break;
+        case "c":
+          url = this._router.serializeUrl(
+            this._router.createUrlTree(['/consumer-information-file', formId])
+          );
+          break;
+      }
+
+      window.open(url, '_blank'); // opens in a new tab
+
+    } catch (error) {
+      console.error('Navigation error:', error);
+    }
+ }
 }
 
 @Component({

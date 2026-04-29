@@ -79,19 +79,19 @@
                 <mat-tab label="Information and Referral">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
-                        <mat-card>
+                        <mat-card (click)="openExistingForm('i')">
                             <mat-card-content class="file">
                                 2025-03-20 - Picked Up Wheelchair
                             </mat-card-content>
                         </mat-card>
                         <br>
-                        <mat-card>
+                        <mat-card (click)="openExistingForm('i')">
                             <mat-card-content class="file">
                                 2025-03-14 - Asked about Medicare
                             </mat-card-content>
                         </mat-card>
                         <br>
-                        <mat-card>
+                        <mat-card (click)="openExistingForm('i')">
                             <mat-card-content class="file">
                                 2025-03-11 - Asked about transportation
                             </mat-card-content>
@@ -101,21 +101,21 @@
                 </mat-card>
                 </mat-tab>
                 <mat-tab label="Goals">
-                    <mat-card class="infoCard">
+                    <mat-card class="infoCard"> 
                     <mat-card-content class="fileList">
-                        <mat-card>
+                        <mat-card (click)="openExistingForm('g')">
                             <mat-card-content class="file">
                                 2025-06-20 goal
                             </mat-card-content>
                         </mat-card>
                         <br>
-                        <mat-card>
+                        <mat-card (click)="openExistingForm('g')">
                             <mat-card-content class="file">
                                 2025-06-06 goal
                             </mat-card-content>
                         </mat-card>
                         <br>
-                        <mat-card>
+                        <mat-card (click)="openExistingForm('g')">
                             <mat-card-content class="file">
                                 2025-06-01 goal
                             </mat-card-content>
@@ -126,19 +126,19 @@
                 <mat-tab label="Consumer Information File">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
-                        <mat-card>
+                        <mat-card (click)="openExistingForm('c')">
                             <mat-card-content class="file">
                                 2025-06-20 consumer information file
                             </mat-card-content>
                         </mat-card>
                         <br>
-                        <mat-card>
+                        <mat-card (click)="openExistingForm('c')">
                             <mat-card-content class="file">
                                 2025-06-06 consumer information file
                             </mat-card-content>
                         </mat-card>
                         <br>
-                        <mat-card>
+                        <mat-card (click)="openExistingForm('c')">
                             <mat-card-content class="file">
                                 2025-06-01 consumer information file
                             </mat-card-content>
