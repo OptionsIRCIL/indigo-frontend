@@ -11,8 +11,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
+
 import indivData from "../individual-testing-data.json"; //todo remove later local storage change for demo
-import orgData from "../organization-testing-data.json"
+import orgData from "../organization-testing-data.json";
+import informationAndReferralData from "../information-and-referral-testing-data.json"
+
+
 @Component({
 	selector: "app-main-dashboard",
 	imports: [
@@ -81,6 +85,7 @@ export class MainDashboardComponent {
 			//load dummy data from json
 			localStorage.setItem('records', JSON.stringify(indivData));
 			localStorage.setItem('org-records', JSON.stringify(orgData));
+			localStorage.setItem('iAndR-forms', JSON.stringify(informationAndReferralData));
 
 			localStorage.setItem('dataLoaded', 'true');
 		}

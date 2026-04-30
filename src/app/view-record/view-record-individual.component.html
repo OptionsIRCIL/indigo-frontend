@@ -79,23 +79,16 @@
                 <mat-tab label="Information and Referral">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
-                        <mat-card (click)="openExistingForm('i')">
-                            <mat-card-content class="file">
-                                2025-03-20 - Picked Up Wheelchair
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card (click)="openExistingForm('i')">
-                            <mat-card-content class="file">
-                                2025-03-14 - Asked about Medicare
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card (click)="openExistingForm('i')">
-                            <mat-card-content class="file">
-                                2025-03-11 - Asked about transportation
-                            </mat-card-content>
-                        </mat-card>
+                        @for( form of this.recordFormsList.informationAndReferrals; track form) {
+                            <mat-card (click)="openExistingForm('i')">
+                                <mat-card-content class="file">
+                                    <table>
+                                        <tr><td>{{form.date}}</td><td><span class="middleSpacer"></span></td><td>{{form.serviceRequest}}</td></tr>
+                                    </table>
+                                </mat-card-content>
+                            </mat-card>
+                            <br>
+                        }
 
                     </mat-card-content>
                 </mat-card>

@@ -18,6 +18,22 @@ import { TokenState } from '../../service/state/token-state.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddFormContentDialog, AddAttachmentContentDialog} from './add-form-or-attachment/add-form-or-attachment.component';
 
+interface InformationAndReferralForm {
+    date: string;
+    department: string;
+    employeeId: string;
+    formDate: string;
+    grant: string;
+    id: string;
+    organizationId: string;
+    outcome: string;
+    personId: string;
+    referrer: string;
+    serviceRequest: string;
+    serviceType: string;
+    updatedAt: string;
+  };
+
 @Component({
 	selector: "app-view-record",
 	imports: [
@@ -37,7 +53,6 @@ import { AddFormContentDialog, AddAttachmentContentDialog} from './add-form-or-a
 })
 export class IndividualViewRecordComponent {
   private _Activatedroute: any;
-  private id?: number;
   private sub: any;
   record!: {
     firstName: string,
@@ -60,6 +75,15 @@ export class IndividualViewRecordComponent {
     disabilities: string,
   }
 
+  recordFormsList!: {
+    informationAndReferrals: InformationAndReferralForm[],
+    goals: [],
+    consumerInformationFiles: [],
+  }
+
+  //stores ids pertaining to the individual record
+  
+
 	public constructor(
     private dialog: MatDialog,
     _Activatedroute:ActivatedRoute,
@@ -70,6 +94,23 @@ export class IndividualViewRecordComponent {
     private readonly snackBar: MatSnackBar,
   ) {}
 
+  populateForms(formChar: string, id: string){
+    switch (formChar){
+        case "i":
+          
+          this.recordFormsList.informationAndReferrals = this.getInformationAndReferralForms(id)
+          console.log(this.getInformationAndReferralForms(id));
+          break;
+        case "g":
+          
+          break;
+        case "c":
+          
+          break;
+      }
+
+  }
+
   ngOnInit() {
     // get the id from the route
     // find the id in the db for individuals
@@ -77,6 +118,19 @@ export class IndividualViewRecordComponent {
     const stored = localStorage.getItem('records');
     const records = stored ? JSON.parse(stored) : [];
     this.record =  records.find((r: any) => r.id === id);
+
+    if (!this.recordFormsList) {
+      this.recordFormsList = {
+        informationAndReferrals: [],
+        goals: [],
+        consumerInformationFiles: []
+      };
+    }
+
+    if (id != null){
+      this.populateForms("i", id);
+    }
+    
    }
   openEditRecord(mode: string) {
       return this.dialog.open(IndividualContentDialog, {
@@ -112,6 +166,12 @@ export class IndividualViewRecordComponent {
       });
   }
 
+  getInformationAndReferralForms(id: string){
+    id != "" ? "" : console.log("No Forms Found.");
+    const storedForms = localStorage.getItem('iAndR-forms');
+    const forms = storedForms ? JSON.parse(storedForms) : [];
+    return forms.filter((r: any) => r.personId === id);
+  }
 
   /* 
   openExistingForm
