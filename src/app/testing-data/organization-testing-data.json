@@ -8,10 +8,14 @@
         "addressLine1": "712 Bobwhite Street",
         "addressLine2": "Room 967",
         "city": "Corpus Christi",
-        "state": "Texas",
+        "state": "Michigan",
         "county": "Teal",
         "phone": "361-735-6556",
-        "email": "kivasyushkin0@wiley.com"
+        "email": "kivasyushkin0@wiley.com",
+        "repFirstName": "Georas",
+        "repLastName": "Jeandillou",
+        "repPosition": "Director of Sales",
+        "repDepartment": "Product Management"
     },
     {
         "createdAt": "2025-08-18T10:37:34Z",
@@ -22,10 +26,15 @@
         "addressLine1": "6858 Del Sol Circle",
         "addressLine2": "Suite 78",
         "city": "Washington",
-        "state": "District of Columbia",
+        "state": "Montana",
         "county": "Indigo",
         "phone": "202-934-1194",
-        "email": "edrains1@geocities.com"
+        "email": "edrains1@geocities.com",
+        "repFirstName": "Annabell",
+        "repLastName": "Hamm",
+        "repPosition": "Analyst Programmer",
+        "repDepartment": "Sales"
+
     },
     {
         "createdAt": "2025-08-09T07:50:56Z",
@@ -36,10 +45,15 @@
         "addressLine1": "19 Farwell Street",
         "addressLine2": "Room 935",
         "city": "Birmingham",
-        "state": "Alabama",
+        "state": "Montana",
         "county": "Purple",
         "phone": "205-129-6966",
-        "email": "gcamfield2@lycos.com"
+        "email": "gcamfield2@lycos.com",
+        "repFirstName": "Lesly",
+        "repLastName": "Tatteshall",
+        "repPosition": "Quality Control Specialist",
+        "repDepartment": "Engineering"
+
     },
     {
         "createdAt": "2026-02-18T06:43:58Z",
@@ -50,10 +64,14 @@
         "addressLine1": "2 Green Plaza",
         "addressLine2": "Room 1625",
         "city": "San Antonio",
-        "state": "Texas",
+        "state": "Missouri",
         "county": "Purple",
         "phone": "210-428-1332",
-        "email": "mchandler3@digg.com"
+        "email": "mchandler3@digg.com",
+        "repFirstName": "Jeni",
+        "repLastName": "Healey",
+        "repPosition": "Database Administrator I",
+        "repDepartment": "Product Management"
     },
     {
         "createdAt": "2025-10-09T18:32:39Z",
@@ -64,10 +82,15 @@
         "addressLine1": "0635 Mesta Alley",
         "addressLine2": "Apt 682",
         "city": "Morgantown",
-        "state": "West Virginia",
+        "state": "Minnesota",
         "county": "Fuscia",
         "phone": "304-113-9760",
-        "email": "dburburough4@netvibes.com"
+        "email": "dburburough4@netvibes.com",
+        "repFirstName": "Kimmie",
+        "repLastName": "Tyzack",
+        "repPosition": "Tax Accountant",
+        "repDepartment": "Support"
+
     },
     {
         "createdAt": "2025-04-21T03:27:43Z",
@@ -78,10 +101,15 @@
         "addressLine1": "05 Erie Way",
         "addressLine2": "Room 737",
         "city": "El Paso",
-        "state": "Texas",
+        "state": "Minnesota",
         "county": "Maroon",
         "phone": "915-706-4304",
-        "email": "jcarlyon5@newyorker.com"
+        "email": "jcarlyon5@newyorker.com",
+        "repFirstName": "Shawn",
+        "repLastName": "Rule",
+        "repPosition": "Product Engineer",
+        "repDepartment": "Research and Development"
+
     },
     {
         "createdAt": "2025-06-27T04:31:07Z",
@@ -92,10 +120,16 @@
         "addressLine1": "46 Cardinal Park",
         "addressLine2": "Suite 50",
         "city": "Montgomery",
-        "state": "Alabama",
+        "state": "Missouri",
         "county": "Indigo",
         "phone": "334-242-4812",
-        "email": "hcraik6@amazon.de"
+        "email": "hcraik6@amazon.de",
+        "repFirstName": "Frannie",
+        "repLastName": "Wayne",
+        "repPosition": "Analog Circuit Design manager",
+        "repDepartment": "Research and Development"
+
+
     },
     {
         "createdAt": "2026-04-02T21:19:12Z",
@@ -106,10 +140,15 @@
         "addressLine1": "92789 Summerview Place",
         "addressLine2": "Apt 162",
         "city": "Inglewood",
-        "state": "California",
+        "state": "Montana",
         "county": "Red",
         "phone": "310-428-2609",
-        "email": "gwallbanks7@seattletimes.com"
+        "email": "gwallbanks7@seattletimes.com",
+        "repFirstName": "Andrew",
+        "repLastName": "Torbeck",
+        "repPosition": "GIS Technical Architect",
+        "repDepartment": "Marketing"
+
     },
     {
         "createdAt": "2025-09-21T00:45:49Z",
@@ -120,10 +159,15 @@
         "addressLine1": "740 Montana Court",
         "addressLine2": "Room 1335",
         "city": "Muncie",
-        "state": "Indiana",
+        "state": "Montana",
         "county": "Pink",
         "phone": "765-360-4776",
-        "email": "alamberton8@geocities.com"
+        "email": "alamberton8@geocities.com",
+        "repFirstName": "Isidor",
+        "repLastName": "Arunowicz",
+        "repPosition": "Biostatistician IV",
+        "repDepartment": "Product Management"
+
     },
     {
         "createdAt": "2025-12-28T15:37:47Z",
@@ -134,9 +178,13 @@
         "addressLine1": "7 Nevada Plaza",
         "addressLine2": "Apt 405",
         "city": "Los Angeles",
-        "state": "California",
+        "state": "Mississippi",
         "county": "Blue",
         "phone": "213-268-9462",
-        "email": "eklarzynski9@narod.ru"
+        "email": "eklarzynski9@narod.ru",
+        "repFirstName": "Dale",
+        "repLastName": "Daugherty",
+        "repPosition": "Nuclear Power Engineer",
+        "repDepartment": "Services"
     }
 ]

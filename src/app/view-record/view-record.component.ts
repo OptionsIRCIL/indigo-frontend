@@ -285,6 +285,16 @@ export class OrganizationViewRecordComponent {
       id: string,
       createdAt: Date,
       updatedAt: Date,
+      repFirstName: string,
+      repLastName: string,
+      repPosition: string,
+      repDepartment: string,
+      // descServices: string,
+      // eligReqs: string,
+      // intakeProc: string,
+      // FeesChg: string,
+      // hrsOp: string,
+      // other: string,
     };
 
   recordFormsList!: {
@@ -338,14 +348,17 @@ export class OrganizationViewRecordComponent {
       }
     }
 
-    openEditRecord(message: string) {
+    openEditRecord(mode: string) {
         return this.dialog.open(OrganizationContentDialog, {
           width: 'fit-content',
           height:'fit-content',
           maxWidth: '90vw',
           maxHeight: '90vh',
           panelClass: 'custom-dialog',
-          data: { message }
+          data: { 
+            mode,
+            orgRecord: this.orgRecord,
+          }
         });
       }
 
