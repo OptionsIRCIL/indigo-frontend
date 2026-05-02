@@ -20,32 +20,56 @@
             <mat-card-title align="left">&nbsp; &nbsp; Primary Identification</mat-card-title>
                 <mat-card-content>
                     <div class="primaryID">
-                        <div id="fname">First Name: Bob</div>
-                        <div id="lname"> Last Name: Mackey</div>
-                        <div id="salutation"> Salutation: Mr.</div>
+                    <table align="center">
+                        <tr>
+                        <td><div id="fname"> First Name: {{record.firstName}}</div></td>
+                        <td><div id="lname"> Last Name: {{record.lastName}}</div></td>
+                        <td><div id="salutation"> Salutation: {{record.salutation || "N/A"}}</div></td>
+                        </tr>
+                        <tr>
+                        <td><div id="alias"> Aliases: None listed.</div></td>
+                        <td><div id="DOB"> Date of Birth: {{record.dateOfBirth || "N/A"}}</div></td>
+                        </tr>
+                        <tr> 
+                        <td><div id="gender"> Gender: Male</div></td>
+                        <td><div id="race"> Race/Ethnicity: {{record.ethnicity || "N/A"}}</div></td>
+                        </tr>
+                    </table>
                     </div>
-                    <div class="primaryID">
-                        <div id="alias"> Aliases: None listed.</div>
-                        <div id="DOB"> Date of Birth: 09/09/1998</div>
-                    </div> 
-                    <div class="primaryID">
-                        <div id="gender"> Gender: Male</div>
-                    <div id="race"> Race/Ethnicity: Caucasian</div>
-                        </div>
-                    <br>
                     <mat-card-title align="left">&nbsp; &nbsp;Address and Contact Information</mat-card-title>
                     <mat-card-subtitle>Address</mat-card-subtitle>
                     <br>
-                        <div id="street address"> 1234 Fakename Blvd.</div>
-                        <div id="city"> Random City</div>
-                        <div id="state"> North Dakota</div>
-                        <div id="county"> County: Blue Valley</div>
+                    <table border="1">
+                        <tr><td>&nbsp; &nbsp;Street Address Line 1&nbsp; &nbsp;</td> <td><div id="street address">&nbsp; &nbsp; {{record.addressLine1  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;Street Address Line 2&nbsp; &nbsp;</td> <td><div id="street address">&nbsp; &nbsp; {{record.addressLine2  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;City</td> <td><div id="city">&nbsp; &nbsp; {{record.city  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;State</td> <td><div id="state">&nbsp; &nbsp; {{record.state  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;County</td> <td><div id="county">&nbsp; &nbsp; {{record.county || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                    </table>
+                        
 
                     <br>
                     <mat-card-subtitle>Contact Information</mat-card-subtitle>
                     <br>
-                    <div id="email"> Email: bobMack@email.com</div>
-                    <div id="phone"> Phone: (123) 456- 7890 </div>
+                    <table border="1">
+                        <tr><td>&nbsp; &nbsp;Email&nbsp; &nbsp;</td> <td><div id="email">&nbsp; &nbsp; {{record.email}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;Phone&nbsp; &nbsp;</td> <td><div id="phone">&nbsp; &nbsp; {{record.phone}} &nbsp; &nbsp;</div></td></tr>
+                    </table>
+
+                    <mat-card-title align="left">&nbsp; &nbsp;Additional Information</mat-card-title>
+                    <br>
+                    <mat-card-subtitle>Memberships</mat-card-subtitle>
+                    <br>
+                    <table border="1">
+                        <tr><td><div id="email">&nbsp; &nbsp; {{ (record.membership != "") ? record.membership : "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                    </table>
+                    <br>
+                    <mat-card-subtitle>Disabilities</mat-card-subtitle>
+                    <br>
+                    <table border="1">
+                        <tr><td><div id="email">&nbsp; &nbsp; {{ (record.disabilities != "") ? record.disabilities : "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                    </table>
+
                 </mat-card-content>
             </mat-card>
             <br>
@@ -55,70 +79,49 @@
                 <mat-tab label="Information and Referral">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-03-20 - Picked Up Wheelchair
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-03-14 - Asked about Medicare
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-03-11 - Asked about transportation
-                            </mat-card-content>
-                        </mat-card>
+                        @for( form of this.recordFormsList.informationAndReferrals; track form) {
+                            <mat-card (click)="handleFormClick('i', form.id)">
+                                <mat-card-content class="file">
+                                    <table>
+                                        <tr><td>{{form.date}}</td><td><span class="middleSpacer"></span></td><td>{{form.serviceRequest}}</td></tr>
+                                    </table>
+                                </mat-card-content>
+                            </mat-card>
+                            <br>
+                        }
 
                     </mat-card-content>
                 </mat-card>
                 </mat-tab>
                 <mat-tab label="Goals">
-                    <mat-card class="infoCard">
+                    <mat-card class="infoCard"> 
                     <mat-card-content class="fileList">
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-20 goal
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-06 goal
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-01 goal
-                            </mat-card-content>
-                        </mat-card>
+                        @for( form of this.recordFormsList.goals; track form) {
+                            <mat-card (click)="handleFormClick('g', form.id)">
+                                <mat-card-content class="file">
+                                    <table>
+                                        <tr><td>{{form.initialDate}}</td><td>{{form.goalStatus}}</td><td>{{form.goalDescription}}</td></tr>
+                                    </table>
+                                </mat-card-content>
+                            </mat-card>
+                            <br>
+                        }
                     </mat-card-content>
                 </mat-card>
                 </mat-tab>
                 <mat-tab label="Consumer Information File">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-20 consumer information file
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-06 consumer information file
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-01 consumer information file
-                            </mat-card-content>
-                        </mat-card>
+                        @for( form of this.recordFormsList.consumerInformationFiles; track form) {
+                            <mat-card (click)="handleFormClick('c', form.id)">
+                                <mat-card-content class="file">
+                                    <table>
+                                        <tr><td>{{form.activationDate}}</td><td>{{form.currentStatus}}</td><td>{{form.intake}}</td></tr>
+                                    </table>
+                                </mat-card-content>
+                            </mat-card>
+                            <br>
+                        }
                     </mat-card-content>
                 </mat-card>
                 </mat-tab>

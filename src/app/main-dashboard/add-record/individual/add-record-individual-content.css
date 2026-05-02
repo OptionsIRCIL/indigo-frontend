@@ -1,0 +1,31 @@
+.individual-form-field {
+  margin-left: 10px; 
+  margin-right: 10px;
+  appearance: outline;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.chip-list {
+  width: 100%;
+}
+
+.spacer {
+  margin: 20px;
+}
+
+.cdk-overlay-container {
+  z-index: 3000 !important;
+}
+
+.calendar-popup {
+  width: 320px;
+  max-width: 100%;
+}
+mat-calendar-header {
+display: flex !important;
+  visibility: visible !important;
+}
+.mat-dialog-content {
+  max-height: 100%;
+}
