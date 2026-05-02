@@ -69,37 +69,32 @@
                 <mat-tab label="Information and Referral">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-03-20 - service inquiry
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-
+                        @for( form of this.recordFormsList.informationAndReferrals; track form) {
+                            <mat-card (click)="handleFormClick('i')">
+                                <mat-card-content class="file">
+                                    <table>
+                                        <tr><td>{{form.date}}</td><td><span class="middleSpacer"></span></td><td>{{form.serviceRequest}}</td></tr>
+                                    </table>
+                                </mat-card-content>
+                            </mat-card>
+                            <br>
+                        }
                     </mat-card-content>
                 </mat-card>
                 </mat-tab>
                 <mat-tab label="Community, Education, and Outreach">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-20 Spring Expo
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-06 ceo file 
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-01 ceo file 
-                            </mat-card-content>
-                        </mat-card>
-
+                        @for( form of this.recordFormsList.communityEducationAndOutreaches; track form) {
+                            <mat-card (click)="handleFormClick('o')">
+                                <mat-card-content class="file">
+                                    <table>
+                                        <tr><td>{{form.initialDate}}</td><td><span class="middleSpacer"></span></td><td>{{form.category}}</td></tr>
+                                    </table>
+                                </mat-card-content>
+                            </mat-card>
+                            <br>
+                        }
                     </mat-card-content>
                 </mat-card>
                 </mat-tab>

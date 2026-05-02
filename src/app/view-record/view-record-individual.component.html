@@ -80,7 +80,7 @@
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
                         @for( form of this.recordFormsList.informationAndReferrals; track form) {
-                            <mat-card (click)="openExistingForm('i')">
+                            <mat-card (click)="handleFormClick('i')">
                                 <mat-card-content class="file">
                                     <table>
                                         <tr><td>{{form.date}}</td><td><span class="middleSpacer"></span></td><td>{{form.serviceRequest}}</td></tr>
@@ -96,46 +96,32 @@
                 <mat-tab label="Goals">
                     <mat-card class="infoCard"> 
                     <mat-card-content class="fileList">
-                        <mat-card (click)="openExistingForm('g')">
-                            <mat-card-content class="file">
-                                2025-06-20 goal
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card (click)="openExistingForm('g')">
-                            <mat-card-content class="file">
-                                2025-06-06 goal
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card (click)="openExistingForm('g')">
-                            <mat-card-content class="file">
-                                2025-06-01 goal
-                            </mat-card-content>
-                        </mat-card>
+                        @for( form of this.recordFormsList.goals; track form) {
+                            <mat-card (click)="handleFormClick('g')">
+                                <mat-card-content class="file">
+                                    <table>
+                                        <tr><td>{{form.initialDate}}</td><td>{{form.goalStatus}}</td><td>{{form.goalDescription}}</td></tr>
+                                    </table>
+                                </mat-card-content>
+                            </mat-card>
+                            <br>
+                        }
                     </mat-card-content>
                 </mat-card>
                 </mat-tab>
                 <mat-tab label="Consumer Information File">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
-                        <mat-card (click)="openExistingForm('c')">
-                            <mat-card-content class="file">
-                                2025-06-20 consumer information file
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card (click)="openExistingForm('c')">
-                            <mat-card-content class="file">
-                                2025-06-06 consumer information file
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card (click)="openExistingForm('c')">
-                            <mat-card-content class="file">
-                                2025-06-01 consumer information file
-                            </mat-card-content>
-                        </mat-card>
+                        @for( form of this.recordFormsList.consumerInformationFiles; track form) {
+                            <mat-card (click)="handleFormClick('g')">
+                                <mat-card-content class="file">
+                                    <table>
+                                        <tr><td>{{form.activationDate}}</td><td>{{form.currentStatus}}</td><td>{{form.intake}}</td></tr>
+                                    </table>
+                                </mat-card-content>
+                            </mat-card>
+                            <br>
+                        }
                     </mat-card-content>
                 </mat-card>
                 </mat-tab>

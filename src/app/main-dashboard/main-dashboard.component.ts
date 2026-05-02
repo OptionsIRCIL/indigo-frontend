@@ -12,10 +12,12 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
 
-import indivData from "../individual-testing-data.json"; //todo remove later local storage change for demo
-import orgData from "../organization-testing-data.json";
-import informationAndReferralData from "../information-and-referral-testing-data.json"
-
+import indivData from "../testing-data/individual-testing-data.json"; //todo remove later local storage change for demo
+import orgData from "../testing-data/organization-testing-data.json";
+import informationAndReferralData from "../testing-data/information-and-referral-testing-data.json";
+import goalsData from "../testing-data/goals-testing-data.json"
+import cifData from "../testing-data/consumer-information-file-testing-data.json"
+import ceoData from "../testing-data/community-education-and-outreach-testing-data.json"
 
 @Component({
 	selector: "app-main-dashboard",
@@ -80,23 +82,27 @@ export class MainDashboardComponent {
 	) {}
 
 	ngOnInit() {
+		this.loadData();
+   	}
+
+    loadData () {
+		//todo the following should be configured to use only when in test mode, this uses local storage
 		if (!localStorage.getItem('dataLoaded')) {
-			//todo remove this later bc local storage change
 			//load dummy data from json
 			localStorage.setItem('records', JSON.stringify(indivData));
 			localStorage.setItem('org-records', JSON.stringify(orgData));
 			localStorage.setItem('iAndR-forms', JSON.stringify(informationAndReferralData));
-
+			localStorage.setItem('goals-forms', JSON.stringify(goalsData));
+			localStorage.setItem('cif-forms', JSON.stringify(cifData));
+			localStorage.setItem('ceo-forms', JSON.stringify(ceoData));
+		
 			localStorage.setItem('dataLoaded', 'true');
 		}
-		// get the id from the route
-		// find the id in the db for individuals
-		//todo remove this later bc local storage change
 		const stored = localStorage.getItem('records');
 		this.records = stored ? JSON.parse(stored) : [];
 		const orgStored = localStorage.getItem('org-records');
 		this.orgRecords = orgStored ? JSON.parse(orgStored) : [];
-   }
+	}
 
 	selectedFilters: string[] = ["State - ND", "City - Grand Forks", "Test"];
 
