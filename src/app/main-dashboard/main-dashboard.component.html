@@ -51,14 +51,12 @@
         </div>
       </mat-card>
       -->
-      <mat-card class="result-organizations">
-        <div class = "card-grid" (click)="viewRecord()">
-          <div class="name">John Doe</div>
-          <div class="title">Benefactor</div>
-          <div class="company">Company ABC</div>
-          <div class="space"></div>
-          <div class="location">Duluth, MN</div>
-          <div class="last-contact">Last Contacted 5 days ago</div>
+      <mat-card class="result-organizations" *ngFor="let orgRecord of orgRecords">
+        <div class = "card-grid" (click)="viewRecord(orgRecord.id, false)">
+          <div class="company">{{orgRecord.name}}</div>
+          <div class="location" *ngIf="orgRecord.city =='' || orgRecord.state =='' "> N/A</div>
+          <div class="location" *ngIf="orgRecord.city !='' || orgRecord.state !='' "> {{orgRecord.city}}, {{orgRecord.state}}</div>
+          <div class="last-contact">Last Contacted: {{orgRecord.updatedAt | date:'mediumDate' }}</div>
         </div>
       </mat-card>
     </mat-expansion-panel>
@@ -81,16 +79,15 @@
             </div>
           </mat-card>
           -->
-          <mat-card class="result-organizations">
-            <div class = "card-grid">
-              <div class="name">Ben Clarke</div>
-              <div class="title">Relative of Individual w/ Disability</div>
-              <div class="space"></div>
-              <div class="space"></div>
-              <div class="location">Fargo, ND</div>
-              <div class="last-contact">Last Contacted 2 days ago</div>
+            <mat-card class="result-organizations" *ngFor="let record of records">
+            <div class = "card-grid" (click)="viewRecord(record.id, true)">
+              <div class="name">{{record.firstName}} {{record.lastName}}</div>
+              <div class="location" *ngIf="record.city =='' || record.state =='' "> N/A</div>
+              <div class="location" *ngIf="record.city !='' || record.state !='' "> {{record.city}}, {{record.state}}</div>
+              <div class="last-contact">Last Contacted: {{record.updatedAt | date:'mediumDate' }}</div>
             </div>
           </mat-card>
+          <br>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

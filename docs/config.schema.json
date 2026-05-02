@@ -10,7 +10,11 @@
 		},
 		"production": {
 			"type": "boolean"
+		},
+		"demo": {
+			"type": "boolean",
+			"default": false
 		}
 	},
-	"required": ["apiUrl", "production"]
+	"required": ["apiUrl", "production", "demo"]
 }

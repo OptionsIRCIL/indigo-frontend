@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, Injectable, Input, ViewChild, EventEmitter, Output} from '@angular/core';
+import { Component, ElementRef, Inject, Injectable, Input, ViewChild, EventEmitter, Output, importProvidersFrom, ViewChildren, QueryList, Directive, HostListener} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,7 +17,8 @@ import { Observable, startWith, map } from 'rxjs';
 import {MatAutocompleteSelectedEvent, MatAutocomplete, MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from "@angular/router";
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Injectable({ providedIn: 'root' })
 export class addRecordDialogService {
@@ -90,6 +91,30 @@ export class addRecordContentDialog {
   }
 }
 
+/* Phone formatter 
+  allows dashes to appear as user types phone number
+*/
+@Directive({
+  selector: '[phoneFormat]'
+})
+export class phoneFormatter {
+  constructor(private el: ElementRef) {}
+
+  @HostListener('input', ['$event'])
+  onInput(event: any) {
+    let value = this.el.nativeElement.value.replace(/\D/g, '');
+
+    if (value.length > 3 && value.length <= 6) {
+      value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+    } else if (value.length > 6) {
+      value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1-$2-$3');
+    }
+
+    this.el.nativeElement.value = value;
+  }
+}
+
+
 /*
 Alias interface and Chip Input Component
 */
@@ -117,7 +142,7 @@ export interface Alias {
                         (matChipInputTokenEnd)="add($event)">
                 </mat-chip-grid>
             </mat-form-field>`,
-  styleUrls: ['individual-content.css',],
+  styleUrls: ['././individual/individual-content.css',],
   imports: [MatFormFieldModule, MatChipsModule, MatIconModule, CommonModule],
 })
 export class AliasChipsInput {
@@ -197,14 +222,15 @@ export let additionalDisabilityList = ['Disability A', 'Disability B', 'Disabili
       </mat-autocomplete>
     </mat-form-field>
     `,
-  styleUrls: ['individual-content.css',],
+  styleUrls: ['././individual/individual-content.css',],
   imports: [CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatChipsModule,
     MatIconModule,
     MatAutocompleteModule,
-    MatInputModule,],
+    MatInputModule,
+  ],
 })
 export class ChipsAutocompleteOption {
   visible = true;
@@ -225,6 +251,7 @@ export class ChipsAutocompleteOption {
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
   @Input() optionType!: string;
   @Input() optionTypeText!: string;
+  @Input() initialOptions: string[] = [];
 
   ngOnInit(): void {
     switch (this.optionType){
@@ -236,6 +263,10 @@ export class ChipsAutocompleteOption {
         break;
       default:
         this.allOptions = [];
+    }
+
+    if (this.initialOptions?.length) {
+      this.options = this.options.concat(this.initialOptions);
     }
   }
 
@@ -280,6 +311,12 @@ export class ChipsAutocompleteOption {
       option.toLowerCase().startsWith(filterValue)
     );
   }
+
+  setOptions(values: string[]) {
+    this.options = [...values];
+    this.optionCtrl.setValue(null);
+  }
+
 }
 
 /**
@@ -303,8 +340,9 @@ export class RadioNgModel {
 
 @Component({
   selector: 'individual-content-dialog',
-  templateUrl: 'individual-content.html',
-  styleUrls: ['individual-content.css'],
+  templateUrl: '././individual/individual-content.html',
+  styleUrls: ['././individual/individual-content.css'],
+  standalone: true,
   imports: [
     MatDialogModule,
     MatIconModule,
@@ -315,41 +353,158 @@ export class RadioNgModel {
     MatSelectModule,
     MatCheckboxModule,
     MatChipsModule,
-    AliasChipsInput,
+    //AliasChipsInput,
     ChipsAutocompleteOption,
     MatRadioModule,
-    RadioNgModel,
+    //RadioNgModel,
     ReactiveFormsModule,
-    CommonModule
-  ]
+    CommonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    phoneFormatter
+  ],
+  
 })
 export class IndividualContentDialog {
   titleText: string = ""; 
   constructor( private readonly router: Router,
     public dialogRef: MatDialogRef<IndividualContentDialog>, private fb: FormBuilder, 
     @Inject(MAT_DIALOG_DATA) public data: any) { 
-      if (data?.message == "e"){ this.titleText = "Edit Record - Individual";}
+      if (data?.mode == "e"){ this.titleText = "Edit Record - Individual";}
       else { this.titleText = "Add Record - Individual";}
     }
 
-    form!: FormGroup;
+    today: Date = new Date();
+    myFilter = (d: Date | null): boolean => {
+      const date = d || new Date();
+      return date <= this.today;
+    };
+    selectedDate: Date | null = null;
+    
+    form!: FormGroup
 
+    showCalendar!:boolean
+
+    showDisabilityList!: boolean
+
+    disabilityList!: string;
+    @ViewChildren(ChipsAutocompleteOption)
+    chipsComponents!: QueryList<ChipsAutocompleteOption>;
+
+      
     ngOnInit() {
-      this.form = this.fb.group({
-        withheldDOB: [false],
-        dateOfBirth: [{ value: '', disabled: false }],
-        withheldAddress: [false],
-        addressInfo: [{ value: '', disabled: false }],
-      });
+      if (this.data?.mode != "e") {
+        this.form = new FormGroup({
+          firstName: new FormControl(''),
+          lastName: new FormControl(''),
+          salutation: new FormControl(''),
+          email: new FormControl(''),
+          phone: new FormControl(''),
+          ethnicity: new FormControl(''),
+          membership: new FormControl(''),
+          gender: new FormControl(''),
+          withheldDOB: new FormControl(false),
+          formattedDOB: new FormControl<Date | null>({
+            value: null,
+            disabled: false
+          }),
+          dateOfBirth: new FormControl<Date | null>({
+            value: null,
+            disabled: false
+          }),
+          withheldAddress: new FormControl(false),
+          addressInfo: new FormControl<string>({
+            value: '',
+            disabled: false
+          }),
+          addressInfo2: new FormControl<string>({
+            value: '',
+            disabled: false
+          }),
+          city: new FormControl<string>({
+            value: '',
+            disabled: false
+          }),
+          state: new FormControl<string>({
+            value: '',
+            disabled: false
+          }),
+          county: new FormControl(''),
+          optNews: new FormControl(false),
+          hasDisability: new FormControl('No'),
+        });
+      } else {
+        let addressExists = this.data.record?.addressLine1 == "" || this.data.record?.addressLine2 == "" || this.data.record?.city == "" || this.data.record?.state == "";
+        // let membership = this.data.record?.membership.split(", ");
+        // let disabilities = this.data.record?.disabilities.split(", ");
 
-      this.form.get('withheldDOB')!.valueChanges.subscribe(disabled => {
+        // this.chipsComponents.toArray()[0].setOptions = membership;
+        // this.chipsComponents.toArray()[1].setOptions = disabilities;
+        
+        this.form = new FormGroup({
+          firstName: new FormControl(this.data.record?.firstName),
+          lastName: new FormControl(this.data.record?.lastName),
+          salutation: new FormControl(this.data.record?.salutation + "."),
+          email: new FormControl(this.data.record?.email),
+          phone: new FormControl(this.data.record?.phone),
+          ethnicity: new FormControl(this.data.record?.ethnicity),
+          gender: new FormControl(this.data.record?.gender),
+          withheldDOB: new FormControl( this.data.record?.dateOfBirth == null),
+          dateOfBirth: new FormControl<Date | null>({
+            value: this.data.record?.dateOfBirth || null,
+            disabled: this.data.record?.dateOfBirth !== "" || false
+          }),
+          withheldAddress: new FormControl(addressExists),
+          addressInfo: new FormControl<string>({
+            value: this.data.record?.addressLine1,
+            disabled: addressExists
+          }),
+          addressInfo2: new FormControl<string>({
+            value: this.data.record?.addressLine2,
+            disabled: addressExists
+          }),
+          city: new FormControl<string>({
+            value: this.data.record?.city,
+            disabled: addressExists
+          }),
+          state: new FormControl<string>({
+            value: this.data.record?.state,
+            disabled: addressExists
+          }),
+          county: new FormControl(this.data.record?.county),
+          optNews: new FormControl(false),
+          hasDisability: new FormControl((this.data.record?.disabilities != "") ? 'Yes' : 'No'),
+        });
+
+        this.showDisabilityList = this.form.get('hasDisability')?.value;
+      }
+      
+      
+
+      this.showCalendar = false;
+      this.selectedDate = this.form.get('dateOfBirth')?.value ?? null;
+
+
+      this.form.get('withheldDOB')?.valueChanges.subscribe(disabled => {
         const field = this.form.get('dateOfBirth')!;
         disabled ? field.disable() : field.enable();
       });
-      this.form.get('withheldAddress')!.valueChanges.subscribe(disabled => {
-        const field = this.form.get('addressInfo')!;
-        disabled ? field.disable() : field.enable();
+      this.form.get('withheldAddress')?.valueChanges.subscribe(disabled => {
+        const fields = [this.form.get('addressInfo')!, this.form.get('addressInfo2')!, this.form.get('city')!,this.form.get('state')!] ;
+        fields.forEach ( f => {disabled ? f.disable() : f.enable(); });
       });
+
+      this.form.get('hasDisability')?.valueChanges.subscribe(value => {
+        this.showDisabilityList = value === 'Yes';
+      });
+    }
+
+    onDateChange(date: Date) {
+        this.selectedDate = date;
+      this.form.get('dateOfBirth')?.setValue(date);
+    }
+    asDate(value: any): Date | null {
+      return value ? new Date(value) : null;
     }
     onCancelClick(): void {
       this.dialogRef.close();
@@ -358,18 +513,52 @@ export class IndividualContentDialog {
     addIndividualInfo(): void {
 
       // TODO handle adding record to the db here
+      //todo remove this later bc local storage changes
+      let records = JSON.parse(localStorage.getItem('records') || '[]');
 
-      // TODO get the corresponding id of the record in the db
-      let recordId = 12345;
+      let recordId = crypto.randomUUID();
+
+      let membership = this.chipsComponents.toArray()[0]?.options.join(", ") || [];
+      let disabilities = this.chipsComponents.toArray()[1]?.options.join(", ") || [];
+
+      let newRecord = {
+        active: false,
+        addressLine1: this.form.get('addressInfo')!.value,
+        addressLine2: this.form.get('addressInfo2')!.value,
+        birthday: this.form.get('dateOfBirth')!.value,
+        city: this.form.get('city')!.value,
+        county: this.form.get('county')!.value,
+        deceased: false,
+        email: this.form.get('email')!.value,
+        ethnicity: this.form.get('ethnicity')!.value,
+        firstName: this.form.get('firstName')!.value,
+        gender: this.form.get('gender')!.value,
+        lastName: this.form.get('lastName')!.value,
+        membership: membership,
+        phone: this.form.get('phone')!.value,
+        salutation: this.form.get('salutation')!.value,
+        state: this.form.get('state')!.value,
+        id: recordId,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        disabilities: disabilities,
+      };
+
+      // 3. Push object into array
+      records.push(newRecord);
+
+      console.log('Saving records:', records);
+
+      // 4. Save back properly
+      localStorage.setItem('records', JSON.stringify(records));
+
+      console.log('Saved to localStorage');
 
       // TODO handles navigation to view-record page
       this.dialogRef.close();
 
       try {
-        let url = this.router.serializeUrl(
-           this.router.createUrlTree(['/view-record', 'individual', recordId])
-          );
-        window.open(url, '_blank'); // opens in a new tab
+        this.router.navigate(['/view-record', 'individual', recordId])
       } catch (error) {
         console.error('Navigation error:', error);
       }
@@ -380,8 +569,8 @@ export class IndividualContentDialog {
 
 @Component({
   selector: 'organization-content-dialog',
-  templateUrl: 'organization-content.html',
-  styleUrls: ['organization-content.css'],
+  templateUrl: '././organization/organization-content.html',
+  styleUrls: ['././organization/organization-content.css'],
   imports: [
     MatDialogModule,
     MatIconModule,
@@ -395,25 +584,85 @@ export class IndividualContentDialog {
     AliasChipsInput,
     MatRadioModule,
     RadioNgModel,
+    ReactiveFormsModule
   ]
 })
 export class OrganizationContentDialog {
   titleText: string = "";
   constructor( private readonly router: Router,
     public dialogRef: MatDialogRef<OrganizationContentDialog>,
+    private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any){
       if (data?.message == "e"){ this.titleText = "Edit Record - Organization";}
       else { this.titleText = "Add Record - Organization";}
     }
 
-  onCancelClick(): void {
-    this.dialogRef.close();
-  }
+    form!: FormGroup;
 
-  addOrganizationInfo(): void {
-    //TODO handle adding record to the db here
-      // TODO get the corresponding id of the record in the db
-      let recordId = 12345;
+    ngOnInit() {
+      this.form = this.fb.group({
+        name: [''],
+        email:[''],
+        phone:[''],
+        addressInfo: [{ value: '', disabled: false }],
+        addressInfo2: [{ value: '', disabled: false }],
+        city: [{ value: '', disabled: false }],
+        state: [{ value: '', disabled: false }],
+        county:[''],
+        // repFirstName: [''],
+        // repLastName: [''],
+        // repPosition: [''],
+        // repDepartment: [''],
+        // descServices: [''],
+        // eligReqs: [''],
+        // intakeProc: [''],
+        // FeesChg: [''],
+        // hrsOp: [''],
+        // other: ['']
+      });
+    }
+
+    onCancelClick(): void {
+      this.dialogRef.close();
+    }
+
+    addOrganizationInfo(): void {
+      //TODO handle adding record to the db here
+      //todo remove the below code for localstorage changes
+
+      let records = JSON.parse(localStorage.getItem('org-records') || '[]');
+
+      let recordId = crypto.randomUUID();
+
+      let newRecord = {
+        name: this.form.get('name')!.value,
+        phone: this.form.get('phone')!.value,
+        email: this.form.get('email')!.value,
+        addressInfo: this.form.get('addressInfo')!.value,
+        addressInfo2: this.form.get('addressInfo2')!.value,
+
+        city: this.form.get('city')!.value,
+        county: this.form.get('county')!.value,
+        state: this.form.get('state')!.value,
+        id: recordId,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+
+        // repFirstName: this.form.get('firstName')!.value,
+        // repLastName: this.form.get('lastName')!.value,
+        // repPosition: 'A',
+        // repDepartment: this.form.get('gender')!.value,
+      };
+
+      // 3. Push object into array
+      records.push(newRecord);
+
+      // 4. Save back properly
+      localStorage.setItem('org-records', JSON.stringify(records));
+
+      // TODO handles navigation to view-record page
+      this.dialogRef.close();
+
 
 
     // handles navigation to view-record page

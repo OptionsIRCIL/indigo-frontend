@@ -21,36 +21,45 @@
                 <mat-card-content>
                     <mat-card-title align="left">&nbsp; &nbsp; Organization Identification</mat-card-title>
                     <div class="primaryID">
-                        <div id="name">Organization Name: Wheelchair Delivery Co.</div>
-                    </div>
-                    <div class="primaryID">
+                        <div id="name">Organization Name: {{orgRecord.name}}</div> 
                         <div id="alias"> Aliases: None listed.</div>
                     </div> 
+                    
                     <br>
                     <mat-card-title align="left">&nbsp; &nbsp;Address and Contact Information</mat-card-title>
                     <mat-card-subtitle>Contact Information</mat-card-subtitle>
-                    <br>
-                    <div id="email"> Email: wheenchairdeliveryco@email.com</div>
-                    <div id="phone"> Phone: (123) 456- 7890 </div>
+                    <table border="1">
+                        <tr><td>&nbsp; &nbsp;Email&nbsp; &nbsp;</td> <td><div id="email">&nbsp; &nbsp; {{orgRecord.email}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;Phone&nbsp; &nbsp;</td> <td><div id="phone">&nbsp; &nbsp; {{orgRecord.phone}} &nbsp; &nbsp;</div></td></tr>
+                    </table>
                     <br>
                     <mat-card-subtitle>Address</mat-card-subtitle>
-                    <br>
-                        <div id="street address"> 1234 Fakename Blvd.</div>
-                        <div id="city"> Random City</div>
-                        <div id="state"> North Dakota</div>
-                        <div id="county"> County: Blue Valley</div>
-
+                    <table border="1">
+                        <tr><td>&nbsp; &nbsp;Street Address Line 1&nbsp; &nbsp;</td> <td><div id="street address">&nbsp; &nbsp; {{orgRecord.addressLine1  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;Street Address Line 2&nbsp; &nbsp;</td> <td><div id="street address">&nbsp; &nbsp; {{orgRecord.addressLine2  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;City</td> <td><div id="city">&nbsp; &nbsp; {{orgRecord.city  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;State</td> <td><div id="state">&nbsp; &nbsp; {{orgRecord.state  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;County</td> <td><div id="county">&nbsp; &nbsp; {{orgRecord.county}}&nbsp; &nbsp;</div></td></tr>
+                    </table>
                     <br>
 
                     <mat-card-title align="left">&nbsp; &nbsp; Organization Representative</mat-card-title>
-                    <div class="primaryID">
-                        <div id="fname">First Name: Fred</div>
-                        <div id="lname"> Last Name: Alvarez</div>
-                    </div>
-                    <div class="primaryID">
-                        <div id="position"> Position: Manager</div>
-                        <div id="dptmt"> Department: Customer Outreach Services </div>
-                    </div> 
+                    <br>
+                    <table align="center" border = "1">
+                        <tr>
+                        <td>&nbsp; &nbsp;First Name </td><td>&nbsp; &nbsp;Fred&nbsp; &nbsp;</td>
+                        </tr>
+
+                        <tr>
+                        <td>&nbsp; &nbsp;Last Name </td><td>&nbsp; &nbsp;Alvarez&nbsp; &nbsp;</td>
+                        </tr>
+                        <tr>
+                        <td>&nbsp; &nbsp;Department &nbsp; &nbsp;</td><td>&nbsp; &nbsp;Customer Outreach Services&nbsp; &nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td> &nbsp; &nbsp;Position </td><td>&nbsp; &nbsp;Manager&nbsp; &nbsp;</td>
+                        </tr>
+                    </table>
                 </mat-card-content>
             </mat-card>
             <br>
@@ -60,37 +69,32 @@
                 <mat-tab label="Information and Referral">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-03-20 - service inquiry
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-
+                        @for( form of this.recordFormsList.informationAndReferrals; track form) {
+                            <mat-card (click)="handleFormClick('i', form.id)">
+                                <mat-card-content class="file">
+                                    <table>
+                                        <tr><td>{{form.date}}</td><td><span class="middleSpacer"></span></td><td>{{form.serviceRequest}}</td></tr>
+                                    </table>
+                                </mat-card-content>
+                            </mat-card>
+                            <br>
+                        }
                     </mat-card-content>
                 </mat-card>
                 </mat-tab>
                 <mat-tab label="Community, Education, and Outreach">
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-20 Spring Expo
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-06 ceo file 
-                            </mat-card-content>
-                        </mat-card>
-                        <br>
-                        <mat-card>
-                            <mat-card-content class="file">
-                                2025-06-01 ceo file 
-                            </mat-card-content>
-                        </mat-card>
-
+                        @for( form of this.recordFormsList.communityEducationAndOutreaches; track form) {
+                            <mat-card (click)="handleFormClick('o', form.id)">
+                                <mat-card-content class="file">
+                                    <table>
+                                        <tr><td>{{form.initialDate}}</td><td><span class="middleSpacer"></span></td><td>{{form.category}}</td></tr>
+                                    </table>
+                                </mat-card-content>
+                            </mat-card>
+                            <br>
+                        }
                     </mat-card-content>
                 </mat-card>
                 </mat-tab>
