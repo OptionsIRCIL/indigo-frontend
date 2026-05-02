@@ -18,6 +18,7 @@ import informationAndReferralData from "../testing-data/information-and-referral
 import goalsData from "../testing-data/goals-testing-data.json"
 import cifData from "../testing-data/consumer-information-file-testing-data.json"
 import ceoData from "../testing-data/community-education-and-outreach-testing-data.json"
+import { ConfigService } from "../../config/config.service";
 
 @Component({
 	selector: "app-main-dashboard",
@@ -79,6 +80,7 @@ export class MainDashboardComponent {
 	public constructor(
     private addRecord: addRecordDialogService,
 	private readonly router: Router,
+	private config: ConfigService
 	) {}
 
 	ngOnInit() {
@@ -86,22 +88,24 @@ export class MainDashboardComponent {
    	}
 
     loadData () {
-		//todo the following should be configured to use only when in test mode, this uses local storage
-		if (!localStorage.getItem('dataLoaded')) {
-			//load dummy data from json
-			localStorage.setItem('records', JSON.stringify(indivData));
-			localStorage.setItem('org-records', JSON.stringify(orgData));
-			localStorage.setItem('iAndR-forms', JSON.stringify(informationAndReferralData));
-			localStorage.setItem('goals-forms', JSON.stringify(goalsData));
-			localStorage.setItem('cif-forms', JSON.stringify(cifData));
-			localStorage.setItem('ceo-forms', JSON.stringify(ceoData));
-		
-			localStorage.setItem('dataLoaded', 'true');
+		if (this.config.demoMode){
+			if (!localStorage.getItem('dataLoaded')) {
+				//load dummy data from json
+				localStorage.setItem('records', JSON.stringify(indivData));
+				localStorage.setItem('org-records', JSON.stringify(orgData));
+				localStorage.setItem('iAndR-forms', JSON.stringify(informationAndReferralData));
+				localStorage.setItem('goals-forms', JSON.stringify(goalsData));
+				localStorage.setItem('cif-forms', JSON.stringify(cifData));
+				localStorage.setItem('ceo-forms', JSON.stringify(ceoData));
+			
+				localStorage.setItem('dataLoaded', 'true');
+			}
+			const stored = localStorage.getItem('records');
+			this.records = stored ? JSON.parse(stored) : [];
+			const orgStored = localStorage.getItem('org-records');
+			this.orgRecords = orgStored ? JSON.parse(orgStored) : [];
 		}
-		const stored = localStorage.getItem('records');
-		this.records = stored ? JSON.parse(stored) : [];
-		const orgStored = localStorage.getItem('org-records');
-		this.orgRecords = orgStored ? JSON.parse(orgStored) : [];
+		
 	}
 
 	selectedFilters: string[] = ["State - ND", "City - Grand Forks", "Test"];
@@ -133,20 +137,14 @@ export class MainDashboardComponent {
 		if (isIndividual){
 			try {
 				console.log("Opening an individual record to view... ");
-				let url = this.router.serializeUrl(
-					this.router.createUrlTree(['/view-record', 'individual', id])
-				);
-				window.open(url, '_blank'); // opens in a new tab
+				this.router.navigate(['/view-record', 'individual', id])
 			} catch (error) {
 				console.error('Navigation error:', error);
 			}
 		} else {
 			try {
 				console.log("Opening an organization record to view... ");
-				let url = this.router.serializeUrl(
-					this.router.createUrlTree(['/view-record', 'organization', id])
-				);
-				window.open(url, '_blank'); // opens in a new tab
+				this.router.navigate(['/view-record', 'organization', id])
 			} catch (error) {
 				console.error('Navigation error:', error);
 			}

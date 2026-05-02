@@ -70,7 +70,7 @@
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
                         @for( form of this.recordFormsList.informationAndReferrals; track form) {
-                            <mat-card (click)="handleFormClick('i')">
+                            <mat-card (click)="handleFormClick('i', form.id)">
                                 <mat-card-content class="file">
                                     <table>
                                         <tr><td>{{form.date}}</td><td><span class="middleSpacer"></span></td><td>{{form.serviceRequest}}</td></tr>
@@ -86,7 +86,7 @@
                     <mat-card class="infoCard">
                     <mat-card-content class="fileList">
                         @for( form of this.recordFormsList.communityEducationAndOutreaches; track form) {
-                            <mat-card (click)="handleFormClick('o')">
+                            <mat-card (click)="handleFormClick('o', form.id)">
                                 <mat-card-content class="file">
                                     <table>
                                         <tr><td>{{form.initialDate}}</td><td><span class="middleSpacer"></span></td><td>{{form.category}}</td></tr>

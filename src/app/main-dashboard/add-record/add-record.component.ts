@@ -558,10 +558,7 @@ export class IndividualContentDialog {
       this.dialogRef.close();
 
       try {
-        let url = this.router.serializeUrl(
-           this.router.createUrlTree(['/view-record', 'individual', recordId])
-          );
-        window.open(url, '_blank'); // opens in a new tab
+        this.router.navigate(['/view-record', 'individual', recordId])
       } catch (error) {
         console.error('Navigation error:', error);
       }

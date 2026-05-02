@@ -17,6 +17,7 @@ import { TokenState } from '../../service/state/token-state.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddFormContentDialog, AddAttachmentContentDialog} from './add-form-or-attachment/add-form-or-attachment.component';
 import { OpenFormsService } from './open-forms.service';
+import { ConfigService } from '../../config/config.service';
 
 interface InformationAndReferralForm {
     date: string;
@@ -46,6 +47,7 @@ interface GoalsForm {
   individual: string, // Individual type
   goalDescription: string,
   outcomeDescription: string,
+  id: string
 }
 
 interface ComsumerInformationFileForm {
@@ -64,6 +66,7 @@ interface ComsumerInformationFileForm {
   independentLivingPlanActivity: string,
   dateOfILPAction: string,
   individual: string, 
+  id: string
 }
 
 interface CommunityEducationAndOutreachForm {
@@ -78,6 +81,7 @@ interface CommunityEducationAndOutreachForm {
   closedAt: string,
   createdAt: string,
   organization: string, 
+  id: string
 }
 
 @Component({
@@ -136,7 +140,8 @@ export class IndividualViewRecordComponent {
     private readonly accessClient: AccessClientService,
     protected readonly tokenState: TokenState,
     private readonly snackBar: MatSnackBar,
-    private openFormsService: OpenFormsService
+    private openFormsService: OpenFormsService,
+    private config: ConfigService
   ) {}
 
   populateForms(id: string){
@@ -145,24 +150,27 @@ export class IndividualViewRecordComponent {
     this.recordFormsList.consumerInformationFiles = this.getConsumerInformationFileForms(id)
   }
 
-  handleFormClick( formChar: string){
+  handleFormClick( formChar: string, formId: string){
     switch(formChar){
-      case "i": this.openFormsService.openExistingForm('i') 
+      case "i": this.openFormsService.openExistingForm('i', formId) 
         break;
-      case "g": this.openFormsService.openExistingForm('g') 
+      case "g": this.openFormsService.openExistingForm('g', formId) 
         break;
-      case "c": this.openFormsService.openExistingForm('c') 
+      case "c": this.openFormsService.openExistingForm('c', formId) 
         break;
     }
   }
 
   ngOnInit() {
     // get the id from the route
-    // find the id in the db for individuals
     const id = this.route.snapshot.paramMap.get('id');
-    const stored = localStorage.getItem('records');
-    const records = stored ? JSON.parse(stored) : [];
-    this.record =  records.find((r: any) => r.id === id);
+
+    if (this.config.demoMode == true) {
+      const stored = localStorage.getItem('records');
+      const records = stored ? JSON.parse(stored) : [];
+      //find the record that matches the id
+      this.record =  records.find((r: any) => r.id === id);
+    }
 
     if (!this.recordFormsList) {
       this.recordFormsList = {
@@ -216,23 +224,33 @@ export class IndividualViewRecordComponent {
   */
   getInformationAndReferralForms(personId: string){
     personId != "" ? "" : console.log("No Forms Found.");
-    const storedForms = localStorage.getItem('iAndR-forms');
-    const forms = storedForms ? JSON.parse(storedForms) : [];
-    return forms.filter((r: any) => r.personId === personId);
+    if (this.config.demoMode == true) {
+      const storedForms = localStorage.getItem('iAndR-forms');
+      const forms = storedForms ? JSON.parse(storedForms) : [];
+      return forms.filter((r: any) => r.personId === personId);
+    }
+    return [];
+    
   }
 
   getGoalsForms(personId: string){
     personId != "" ? "" : console.log("No Forms Found.");
-    const storedForms = localStorage.getItem('goals-forms');
-    const forms = storedForms ? JSON.parse(storedForms) : [];
-    return forms.filter((r: any) => r.individual === personId);
+    if (this.config.demoMode == true) {
+      const storedForms = localStorage.getItem('goals-forms');
+      const forms = storedForms ? JSON.parse(storedForms) : [];
+      return forms.filter((r: any) => r.individual === personId);
+    }
+    return [];
   }
 
   getConsumerInformationFileForms(personId: string){
     personId != "" ? "" : console.log("No Forms Found.");
-    const storedForms = localStorage.getItem('cif-forms');
-    const forms = storedForms ? JSON.parse(storedForms) : [];
-    return forms.filter((r: any) => r.individual === personId);
+    if (this.config.demoMode == true) {
+      const storedForms = localStorage.getItem('cif-forms');
+      const forms = storedForms ? JSON.parse(storedForms) : [];
+      return forms.filter((r: any) => r.individual === personId);
+    }
+    return [];
   }
 }
 
@@ -278,20 +296,26 @@ export class OrganizationViewRecordComponent {
     public constructor(
       private dialog: MatDialog, 
       private route: ActivatedRoute,
-      private openFormsService: OpenFormsService
+      private openFormsService: OpenFormsService,
+      private config: ConfigService
     ) {}
 
     populateForms(id: string){
-      this.recordFormsList.informationAndReferrals = this.getInformationAndReferralForms(id)
-      this.recordFormsList.communityEducationAndOutreaches = this.getCommunityEducationAndutreachForms(id)
-
+      if (this.config.demoMode == true){
+        this.recordFormsList.informationAndReferrals = this.getInformationAndReferralForms(id)
+        this.recordFormsList.communityEducationAndOutreaches = this.getCommunityEducationAndutreachForms(id)
+      }
     }
 
     ngOnInit (){
         const id = this.route.snapshot.paramMap.get('id');
-        const orgStored = localStorage.getItem('org-records');
-        const orgRecords = orgStored ? JSON.parse(orgStored) : [];
-        this.orgRecord =  orgRecords.find((r: any) => r.id === id);
+
+        if (this.config.demoMode == true){
+          const orgStored = localStorage.getItem('org-records');
+          const orgRecords = orgStored ? JSON.parse(orgStored) : [];
+          this.orgRecord =  orgRecords.find((r: any) => r.id === id);
+        }
+
 
         if (!this.recordFormsList) {
           this.recordFormsList = {
@@ -305,11 +329,11 @@ export class OrganizationViewRecordComponent {
         }
     }
 
-    handleFormClick( formChar: string){
+    handleFormClick( formChar: string, formId: string){
       switch(formChar){
-        case "i": this.openFormsService.openExistingForm('i') 
+        case "i": this.openFormsService.openExistingForm('i', formId) 
           break;
-        case "o": this.openFormsService.openExistingForm('o') 
+        case "o": this.openFormsService.openExistingForm('o', formId) 
           break;
       }
     }
@@ -345,20 +369,28 @@ export class OrganizationViewRecordComponent {
           data: {}
       });
   }
+
   /*
    Form get functions  (forms retrieved by personId)
   */
   getInformationAndReferralForms(orgId: string){
     orgId != "" ? "" : console.log("No Forms Found.");
-    const storedForms = localStorage.getItem('iAndR-forms');
-    const forms = storedForms ? JSON.parse(storedForms) : [];
-    return forms.filter((r: any) => r.organizationId === orgId);
+    if (this.config.demoMode == true) {
+      const storedForms = localStorage.getItem('iAndR-forms');
+      const forms = storedForms ? JSON.parse(storedForms) : [];
+      return forms.filter((r: any) => r.organizationId === orgId);
+    }
+    return [];
+
   }
 
   getCommunityEducationAndutreachForms(orgId: string){
     orgId != "" ? "" : console.log("No Forms Found.");
-    const storedForms = localStorage.getItem('ceo-forms');
-    const forms = storedForms ? JSON.parse(storedForms) : [];
-    return forms.filter((r: any) => r.organization === orgId);
+    if (this.config.demoMode == true) {
+      const storedForms = localStorage.getItem('ceo-forms');
+      const forms = storedForms ? JSON.parse(storedForms) : [];
+      return forms.filter((r: any) => r.organization === orgId);
+    }
+    return [];
   }
 }

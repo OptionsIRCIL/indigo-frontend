@@ -12,35 +12,23 @@ export class OpenFormsService {
   opens any form in view-record that is listed under the form tabs
       formChar - specifies the form type that will be opened
   */
-  openExistingForm(formChar: string){
-    let url;
-    //get id for selected form
-    const formId = "";
+  openExistingForm(formChar: string, formId: string){
     // route to the form depending on type
     try {
       switch (formChar){
         case "i":
-          url = this.router.serializeUrl(
-            this.router.createUrlTree(['/information-and-referral', formId])
-          );
+          this.router.navigate(['/information-and-referral', formId])
           break;
         case "g":
-          url = this.router.serializeUrl(
-            this.router.createUrlTree(['/goals', formId])
-          );
+          this.router.navigate(['/goals', formId])
           break;
         case "c":
-          url = this.router.serializeUrl(
-            this.router.createUrlTree(['/consumer-information-file', formId])
-          );
+          this.router.navigate(['/consumer-information-file', formId])
           break;
         case "o":
-          url = this.router.serializeUrl(
-            this.router.createUrlTree(['/community-education-outreach', formId])
-          );
+          this.router.navigate(['/community-education-outreach', formId])
           break;
       }
-      window.open(url, '_blank'); // opens in a new tab
 
     } catch (error) {
       console.error('Navigation error:', error);

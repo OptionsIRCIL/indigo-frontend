@@ -31,4 +31,8 @@ export class ConfigService {
 			this.tokenState.token.next(true);
 		}
 	}
+
+	get demoMode(): boolean {
+		return this.configData?.demo ?? false;
+	}
 }
