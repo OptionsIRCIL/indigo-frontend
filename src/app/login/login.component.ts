@@ -17,9 +17,16 @@ import { Router } from "@angular/router";
 
 @Component({
 	selector: "app-login",
-	imports: [ReactiveFormsModule, MatInputModule, MatButton, MatButtonModule, MatFormFieldModule],
+	imports: [
+		ReactiveFormsModule,
+		MatInputModule,
+		MatButton,
+		MatButtonModule,
+		MatFormFieldModule,
+	],
 	templateUrl: "./login.component.html",
 	styleUrl: "./login.component.css",
+	standalone: true,
 })
 export class LoginComponent {
 	loginForm: FormGroup = new FormGroup({
@@ -27,10 +34,12 @@ export class LoginComponent {
 		password: new FormControl("", Validators.required),
 	});
 
-	public constructor(private readonly accessClient: AccessClientService,
-										 private readonly tokenState: TokenState,
-										 private readonly snackBar: MatSnackBar,
-										 private readonly router: Router,) {}
+	public constructor(
+		private readonly accessClient: AccessClientService,
+		private readonly tokenState: TokenState,
+		private readonly snackBar: MatSnackBar,
+		private readonly router: Router,
+	) {}
 
 	protected attemptLogin() {
 		if (this.loginForm.valid) {
@@ -38,12 +47,12 @@ export class LoginComponent {
 				.login(this.loginForm.value.email, this.loginForm.value.password)
 				.subscribe({
 					next: () => {
-						this.tokenState.token.next("Test User");
+						this.tokenState.token.next(true);
 						this.snackBar.open("Login successful", "Dismiss");
 						this.router.navigate(["/main-dashboard"]).then(); // MAY BE REFACTORED TO ROUTE TO ACTIVATED ROUTE
 					},
 					error: (err) => {
-						this.tokenState.token.next(null);
+						this.tokenState.token.next(false);
 						if (err.status === 422) {
 							this.snackBar.open("Invalid Credentials", "Dismiss");
 						} else {

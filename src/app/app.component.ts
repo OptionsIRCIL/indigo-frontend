@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, RouterOutlet } from "@angular/router";
+import { Router, RouterLink, RouterOutlet } from "@angular/router";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TokenState } from '../service/state/token-state.service';
 import { AccessClientService } from '../service/client/access-client.service';
@@ -9,6 +9,7 @@ import { MatIcon } from "@angular/material/icon";
 import { MatCheckbox } from "@angular/material/checkbox";
 import { MatInput } from "@angular/material/input";
 import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
+import { AsyncPipe } from '@angular/common';
 
 @Component({
 	selector: "app-root",
@@ -21,9 +22,12 @@ import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
 		MatInput,
 		MatSidenav,
 		MatSidenavContainer,
+		RouterLink,
+		AsyncPipe,
 	],
 	templateUrl: "./app.component.html",
 	styleUrl: "./app.component.css",
+	standalone: true,
 })
 export class AppComponent implements OnInit {
 	title = "indigo-frontend";
@@ -46,7 +50,8 @@ export class AppComponent implements OnInit {
 	protected logout(): void {
 		this.accessClient.logout().subscribe({
 			next: () => {
-				this.tokenState.token.next(null);
+				this.tokenState.token.next(false);
+				window.cookieStore.delete("IndigoAuth");
 				this.snackBar.open("Logout successful", "Dismiss");
 				this.router.navigate(["/login"]);
 			},

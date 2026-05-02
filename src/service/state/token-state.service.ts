@@ -6,7 +6,7 @@ import { BehaviorSubject } from "rxjs";
 })
 export class TokenState {
 
-  private _token = new BehaviorSubject<string | null>(null);
+  private _token = new BehaviorSubject<boolean>(false);
 
   constructor() { }
 	public get token() {
