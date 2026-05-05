@@ -108,7 +108,7 @@ export class MainDashboardComponent {
 		
 	}
 
-	selectedFilters: string[] = ["State - ND", "City - Grand Forks", "Test"];
+	selectedFilters: string[] = [];
 
 	openFilters() {
 		console.log("Filters opened");
