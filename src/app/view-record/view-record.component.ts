@@ -105,6 +105,7 @@ interface CommunityEducationAndOutreachForm {
 export class IndividualViewRecordComponent {
   private _Activatedroute: any;
   private sub: any;
+  currentRecordId: string = "";
   record!: {
     firstName: string,
     lastName: string,
@@ -152,11 +153,11 @@ export class IndividualViewRecordComponent {
 
   handleFormClick( formChar: string, formId: string){
     switch(formChar){
-      case "i": this.openFormsService.openExistingForm('i', formId) 
+      case "i": this.openFormsService.openExistingForm('i', formId, 'individual', this.currentRecordId) 
         break;
-      case "g": this.openFormsService.openExistingForm('g', formId) 
+      case "g": this.openFormsService.openExistingForm('g', formId, 'individual', this.currentRecordId) 
         break;
-      case "c": this.openFormsService.openExistingForm('c', formId) 
+      case "c": this.openFormsService.openExistingForm('c', formId, 'individual', this.currentRecordId) 
         break;
     }
   }
@@ -164,6 +165,7 @@ export class IndividualViewRecordComponent {
   ngOnInit() {
     // get the id from the route
     const id = this.route.snapshot.paramMap.get('id');
+    this.currentRecordId = id ?? "";
 
     if (this.config.demoMode == true) {
       const stored = localStorage.getItem('records');
@@ -205,7 +207,11 @@ export class IndividualViewRecordComponent {
           maxWidth: '90vw',
           maxHeight: '90vh',
           panelClass: 'custom-dialog',
-          data: { message }
+          data: {
+            message,
+            recordType: 'individual',
+            recordId: this.currentRecordId,
+          }
       });
   }
   openAddAttachment(){
@@ -272,6 +278,7 @@ export class IndividualViewRecordComponent {
 	styleUrl: "./view-record.component.css",
 })
 export class OrganizationViewRecordComponent {
+	currentRecordId: string = "";
 	
   orgRecord!: {
       name: string,
@@ -309,6 +316,7 @@ export class OrganizationViewRecordComponent {
 
     ngOnInit (){
         const id = this.route.snapshot.paramMap.get('id');
+      this.currentRecordId = id ?? "";
 
         if (this.config.demoMode == true){
           const orgStored = localStorage.getItem('org-records');
@@ -331,9 +339,9 @@ export class OrganizationViewRecordComponent {
 
     handleFormClick( formChar: string, formId: string){
       switch(formChar){
-        case "i": this.openFormsService.openExistingForm('i', formId) 
+        case "i": this.openFormsService.openExistingForm('i', formId, 'organization', this.currentRecordId) 
           break;
-        case "o": this.openFormsService.openExistingForm('o', formId) 
+        case "o": this.openFormsService.openExistingForm('o', formId, 'organization', this.currentRecordId) 
           break;
       }
     }
@@ -356,7 +364,11 @@ export class OrganizationViewRecordComponent {
           maxWidth: '90vw',
           maxHeight: '90vh',
           panelClass: 'custom-dialog',
-          data: {message}
+          data: {
+            message,
+            recordType: 'organization',
+            recordId: this.currentRecordId,
+          }
       });
   }
   openAddAttachment(){

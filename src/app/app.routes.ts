@@ -42,16 +42,32 @@ export const routes: Routes = [
 				component: LoginComponent,
 			},
 			{
+				path: "information-and-referral/:id",
+				component: IandrComponent,
+			},
+			{
 				path: "information-and-referral",
 				component: IandrComponent,
+			},
+			{
+				path: "community-education-outreach/:id",
+				component: CEOComponent,
 			},
 			{
 				path: "community-education-outreach",
 				component: CEOComponent,
 			},
 			{
+				path: "consumer-information-file/:id",
+				component: ConsumerInformationFileComponent,
+			},
+			{
 				path: "consumer-information-file",
 				component: ConsumerInformationFileComponent,
+			},
+			{
+				path: "goals/:id",
+				component: GoalsComponent,
 			},
 			{
 				path: "goals",

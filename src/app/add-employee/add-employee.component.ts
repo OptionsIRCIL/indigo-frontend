@@ -11,6 +11,14 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
+interface EmployeeEffortDialogData {
+  date?: Date | string;
+  employee?: string;
+  grant?: string;
+  type?: string;
+  hours?: number;
+}
+
 @Component({
   selector: 'app-add-employee',
   imports: [
@@ -31,17 +39,17 @@ import { MatNativeDateModule } from '@angular/material/core';
 export class AddEmployeeComponent {
   constructor(
     private dialogRef: MatDialogRef<AddEmployeeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: EmployeeEffortDialogData | null
   ) {
 
-  if (data) {
-    this.newDate = data.date ? new Date(data.date) : new Date();
-    this.newEmployee = data.employee ?? '';
-    this.newGrant = data.grant ?? '';
-    this.newType = data.type ?? '';
-    this.newHours = data.hours ?? 0;
+    if (data) {
+      this.newDate = data.date ? new Date(data.date) : new Date();
+      this.newEmployee = data.employee ?? '';
+      this.newGrant = data.grant ?? '';
+      this.newType = data.type ?? '';
+      this.newHours = data.hours ?? 0;
+    }
   }
-}
 
   employees: string[] = [
     'John Doe',
@@ -66,6 +74,10 @@ export class AddEmployeeComponent {
   newHours!: number;
 
   addEmployee() {
+    if (!this.newEmployee || !this.newGrant || !this.newType || this.newHours < 0) {
+      return;
+    }
+
     this.dialogRef.close({
       date: this.newDate,
       employee: this.newEmployee,

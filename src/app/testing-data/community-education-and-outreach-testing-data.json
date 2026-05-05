@@ -1,7 +1,7 @@
 [
     {
         "initialDate": "2025-05-16",
-        "numberOfPublicatopms": 41,
+        "numberOfPublications": 41,
         "personsWithDisabilities": 54,
         "generalPublic": 48,
         "category": "Category 1",
@@ -15,7 +15,7 @@
     },
     {
         "initialDate": "2025-08-06",
-        "numberOfPublicatopms": 55,
+        "numberOfPublications": 55,
         "personsWithDisabilities": 67,
         "generalPublic": 64,
         "category": "Category 2",
@@ -29,7 +29,7 @@
     },
     {
         "initialDate": "2025-05-03",
-        "numberOfPublicatopms": 87,
+        "numberOfPublications": 87,
         "personsWithDisabilities": 74,
         "generalPublic": 90,
         "category": "Category 3",
@@ -43,7 +43,7 @@
     },
     {
         "initialDate": "2025-10-20",
-        "numberOfPublicatopms": 63,
+        "numberOfPublications": 63,
         "personsWithDisabilities": 74,
         "generalPublic": 46,
         "category": "Category 4",
@@ -57,7 +57,7 @@
     },
     {
         "initialDate": "2025-08-15",
-        "numberOfPublicatopms": 85,
+        "numberOfPublications": 85,
         "personsWithDisabilities": 96,
         "generalPublic": 51,
         "category": "Category 1",
@@ -71,7 +71,7 @@
     },
     {
         "initialDate": "2025-07-25",
-        "numberOfPublicatopms": 70,
+        "numberOfPublications": 70,
         "personsWithDisabilities": 12,
         "generalPublic": 57,
         "category": "Category 2",
@@ -85,7 +85,7 @@
     },
     {
         "initialDate": "2025-09-06",
-        "numberOfPublicatopms": 82,
+        "numberOfPublications": 82,
         "personsWithDisabilities": 84,
         "generalPublic": 18,
         "category": "Category 3",
@@ -99,7 +99,7 @@
     },
     {
         "initialDate": "2025-11-11",
-        "numberOfPublicatopms": 78,
+        "numberOfPublications": 78,
         "personsWithDisabilities": 7,
         "generalPublic": 39,
         "category": "Category 4",
@@ -113,7 +113,7 @@
     },
     {
         "initialDate": "2025-11-25",
-        "numberOfPublicatopms": 8,
+        "numberOfPublications": 8,
         "personsWithDisabilities": 82,
         "generalPublic": 100,
         "category": "Category 1",
@@ -127,7 +127,7 @@
     },
     {
         "initialDate": "2025-07-24",
-        "numberOfPublicatopms": 1,
+        "numberOfPublications": 1,
         "personsWithDisabilities": 6,
         "generalPublic": 76,
         "category": "Category 2",
@@ -141,7 +141,7 @@
     },
     {
         "initialDate": "2025-08-09",
-        "numberOfPublicatopms": 31,
+        "numberOfPublications": 31,
         "personsWithDisabilities": 94,
         "generalPublic": 10,
         "category": "Category 3",
@@ -155,7 +155,7 @@
     },
     {
         "initialDate": "2025-09-02",
-        "numberOfPublicatopms": 86,
+        "numberOfPublications": 86,
         "personsWithDisabilities": 50,
         "generalPublic": 11,
         "category": "Category 4",
@@ -169,7 +169,7 @@
     },
     {
         "initialDate": "2026-02-18",
-        "numberOfPublicatopms": 66,
+        "numberOfPublications": 66,
         "personsWithDisabilities": 10,
         "generalPublic": 20,
         "category": "Category 1",
@@ -183,7 +183,7 @@
     },
     {
         "initialDate": "2025-08-17",
-        "numberOfPublicatopms": 13,
+        "numberOfPublications": 13,
         "personsWithDisabilities": 46,
         "generalPublic": 80,
         "category": "Category 2",

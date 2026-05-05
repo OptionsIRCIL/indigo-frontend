@@ -32,12 +32,17 @@ import { MatError } from '@angular/material/select';
 })
 export class FormSelector {
   options: string[] = [];
+  private readonly recordType?: string;
+  private readonly recordId?: string;
   constructor( private readonly router: Router,  @Inject(MAT_DIALOG_DATA) public data: any) { 
       if (data?.message == "i"){ 
         this.options =  ['Information and Referral', 'Goals', 'Consumer Information File'];
       } else {
         this.options = ['Information and Referral', 'Community, Education, and Outreach'];
       }
+
+      this.recordType = data?.recordType;
+      this.recordId = data?.recordId;
     }
 
   selectedForm: string = 'Information and Referral';
@@ -50,25 +55,29 @@ export class FormSelector {
     let url = this.router.serializeUrl(
                 this.router.createUrlTree(['/error', 'not-found'])
               );
+    const queryParams = (this.recordType && this.recordId)
+      ? { recordType: this.recordType, recordId: this.recordId }
+      : undefined;
+
     switch (this.selectedForm) {
       case 'Information and Referral' :
         url = this.router.serializeUrl(
-                this.router.createUrlTree(['/information-and-referral'])
+                this.router.createUrlTree(['/information-and-referral'], { queryParams })
               );
         break;
       case 'Community, Education, and Outreach' :
         url = this.router.serializeUrl(
-                this.router.createUrlTree(['/community-education-outreach'])
+                this.router.createUrlTree(['/community-education-outreach'], { queryParams })
               );
         break;
       case 'Goals' :
         url = this.router.serializeUrl(
-                this.router.createUrlTree(['/goals'])
+                this.router.createUrlTree(['/goals'], { queryParams })
               );
         break;
       case 'Consumer Information File' :
         url = this.router.serializeUrl(
-                this.router.createUrlTree(['/consumer-information-file'])
+                this.router.createUrlTree(['/consumer-information-file'], { queryParams })
               );
         break;
       default:
