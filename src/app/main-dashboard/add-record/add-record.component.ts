@@ -142,7 +142,7 @@ export interface Alias {
                         (matChipInputTokenEnd)="add($event)">
                 </mat-chip-grid>
             </mat-form-field>`,
-  styleUrls: ['././individual/individual-content.css',],
+  styleUrls: ['././individual/add-record-individual-content.css',],
   imports: [MatFormFieldModule, MatChipsModule, MatIconModule, CommonModule],
 })
 export class AliasChipsInput {
@@ -222,7 +222,7 @@ export let additionalDisabilityList = ['Disability A', 'Disability B', 'Disabili
       </mat-autocomplete>
     </mat-form-field>
     `,
-  styleUrls: ['././individual/individual-content.css',],
+  styleUrls: ['././individual/add-record-individual-content.css',],
   imports: [CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -243,7 +243,10 @@ export class ChipsAutocompleteOption {
   optionCtrl = new FormControl<string | null>(null);
   filteredOptions: Observable<string[]>;
 
-  options: string[] = [];
+  @Input() options: string[] = [];
+  ngOnChanges() {
+    this.setOptions(this.options);
+  }
   allOptions: string[] = [];
   
 
@@ -313,8 +316,11 @@ export class ChipsAutocompleteOption {
   }
 
   setOptions(values: string[]) {
-    this.options = [...values];
-    this.optionCtrl.setValue(null);
+    values.forEach((value)=> {
+      this.options.push(value)
+      this.optionInput.nativeElement.value = '';
+      this.optionCtrl.setValue(null);
+    });
   }
 
 }
@@ -340,8 +346,8 @@ export class RadioNgModel {
 
 @Component({
   selector: 'individual-content-dialog',
-  templateUrl: '././individual/individual-content.html',
-  styleUrls: ['././individual/individual-content.css'],
+  templateUrl: '././individual/add-record-individual-content.html',
+  styleUrls: ['././individual/add-record-individual-content.css'],
   standalone: true,
   imports: [
     MatDialogModule,
@@ -367,10 +373,11 @@ export class RadioNgModel {
 })
 export class IndividualContentDialog {
   titleText: string = ""; 
+  mode: string = "";
   constructor( private readonly router: Router,
     public dialogRef: MatDialogRef<IndividualContentDialog>, private fb: FormBuilder, 
     @Inject(MAT_DIALOG_DATA) public data: any) { 
-      if (data?.mode == "e"){ this.titleText = "Edit Record - Individual";}
+      if (data?.mode == "e"){ this.titleText = "Edit Record - Individual"; this.mode = "e"}
       else { this.titleText = "Add Record - Individual";}
     }
 
@@ -390,6 +397,9 @@ export class IndividualContentDialog {
     disabilityList!: string;
     @ViewChildren(ChipsAutocompleteOption)
     chipsComponents!: QueryList<ChipsAutocompleteOption>;
+
+    membership: string[] = [];
+    disabilities: string[] = [];
 
       
     ngOnInit() {
@@ -432,19 +442,15 @@ export class IndividualContentDialog {
           county: new FormControl(''),
           optNews: new FormControl(false),
           hasDisability: new FormControl('No'),
+          disabilities: new FormControl(''),
         });
       } else {
         let addressExists = this.data.record?.addressLine1 == "" || this.data.record?.addressLine2 == "" || this.data.record?.city == "" || this.data.record?.state == "";
-        // let membership = this.data.record?.membership.split(", ");
-        // let disabilities = this.data.record?.disabilities.split(", ");
-
-        // this.chipsComponents.toArray()[0].setOptions = membership;
-        // this.chipsComponents.toArray()[1].setOptions = disabilities;
         
         this.form = new FormGroup({
           firstName: new FormControl(this.data.record?.firstName),
           lastName: new FormControl(this.data.record?.lastName),
-          salutation: new FormControl(this.data.record?.salutation + "."),
+          salutation: new FormControl(this.data.record?.salutation),
           email: new FormControl(this.data.record?.email),
           phone: new FormControl(this.data.record?.phone),
           ethnicity: new FormControl(this.data.record?.ethnicity),
@@ -499,6 +505,23 @@ export class IndividualContentDialog {
       });
     }
 
+    ngAfterViewInit() {
+      const chipsArray = this.chipsComponents?.toArray() ?? [];
+
+      if (this.data?.mode === 'e') {
+        const membership = this.data.record?.membership?.split(', ') ?? [];
+        const disabilities = this.data.record?.disabilities?.split(', ') ?? [];
+
+        if (chipsArray[0]) {
+          chipsArray[0].setOptions(membership);
+        }
+
+        if (chipsArray[1]) {
+          chipsArray[1].setOptions(disabilities);
+        }
+      }
+    }
+
     onDateChange(date: Date) {
         this.selectedDate = date;
       this.form.get('dateOfBirth')?.setValue(date);
@@ -511,56 +534,95 @@ export class IndividualContentDialog {
     }
 
     addIndividualInfo(): void {
+      if (this.mode != "e"){
+        // TODO handle adding record to the db here
+        //todo remove this later bc local storage changes
+        let records = JSON.parse(localStorage.getItem('records') || '[]');
 
-      // TODO handle adding record to the db here
-      //todo remove this later bc local storage changes
-      let records = JSON.parse(localStorage.getItem('records') || '[]');
+        let recordId = crypto.randomUUID();
 
-      let recordId = crypto.randomUUID();
+        let membership = this.chipsComponents.toArray()[0]?.options.join(", ") || [];
+        let disabilities = this.chipsComponents.toArray()[1]?.options.join(", ") || [];
 
-      let membership = this.chipsComponents.toArray()[0]?.options.join(", ") || [];
-      let disabilities = this.chipsComponents.toArray()[1]?.options.join(", ") || [];
+        let newRecord = {
+          active: false,
+          addressLine1: this.form.get('addressInfo')!.value,
+          addressLine2: this.form.get('addressInfo2')!.value,
+          birthday: this.form.get('dateOfBirth')!.value,
+          city: this.form.get('city')!.value,
+          county: this.form.get('county')!.value,
+          deceased: false,
+          email: this.form.get('email')!.value,
+          ethnicity: this.form.get('ethnicity')!.value,
+          firstName: this.form.get('firstName')!.value,
+          gender: this.form.get('gender')!.value,
+          lastName: this.form.get('lastName')!.value,
+          membership: membership,
+          phone: this.form.get('phone')!.value,
+          salutation: this.form.get('salutation')!.value,
+          state: this.form.get('state')!.value,
+          id: recordId,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          disabilities: disabilities,
+        };
 
-      let newRecord = {
-        active: false,
-        addressLine1: this.form.get('addressInfo')!.value,
-        addressLine2: this.form.get('addressInfo2')!.value,
-        birthday: this.form.get('dateOfBirth')!.value,
-        city: this.form.get('city')!.value,
-        county: this.form.get('county')!.value,
-        deceased: false,
-        email: this.form.get('email')!.value,
-        ethnicity: this.form.get('ethnicity')!.value,
-        firstName: this.form.get('firstName')!.value,
-        gender: this.form.get('gender')!.value,
-        lastName: this.form.get('lastName')!.value,
-        membership: membership,
-        phone: this.form.get('phone')!.value,
-        salutation: this.form.get('salutation')!.value,
-        state: this.form.get('state')!.value,
-        id: recordId,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        disabilities: disabilities,
-      };
+        // 3. Push object into array
+        records.push(newRecord);
 
-      // 3. Push object into array
-      records.push(newRecord);
+        // 4. Save back properly
+        localStorage.setItem('records', JSON.stringify(records));
 
-      console.log('Saving records:', records);
+        this.dialogRef.close();
+        this.dialogRef.close();
 
-      // 4. Save back properly
-      localStorage.setItem('records', JSON.stringify(records));
+        //handles navigation to view-record page
+        try {
+          this.router.navigate(['/view-record', 'individual', recordId])
+        } catch (error) {
+          console.error('Navigation error:', error);
+        }
+      } else {
 
-      console.log('Saved to localStorage');
+        let membership = this.chipsComponents.toArray()[0]?.options.join(", ") || [];
+        let disabilities = this.chipsComponents.toArray()[1]?.options.join(", ") || [];
 
-      // TODO handles navigation to view-record page
-      this.dialogRef.close();
+        let editedRecord = {
+          active: false,
+          addressLine1: this.form.get('addressInfo')!.value,
+          addressLine2: this.form.get('addressInfo2')!.value,
+          birthday: this.form.get('dateOfBirth')!.value,
+          city: this.form.get('city')!.value,
+          county: this.form.get('county')!.value,
+          deceased: false,
+          email: this.form.get('email')!.value,
+          ethnicity: this.form.get('ethnicity')!.value,
+          firstName: this.form.get('firstName')!.value,
+          gender: this.form.get('gender')!.value,
+          lastName: this.form.get('lastName')!.value,
+          membership: membership,
+          phone: this.form.get('phone')!.value,
+          salutation: this.form.get('salutation')!.value,
+          state: this.form.get('state')!.value,
+          id: this.data.record.id,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          disabilities: disabilities,
+        };
 
-      try {
-        this.router.navigate(['/view-record', 'individual', recordId])
-      } catch (error) {
-        console.error('Navigation error:', error);
+        const stored = localStorage.getItem('records');
+        const records = stored ? JSON.parse(stored) : [];
+
+        //find the record that matches the id
+        let record =  records.find((r: any) => r.id === this.data.record.id);
+        let recordIndex = records.indexOf(record);
+
+        records[recordIndex] = editedRecord
+
+        localStorage.setItem('records', JSON.stringify(records));
+
+        this.dialogRef.close();
+        window.location.reload();
       }
     }
 }
@@ -569,8 +631,8 @@ export class IndividualContentDialog {
 
 @Component({
   selector: 'organization-content-dialog',
-  templateUrl: '././organization/organization-content.html',
-  styleUrls: ['././organization/organization-content.css'],
+  templateUrl: '././organization/add-record-organization-content.html',
+  styleUrls: ['././organization/add-record-organization-content.css'],
   imports: [
     MatDialogModule,
     MatIconModule,
@@ -584,42 +646,69 @@ export class IndividualContentDialog {
     AliasChipsInput,
     MatRadioModule,
     RadioNgModel,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonModule,
+    phoneFormatter
   ]
 })
 export class OrganizationContentDialog {
   titleText: string = "";
+  mode: string = "";
   constructor( private readonly router: Router,
     public dialogRef: MatDialogRef<OrganizationContentDialog>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any){
-      if (data?.message == "e"){ this.titleText = "Edit Record - Organization";}
+      if (data?.mode == "e"){ this.titleText = "Edit Record - Organization"; this.mode = "e"}
       else { this.titleText = "Add Record - Organization";}
     }
 
     form!: FormGroup;
 
     ngOnInit() {
-      this.form = this.fb.group({
-        name: [''],
-        email:[''],
-        phone:[''],
-        addressInfo: [{ value: '', disabled: false }],
-        addressInfo2: [{ value: '', disabled: false }],
-        city: [{ value: '', disabled: false }],
-        state: [{ value: '', disabled: false }],
-        county:[''],
-        // repFirstName: [''],
-        // repLastName: [''],
-        // repPosition: [''],
-        // repDepartment: [''],
-        // descServices: [''],
-        // eligReqs: [''],
-        // intakeProc: [''],
-        // FeesChg: [''],
-        // hrsOp: [''],
-        // other: ['']
-      });
+      if (this.data?.mode != "e") {
+        this.form = new FormGroup({
+          name: new FormControl(''),
+          email: new FormControl(''),
+          phone: new FormControl(''),
+          addressInfo: new FormControl(''),
+          addressInfo2: new FormControl(''),
+          city: new FormControl(''),
+          state: new FormControl(''),
+          county: new FormControl(''),
+          repFirstName: new FormControl(''),
+          repLastName: new FormControl(''),
+          repPosition: new FormControl(''),
+          repDepartment: new FormControl(''),
+          // descServices: new FormControl(''),
+          // eligReqs: new FormControl(''),
+          // intakeProc: new FormControl(''),
+          // FeesChg: new FormControl(''),
+          // hrsOp: new FormControl(''),
+          // other: new FormControl('')
+        });
+      } else {
+        this.form = new FormGroup({
+          name: new FormControl(this.data.orgRecord?.name),
+          email: new FormControl(this.data.orgRecord?.email),
+          phone: new FormControl(this.data.orgRecord?.phone),
+          addressInfo: new FormControl(this.data.orgRecord?.addressLine1),
+          addressInfo2: new FormControl(this.data?.orgRecord?.addressLine2),
+          city: new FormControl(this.data.orgRecord?.city),
+          state: new FormControl(this.data.orgRecord?.state),
+          county: new FormControl(this.data.orgRecord?.county),
+          repFirstName: new FormControl(this.data.orgRecord?.repFirstName),
+          repLastName: new FormControl(this.data.orgRecord?.repLastName),
+          repPosition: new FormControl(this.data.orgRecord?.repPosition),
+          repDepartment: new FormControl(this.data.orgRecord?.repDepartment),
+          // descServices: new FormControl(this.data.orgRecord?.descServices),
+          // eligReqs: new FormControl(this.data.orgRecord?.eligReqs),
+          // intakeProc: new FormControl(this.data.orgRecord?.intakeProc),
+          // feesChg: new FormControl(this.data.orgRecord?.feesChg),
+          // hrsOp: new FormControl(this.data.orgRecord?.hrsOp),
+          // other: new FormControl(this.data.orgRecord?.other)
+        });
+      }
+
     }
 
     onCancelClick(): void {
@@ -627,54 +716,91 @@ export class OrganizationContentDialog {
     }
 
     addOrganizationInfo(): void {
-      //TODO handle adding record to the db here
-      //todo remove the below code for localstorage changes
+      if (this.mode != 'e'){
+        console.log(this.mode)
+        //todo remove the below code for localstorage changes
+        let records = JSON.parse(localStorage.getItem('org-records') || '[]');
 
-      let records = JSON.parse(localStorage.getItem('org-records') || '[]');
+        let recordId = crypto.randomUUID();
 
-      let recordId = crypto.randomUUID();
+        let newRecord = {
+          name: this.form.get('name')!.value,
+          phone: this.form.get('phone')!.value,
+          email: this.form.get('email')!.value,
+          addressLine1: this.form.get('addressInfo')!.value,
+          addressLine2: this.form.get('addressInfo2')!.value,
+          city: this.form.get('city')!.value,
+          county: this.form.get('county')!.value,
+          state: this.form.get('state')!.value,
+          id: recordId,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          repFirstName: this.form.get('repFirstName')!.value,
+          repLastName: this.form.get('repLastName')!.value,
+          repPosition: this.form.get('repPosition')!.value,
+          repDepartment: this.form.get('repDepartment')!.value,
+          // descServices: this.form.get('descServices')!.value,
+          // eligReqs: this.form.get('eligReqs')!.value,
+          // intakeProc: this.form.get('intakeProc')!.value,
+          // feesChg: this.form.get('feesChg')!.value,
+          // hrsOp: this.form.get('hrsOp')!.value,
+          // other: this.form.get('other')!.value,
+        };
 
-      let newRecord = {
-        name: this.form.get('name')!.value,
-        phone: this.form.get('phone')!.value,
-        email: this.form.get('email')!.value,
-        addressInfo: this.form.get('addressInfo')!.value,
-        addressInfo2: this.form.get('addressInfo2')!.value,
+        // 3. Push object into array
+        records.push(newRecord);
 
-        city: this.form.get('city')!.value,
-        county: this.form.get('county')!.value,
-        state: this.form.get('state')!.value,
-        id: recordId,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        // 4. Save back properly
+        localStorage.setItem('org-records', JSON.stringify(records));
 
-        // repFirstName: this.form.get('firstName')!.value,
-        // repLastName: this.form.get('lastName')!.value,
-        // repPosition: 'A',
-        // repDepartment: this.form.get('gender')!.value,
-      };
+        this.dialogRef.close();
+        this.dialogRef.close();
+      // handles navigation to view-record page
+      try {
+          this.router.navigate(['/view-record', 'organization', recordId])
+        } catch (error) {
+          console.error('Navigation error:', error);
+        }
 
-      // 3. Push object into array
-      records.push(newRecord);
+      } else {
+        console.log("edit mode")
+        let editedRecord = {
+          name: this.form.get('name')!.value,
+          phone: this.form.get('phone')!.value,
+          email: this.form.get('email')!.value,
+          addressLine1: this.form.get('addressInfo')!.value,
+          addressLine2: this.form.get('addressInfo2')!.value,
+          city: this.form.get('city')!.value,
+          county: this.form.get('county')!.value,
+          state: this.form.get('state')!.value,
+          id: this.data.orgRecord.id,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          repFirstName: this.form.get('repFirstName')!.value,
+          repLastName: this.form.get('repLastName')!.value,
+          repPosition: this.form.get('repPosition')!.value,
+          repDepartment: this.form.get('repDepartment')!.value,
+          // descServices: this.form.get('descServices')!.value,
+          // eligReqs: this.form.get('eligReqs')!.value,
+          // intakeProc: this.form.get('intakeProc')!.value,
+          // feesChg: this.form.get('feesChg')!.value,
+          // hrsOp: this.form.get('hrsOp')!.value,
+          // other: this.form.get('other')!.value,
+        };
 
-      // 4. Save back properly
-      localStorage.setItem('org-records', JSON.stringify(records));
+        const stored = localStorage.getItem('org-records');
+        const records = stored ? JSON.parse(stored) : [];
 
-      // TODO handles navigation to view-record page
-      this.dialogRef.close();
+        //find the record that matches the id
+        let record =  records.find((r: any) => r.id === this.data.orgRecord.id);
+        let recordIndex = records.indexOf(record);
 
+        records[recordIndex] = editedRecord
 
+        localStorage.setItem('org-records', JSON.stringify(records));
 
-    // handles navigation to view-record page
-    this.dialogRef.close();
-
-     try {
-        let url = this.router.serializeUrl(
-           this.router.createUrlTree(['/view-record', 'organization', recordId])
-          );
-        window.open(url, '_blank'); // opens in a new tab
-      } catch (error) {
-        console.error('Navigation error:', error);
+        this.dialogRef.close();
+        window.location.reload();
       }
     }
 }

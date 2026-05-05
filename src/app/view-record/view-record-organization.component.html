@@ -39,7 +39,7 @@
                         <tr><td>&nbsp; &nbsp;Street Address Line 2&nbsp; &nbsp;</td> <td><div id="street address">&nbsp; &nbsp; {{orgRecord.addressLine2  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
                         <tr><td>&nbsp; &nbsp;City</td> <td><div id="city">&nbsp; &nbsp; {{orgRecord.city  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
                         <tr><td>&nbsp; &nbsp;State</td> <td><div id="state">&nbsp; &nbsp; {{orgRecord.state  || "N/A"}}&nbsp; &nbsp;</div></td></tr>
-                        <tr><td>&nbsp; &nbsp;County</td> <td><div id="county">&nbsp; &nbsp; {{orgRecord.county}}&nbsp; &nbsp;</div></td></tr>
+                        <tr><td>&nbsp; &nbsp;County</td> <td><div id="county">&nbsp; &nbsp; {{orgRecord.county || "N/A"}}&nbsp; &nbsp;</div></td></tr>
                     </table>
                     <br>
 
@@ -47,17 +47,17 @@
                     <br>
                     <table align="center" border = "1">
                         <tr>
-                        <td>&nbsp; &nbsp;First Name </td><td>&nbsp; &nbsp;Fred&nbsp; &nbsp;</td>
+                        <td>&nbsp; &nbsp;First Name </td><td>&nbsp; &nbsp;{{orgRecord.repFirstName || "N/A"}}&nbsp; &nbsp;</td>
                         </tr>
 
                         <tr>
-                        <td>&nbsp; &nbsp;Last Name </td><td>&nbsp; &nbsp;Alvarez&nbsp; &nbsp;</td>
+                        <td>&nbsp; &nbsp;Last Name </td><td>&nbsp; &nbsp;{{orgRecord.repLastName || "N/A"}}&nbsp; &nbsp;</td>
                         </tr>
                         <tr>
-                        <td>&nbsp; &nbsp;Department &nbsp; &nbsp;</td><td>&nbsp; &nbsp;Customer Outreach Services&nbsp; &nbsp;</td>
+                        <td>&nbsp; &nbsp;Department &nbsp; &nbsp;</td><td>&nbsp; &nbsp;{{orgRecord.repDepartment || "N/A"}}&nbsp; &nbsp;</td>
                         </tr>
                         <tr>
-                            <td> &nbsp; &nbsp;Position </td><td>&nbsp; &nbsp;Manager&nbsp; &nbsp;</td>
+                            <td> &nbsp; &nbsp;Position </td><td>&nbsp; &nbsp;{{orgRecord.repPosition || "N/A"}}&nbsp; &nbsp;</td>
                         </tr>
                     </table>
                 </mat-card-content>
