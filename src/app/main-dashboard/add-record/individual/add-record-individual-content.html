@@ -1,0 +1,178 @@
+<mat-dialog-content>
+    <mat-card class="dialog-card">
+        <div align="end">
+            <button class = "closebtn" matIconButton mat-dialog-close aria-label="Close dialog" align="end">
+                <mat-icon>close</mat-icon><span class="spacer"></span>
+            </button>
+        </div>
+        <mat-card-header>
+            <mat-card-title> {{ titleText }} </mat-card-title>
+        </mat-card-header>
+        <br>
+        <mat-card-content>
+        <form [formGroup]="form">
+            <mat-form-field class="individual-form-field">
+                <mat-label>First Name</mat-label>
+                <input matInput placeholder="First Name" formControlName="firstName" required>
+                <mat-error *ngIf="form.get('firstName')?.hasError('required')">First Name required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Last Name</mat-label>
+                <input matInput placeholder="Last Name" formControlName="lastName" required>
+                <mat-error *ngIf="form.get('lastName')?.hasError('required')">Last Name required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Salutation</mat-label>
+                <mat-select placeholder="Salutation" formControlName="salutation">
+                <mat-option value="Mr.">Mr.</mat-option>
+                <mat-option value="Mrs.">Mrs.</mat-option>
+                <mat-option value="Ms.">Ms.</mat-option>
+                <mat-option value="Mx.">Mx.</mat-option>
+                <mat-option value="Dr.">Dr.</mat-option>
+                <mat-option value="">--</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-label class="individual-form-field">Withheld</mat-label>
+            <mat-checkbox formControlName="withheldDOB"></mat-checkbox>
+
+            <mat-form-field class="individual-form-field" appearance="outline" floatLabel="always">
+                <mat-label>Date of Birth</mat-label>
+                <input
+                    matInput
+                    [matDatepicker]="dobPicker"
+                    [matDatepickerFilter]="myFilter"
+                    formControlName="dateOfBirth"
+                />
+                <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                <mat-datepicker #dobPicker></mat-datepicker>
+            </mat-form-field>
+            <span class="spacer">&nbsp;</span>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Gender</mat-label>
+                <mat-select placeholder="Gender" formControlName="gender"> 
+                <mat-option value="Male">Male</mat-option>
+                <mat-option value="Female">Female</mat-option>
+                <mat-option value="Agender">Agender</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="individual-form-field" style="width:98%">
+                <mat-label>Race / Ethnicity</mat-label>
+                <mat-select placeholder="Race / Ethnicity" formControlName="ethnicity">
+                <mat-option value="American Indian or Alaska Native"> American Indian or Alaska Native</mat-option>
+                <mat-option value="Asian"> Asian </mat-option>
+                <mat-option value="Black or African American"> Black or African American </mat-option>
+                <mat-option value="Native Hawaiian or Other Pacific Islander"> Native Hawaiian or Other Pacific Islander </mat-option>
+                <mat-option value="White"> White </mat-option>
+                <mat-option value="Not Listed"> Not Listed </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-card-subtitle>Enter Mailing Address</mat-card-subtitle>
+            <mat-label class="individual-form-field" >Withheld</mat-label>
+            <mat-checkbox formControlName="withheldAddress"></mat-checkbox>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Street Address</mat-label>
+                <input matInput placeholder="Street Address" formControlName="addressInfo">
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Street Address line 2</mat-label>
+                <input matInput placeholder="Street Address line 2" formControlName="addressInfo2">
+            </mat-form-field>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>City</mat-label>
+                <input matInput placeholder="City" formControlName="city">
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>State</mat-label>
+                <mat-select placeholder="State" formControlName="state">
+                <mat-option value="Michigan"> Michigan (MI)</mat-option>
+                <mat-option value="Minnesota"> Minnesota (MN) </mat-option>
+                <mat-option value="Mississippi"> Mississippi (MS) </mat-option>
+                <mat-option value="Missouri"> Missouri (MO) </mat-option>
+                <mat-option value="Montana"> Montana (MT) </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>County</mat-label>
+                <input matInput placeholder="County" formControlName="county">
+            </mat-form-field>
+            <br>
+            <mat-label class="individual-form-field">Opt-ed into Newsletter</mat-label>
+            <mat-checkbox formControlName="optNews"></mat-checkbox>
+            
+            <br>
+            <mat-card-subtitle>Enter Contact Information</mat-card-subtitle>
+            <br>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email" formControlName="email" required type="email">
+                <mat-error *ngIf="form.get('email')?.hasError('required')">Email required</mat-error>
+                <mat-error *ngIf="form.get('email')?.hasError('email')">Invalid email</mat-error>
+            </mat-form-field>
+            <mat-form-field class="individual-form-field">
+                <mat-label>Phone Number</mat-label>
+                <input matInput placeholder="Phone Number" phoneFormat type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" formControlName="phone" required >
+                <mat-error *ngIf="form.get('phone')?.hasError('required')">Phone Number required</mat-error>
+                <mat-error *ngIf="form.get('phone')?.hasError('phone')">Invalid phone number</mat-error>
+            </mat-form-field>
+
+            <br>
+            <mat-card-subtitle>Enter Other Information</mat-card-subtitle>
+            <!-- <br>
+            <p>Type a new alias name and hit ENTER.</p>
+            <chips-input-alias class="chip-list"></chips-input-alias> 
+            <br>-->
+            <p>Select or search for a membership.</p>
+            <chips-autocomplete-selector class="chip-list" [options]="membership" optionType="Memberships" optionTypeText = "New Membership..." ></chips-autocomplete-selector>
+
+            <br>
+            <mat-card-subtitle>Does the individual have a disability?</mat-card-subtitle>
+            <mat-radio-group aria-label="Select an option" formControlName="hasDisability" >
+                <mat-radio-button value='Yes'>Yes</mat-radio-button>
+                <mat-radio-button value='No'>No</mat-radio-button>
+            </mat-radio-group>
+            <br>
+            <div id="disability-info" *ngIf="showDisabilityList">
+                <!-- TODO: Additional Information for Disabilities to Implement in the future  -->
+                <!-- 
+                <mat-form-field class="individual-form-field">
+                <mat-label>Primary Disability</mat-label>
+                <mat-select placeholder="Primary Disability" >
+                <mat-option value="A">A</mat-option>
+                <mat-option value="B">B</mat-option>
+                <mat-option value="C">C</mat-option>
+                </mat-select>
+                </mat-form-field>
+                <mat-form-field class="individual-form-field" style="width: 50%;">
+                <mat-label>Primary Disability Classification</mat-label>
+                <mat-select placeholder="Primary Disability Classification" >
+                <mat-option value="A">A</mat-option>
+                <mat-option value="B">B</mat-option>
+                <mat-option value="C">C</mat-option>
+                </mat-select>
+                </mat-form-field> -->
+                <p>Search for an additional disability or Type one and hit ENTER.</p>
+                <chips-autocomplete-selector class="chip-list"  [options]="disabilities" optionType="AdditionalDisability" optionTypeText = "New Disability..."></chips-autocomplete-selector>
+            </div>
+            <div>
+            <div align="end">
+                <br>
+                <mat-error *ngIf="!form.valid">Please fix or complete all required fields.</mat-error>
+            </div>
+                <mat-dialog-actions>
+                    <button mat-button class = "submitbtn" mat-dialog-submit aria-label="Submit Individual" align="end" [disabled]="!form.valid" (click)="addIndividualInfo()">
+                        Submit
+                    </button>
+                </mat-dialog-actions>
+            </div>
+            <div><br></div>
+        </form>
+        </mat-card-content> 
+    </mat-card>
+    <br>
+</mat-dialog-content>
+  

@@ -25,7 +25,7 @@
 
     <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Grant</mat-label>
-        <mat-select [(value)]="newGrant">
+        <mat-select [(ngModel)]="newGrant" name="grant">
             <mat-option *ngFor="let g of grants" [value]="g">
                 {{ g }}
             </mat-option>
@@ -34,7 +34,7 @@
 
     <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Service Type</mat-label>
-        <mat-select [(value)]="newType">
+        <mat-select [(ngModel)]="newType" name="type">
             <mat-option *ngFor="let t of types" [value]="t">
                 {{ t }}
             </mat-option>
@@ -49,13 +49,14 @@
             step="0.25"
             min="0"
             [(ngModel)]="newHours"
+            name="hours"
         />
     </mat-form-field>
 </div>
 
 <div mat-dialog-actions align="end">
     <button mat-button (click)="close()">Cancel</button>
-    <button mat-button (click)="addEmployee()">
+    <button mat-button [disabled]="!newEmployee || !newGrant || !newType || newHours < 0" (click)="addEmployee()">
         {{ data ? 'Save' : 'Add' }}
     </button>
 </div>
