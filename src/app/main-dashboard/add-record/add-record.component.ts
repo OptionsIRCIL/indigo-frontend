@@ -13,6 +13,7 @@ import {
 	Directive,
 	HostListener,
 } from "@angular/core";
+import { AsyncPipe } from "@angular/common"
 import { MatIconModule } from "@angular/material/icon";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
