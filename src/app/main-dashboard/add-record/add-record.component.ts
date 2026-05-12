@@ -246,6 +246,7 @@ export let additionalDisabilityList = [
 	`,
 	styleUrls: ["././individual/add-record-individual-content.css"],
 	imports: [
+		AsyncPipe,
 		ReactiveFormsModule,
 		MatFormFieldModule,
 		MatChipsModule,
