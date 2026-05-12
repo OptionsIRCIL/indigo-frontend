@@ -1,100 +1,91 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
-import { Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { Component } from "@angular/core";
+
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
+import { FormsModule } from "@angular/forms";
+import { Inject } from "@angular/core";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
 
 interface EmployeeEffortDialogData {
-  date?: Date | string;
-  employee?: string;
-  grant?: string;
-  type?: string;
-  hours?: number;
+	date?: Date | string;
+	employee?: string;
+	grant?: string;
+	type?: string;
+	hours?: number;
 }
 
 @Component({
-  selector: 'app-add-employee',
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    FormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-  ],
-  standalone: true,
-  templateUrl: './add-employee.component.html',
-  styleUrl: './add-employee.component.css',
+	selector: "app-add-employee",
+	imports: [
+		MatDialogModule,
+		MatButtonModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatSelectModule,
+		FormsModule,
+		MatDatepickerModule,
+		MatNativeDateModule,
+	],
+	standalone: true,
+	templateUrl: "./add-employee.component.html",
+	styleUrl: "./add-employee.component.css",
 })
 export class AddEmployeeComponent {
-  constructor(
-    private dialogRef: MatDialogRef<AddEmployeeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: EmployeeEffortDialogData | null
-  ) {
+	constructor(
+		private dialogRef: MatDialogRef<AddEmployeeComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: EmployeeEffortDialogData | null,
+	) {
+		if (data) {
+			this.newDate = data.date ? new Date(data.date) : new Date();
+			this.newEmployee = data.employee ?? "";
+			this.newGrant = data.grant ?? "";
+			this.newType = data.type ?? "";
+			this.newHours = data.hours ?? 0;
+		}
+	}
 
-    if (data) {
-      this.newDate = data.date ? new Date(data.date) : new Date();
-      this.newEmployee = data.employee ?? '';
-      this.newGrant = data.grant ?? '';
-      this.newType = data.type ?? '';
-      this.newHours = data.hours ?? 0;
-    }
-  }
+	employees: string[] = ["John Doe", "Jane Smith", "Michael Johnson"];
+	grants: string[] = ["Grant A", "Grant B", "Grant C"];
+	types: string[] = ["A", "B", "C"];
 
-  employees: string[] = [
-    'John Doe',
-    'Jane Smith',
-    'Michael Johnson',
-  ];
-  grants: string[] = [
-    'Grant A',
-    'Grant B',
-    'Grant C',
-  ];
-  types: string[] = [
-    'A',
-    'B',
-    'C',
-  ];
+	newDate: Date = new Date();
+	newEmployee!: string;
+	newGrant!: string;
+	newType!: string;
+	newHours!: number;
 
-  newDate: Date = new Date();
-  newEmployee!: string;
-  newGrant!: string;
-  newType!: string;
-  newHours!: number;
+	addEmployee() {
+		if (
+			!this.newEmployee ||
+			!this.newGrant ||
+			!this.newType ||
+			this.newHours < 0
+		) {
+			return;
+		}
 
-  addEmployee() {
-    if (!this.newEmployee || !this.newGrant || !this.newType || this.newHours < 0) {
-      return;
-    }
+		this.dialogRef.close({
+			date: this.newDate,
+			employee: this.newEmployee,
+			grant: this.newGrant,
+			type: this.newType,
+			hours: this.newHours,
+		});
+	}
 
-    this.dialogRef.close({
-      date: this.newDate,
-      employee: this.newEmployee,
-      grant: this.newGrant,
-      type: this.newType,
-      hours: this.newHours,
-    });
-  }
+	myFilter = (d: Date | null): boolean => {
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
 
-  myFilter = (d: Date | null): boolean => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+		return d !== null && d <= today;
+	};
 
-    return d !== null && d <= today;
-  }
-
-  close() {
-    this.dialogRef.close();
-  }
+	close() {
+		this.dialogRef.close();
+	}
 }
