@@ -25,11 +25,9 @@
     border: 2px solid;
     width: 80%;
     padding: 10px;
+    font-size: 14px;
 }
-#notesTitle {
 
-    padding-left: 10%;
-}
 .spacer {
   flex: 1 1 auto;
 }

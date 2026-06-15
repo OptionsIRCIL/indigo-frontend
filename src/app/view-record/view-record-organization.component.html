@@ -116,30 +116,24 @@
                 </mat-card>
                 </mat-tab>
                 </mat-tab-group>
-                
-
             </div>
-            
-            <br>
             <br>
             <div>
-                <table outline="black">
-
-                </table>
-            </div>
-            <div>
-                <button mat-button  id = "addFormAttchBtn" (click)="openAddForm()">
+                <button mat-raised-button  id = "addFormAttchBtn" color="primary" (click)="openAddForm('i')">
                     <mat-icon>add</mat-icon> Add Form
                 </button>
                 <span id="spacer"><br> <br></span>
-                <button mat-button id = "addFormAttchBtn" (click)="openAddAttachment()">
+                <button mat-raised-button id = "addFormAttchBtn" color="primary" (click)="openAddAttachment()">
                     <mat-icon>add</mat-icon> Add Attachment
                 </button>
             </div>
-            <mat-card-title align="left" id="notesTitle">&nbsp; &nbsp;Notes</mat-card-title>
+            <br>
+            <mat-card-title align="center" id="notesTitle">Notes</mat-card-title>
             <div >
-            <p id="notes">these are the notes for a specific organization</p>
+            <textarea matInput rows="5" id="notes" formControlName="notes"></textarea>
             </div>
+            <br>
+            <button mat-raised-button color="primary" type="button">Save</button>
             <br>
             <br>
 </div>
