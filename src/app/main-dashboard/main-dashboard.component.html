@@ -33,42 +33,7 @@
 
 <div class="search-results">
 	<mat-accordion multi>
-		<mat-expansion-panel [expanded]="true">
-			<mat-expansion-panel-header>
-				<mat-panel-title> Organizations </mat-panel-title>
-			</mat-expansion-panel-header>
-			<!----
-      <mat-card class="result-organizations" *ngFor="let o of organizationResults">
-        <div class = "card-grid">
-          <div class="name">{{o.name}}</div>
-          <div class="title">{{o.title}}</div>
-          <div class="company">{{o.company}}</div>
-          <div class="space"></div>
-          <div class="location">{{o.location}}</div>
-          <div class="last-contact">{{o.lastContact}}</div>
-        </div>
-      </mat-card>
-      -->
-			@for (orgRecord of orgRecords; track orgRecord) {
-				<mat-card class="result-organizations">
-					<div class="card-grid" (click)="viewRecord(orgRecord.id, false)">
-						<div class="company">{{ orgRecord.name }}</div>
-						@if (orgRecord.city == "" || orgRecord.state == "") {
-							<div class="location">N/A</div>
-						}
-						@if (orgRecord.city != "" || orgRecord.state != "") {
-							<div class="location">
-								{{ orgRecord.city }}, {{ orgRecord.state }}
-							</div>
-						}
-						<div class="last-contact">
-							Last Contacted: {{ orgRecord.updatedAt | date: "mediumDate" }}
-						</div>
-					</div>
-				</mat-card>
-			}
-		</mat-expansion-panel>
-		<mat-expansion-panel [expanded]="true">
+		<mat-expansion-panel [expanded]="false">
 			<mat-expansion-panel-header>
 				<mat-panel-title> Individuals </mat-panel-title>
 			</mat-expansion-panel-header>
@@ -102,6 +67,41 @@
 				</mat-card>
 			}
 			<br />
+		</mat-expansion-panel>
+		<mat-expansion-panel [expanded]="false">
+			<mat-expansion-panel-header>
+				<mat-panel-title> Organizations </mat-panel-title>
+			</mat-expansion-panel-header>
+			<!----
+      <mat-card class="result-organizations" *ngFor="let o of organizationResults">
+        <div class = "card-grid">
+          <div class="name">{{o.name}}</div>
+          <div class="title">{{o.title}}</div>
+          <div class="company">{{o.company}}</div>
+          <div class="space"></div>
+          <div class="location">{{o.location}}</div>
+          <div class="last-contact">{{o.lastContact}}</div>
+        </div>
+      </mat-card>
+      -->
+			@for (orgRecord of orgRecords; track orgRecord) {
+				<mat-card class="result-organizations">
+					<div class="card-grid" (click)="viewRecord(orgRecord.id, false)">
+						<div class="company">{{ orgRecord.name }}</div>
+						@if (orgRecord.city == "" || orgRecord.state == "") {
+							<div class="location">N/A</div>
+						}
+						@if (orgRecord.city != "" || orgRecord.state != "") {
+							<div class="location">
+								{{ orgRecord.city }}, {{ orgRecord.state }}
+							</div>
+						}
+						<div class="last-contact">
+							Last Contacted: {{ orgRecord.updatedAt | date: "mediumDate" }}
+						</div>
+					</div>
+				</mat-card>
+			}
 		</mat-expansion-panel>
 	</mat-accordion>
 </div>
