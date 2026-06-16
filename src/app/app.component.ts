@@ -52,11 +52,11 @@ export class AppComponent implements OnInit {
 			next: () => {
 				this.tokenState.token.next(false);
 				window.cookieStore.delete("IndigoAuth");
-				this.snackBar.open("Logout successful", "Dismiss");
+				this.snackBar.open("Logout successful", "", {duration: 2000});
 				this.router.navigate(["/login"]);
 			},
 			error: () => {
-				this.snackBar.open("Logout failed", "Dismiss");
+				this.snackBar.open("Logout failed", "", {duration: 2000});
 			},
 		});
 	}

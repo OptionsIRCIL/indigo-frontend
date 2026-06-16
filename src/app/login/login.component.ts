@@ -48,17 +48,18 @@ export class LoginComponent {
 				.subscribe({
 					next: () => {
 						this.tokenState.token.next(true);
-						this.snackBar.open("Login successful", "Dismiss");
+						this.snackBar.open("Login successful", "", {duration: 2000});
 						this.router.navigate(["/main-dashboard"]).then(); // MAY BE REFACTORED TO ROUTE TO ACTIVATED ROUTE
 					},
 					error: (err) => {
 						this.tokenState.token.next(false);
 						if (err.status === 422) {
-							this.snackBar.open("Invalid Credentials", "Dismiss");
+							this.snackBar.open("Invalid Credentials", "", {duration: 2000});
 						} else {
 							this.snackBar.open(
 								"Something went wrong. Please try again",
-								"Dismiss",
+								"",
+                {duration: 2000}
 							);
 						}
 					},
