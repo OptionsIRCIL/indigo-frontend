@@ -13,7 +13,7 @@ export class ConfigService {
 							private tokenState: TokenState,) {}
 
 	loadAppConfig() {
-		return firstValueFrom(this.http.get('./config/config.json')
+		return firstValueFrom(this.http.get('./config.json')
 			.pipe(
 				tap(data => this.configData = data),
 			));
