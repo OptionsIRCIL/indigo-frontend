@@ -111,7 +111,7 @@ export class addRecordContentDialog {
 }
 
 /* Phone formatter 
-  allows dashes to appear as user types phone number
+	allows dashes to appear as user types phone number
 */
 @Directive({
 	selector: "[phoneFormat]",
@@ -348,9 +348,9 @@ export class ChipsAutocompleteOption {
 }
 
 /**
- * @title Radio Button Component
- *
- **/
+* @title Radio Button Component
+*
+**/
 @Component({
 	selector: "radio-ng-model",
 	standalone: true,
@@ -571,99 +571,76 @@ export class IndividualContentDialog {
 	}
 
 	addIndividualInfo(): void {
-		if (this.mode != "e") {
-			// TODO handle adding record to the db here
-			//todo remove this later bc local storage changes
-			let records = JSON.parse(localStorage.getItem("records") || "[]");
+		// TODO handle adding record to the db here
+		//todo remove this later bc local storage changes
 
-			let recordId = crypto.randomUUID();
+		let membership = this.chipsComponents.toArray()[0]?.options.join(", ") || [];
+		let disabilities = this.chipsComponents.toArray()[1]?.options.join(", ") || [];
 
-			let membership =
-				this.chipsComponents.toArray()[0]?.options.join(", ") || [];
-			let disabilities =
-				this.chipsComponents.toArray()[1]?.options.join(", ") || [];
+		let updatedRecord = {
+			active: false,
+			addressLine1: this.form.get("addressInfo")!.value,
+			addressLine2: this.form.get("addressInfo2")!.value,
+			birthday: this.form.get("dateOfBirth")!.value,
+			city: this.form.get("city")!.value,
+			county: this.form.get("county")!.value,
+			deceased: false,
+			email: this.form.get("email")!.value,
+			ethnicity: this.form.get("ethnicity")!.value,
+			firstName: this.form.get("firstName")!.value,
+			gender: this.form.get("gender")!.value,
+			lastName: this.form.get("lastName")!.value,
+			membership: membership,
+			phone: this.form.get("phone")!.value,
+			salutation: this.form.get("salutation")!.value,
+			state: this.form.get("state")!.value,
+			id: recordId,
+			createdAt: new Date().toISOString(),
+			updatedAt: new Date().toISOString(),
+			disabilities: disabilities,
+		};
 
-			let newRecord = {
-				active: false,
-				addressLine1: this.form.get("addressInfo")!.value,
-				addressLine2: this.form.get("addressInfo2")!.value,
-				birthday: this.form.get("dateOfBirth")!.value,
-				city: this.form.get("city")!.value,
-				county: this.form.get("county")!.value,
-				deceased: false,
-				email: this.form.get("email")!.value,
-				ethnicity: this.form.get("ethnicity")!.value,
-				firstName: this.form.get("firstName")!.value,
-				gender: this.form.get("gender")!.value,
-				lastName: this.form.get("lastName")!.value,
-				membership: membership,
-				phone: this.form.get("phone")!.value,
-				salutation: this.form.get("salutation")!.value,
-				state: this.form.get("state")!.value,
-				id: recordId,
-				createdAt: new Date().toISOString(),
-				updatedAt: new Date().toISOString(),
-				disabilities: disabilities,
-			};
+		if (this.mode == "e") {
+			// If an existing record is being modified
 
-			// 3. Push object into array
-			records.push(newRecord);
+			if (this.config.demoMode) {
+				const stored = localStorage.getItem("records");
+				const records = stored ? JSON.parse(stored) : [];
+			}
 
-			// 4. Save back properly
-			localStorage.setItem("records", JSON.stringify(records));
+			// Find the record that matches the id
+			let record = records.find((r: any) => r.id === this.data.record.id);
+			let recordIndex = records.indexOf(record);
+			records[recordIndex] = updatedRecord;
+
+			if (this.config.demoMode) {
+				localStorage.setItem("records", JSON.stringify(records));
+			}
 
 			this.dialogRef.close();
-			this.dialogRef.close();
+			window.location.reload();
+		} else {
+			if (this.config.demoMode) {
+				let records = JSON.parse(localStorage.getItem("records") || "[]");
+				let recordId = crypto.randomUUID();
+			}
 
-			//handles navigation to view-record page
+			// Push object into array
+			records.push(updatedRecord);
+
+			// Save back properly
+			if (this.config.demoMode) {
+				localStorage.setItem("records", JSON.stringify(records));
+			}
+
+			// Navigate to view-record page
+			this.dialogRef.close();
+			this.dialogRef.close();
 			try {
 				this.router.navigate(["/view-record", "individual", recordId]);
 			} catch (error) {
 				console.error("Navigation error:", error);
 			}
-		} else {
-			let membership =
-				this.chipsComponents.toArray()[0]?.options.join(", ") || [];
-			let disabilities =
-				this.chipsComponents.toArray()[1]?.options.join(", ") || [];
-
-			let editedRecord = {
-				active: false,
-				addressLine1: this.form.get("addressInfo")!.value,
-				addressLine2: this.form.get("addressInfo2")!.value,
-				birthday: this.form.get("dateOfBirth")!.value,
-				city: this.form.get("city")!.value,
-				county: this.form.get("county")!.value,
-				deceased: false,
-				email: this.form.get("email")!.value,
-				ethnicity: this.form.get("ethnicity")!.value,
-				firstName: this.form.get("firstName")!.value,
-				gender: this.form.get("gender")!.value,
-				lastName: this.form.get("lastName")!.value,
-				membership: membership,
-				phone: this.form.get("phone")!.value,
-				salutation: this.form.get("salutation")!.value,
-				state: this.form.get("state")!.value,
-				id: this.data.record.id,
-				createdAt: new Date().toISOString(),
-				updatedAt: new Date().toISOString(),
-				disabilities: disabilities,
-			};
-
-			const stored = localStorage.getItem("records");
-			const records = stored ? JSON.parse(stored) : [];
-
-			//find the record that matches the id
-			let record = records.find((r: any) => r.id === this.data.record.id);
-			let recordIndex = records.indexOf(record);
-
-			records[recordIndex] = editedRecord;
-
-			localStorage.setItem("records", JSON.stringify(records));
-
-			this.dialogRef.close();
-			window.location.reload();
-		}
 	}
 }
 
