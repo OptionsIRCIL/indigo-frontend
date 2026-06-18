@@ -159,7 +159,6 @@
 						matInput
 						placeholder="Email"
 						formControlName="email"
-						required
 						type="email"
 					/>
 					@if (form.get('email')?.hasError('required')) {
@@ -177,7 +176,6 @@
 						type="tel"
 						pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
 						formControlName="phone"
-						required
 					/>
 					@if (form.get('phone')?.hasError('required')) {
 					<mat-error>Phone Number required</mat-error>

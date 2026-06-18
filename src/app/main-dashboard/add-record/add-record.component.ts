@@ -43,6 +43,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
+import { PersonClientService } from '../../../service/client/person-client.service';
 
 @Injectable({ providedIn: "root" })
 export class addRecordDialogService {
@@ -110,7 +111,7 @@ export class addRecordContentDialog {
 	}
 }
 
-/* Phone formatter 
+/* Phone formatter
   allows dashes to appear as user types phone number
 */
 @Directive({
@@ -399,6 +400,7 @@ export class IndividualContentDialog {
 		private readonly router: Router,
 		public dialogRef: MatDialogRef<IndividualContentDialog>,
 		private fb: FormBuilder,
+    private personService: PersonClientService,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 	) {
 		if (data?.mode == "e") {
@@ -571,12 +573,13 @@ export class IndividualContentDialog {
 	}
 
 	addIndividualInfo(): void {
+
+	  let recordId = crypto.randomUUID();
+
 		if (this.mode != "e") {
 			// TODO handle adding record to the db here
 			//todo remove this later bc local storage changes
 			let records = JSON.parse(localStorage.getItem("records") || "[]");
-
-			let recordId = crypto.randomUUID();
 
 			let membership =
 				this.chipsComponents.toArray()[0]?.options.join(", ") || [];
@@ -587,7 +590,7 @@ export class IndividualContentDialog {
 				active: false,
 				addressLine1: this.form.get("addressInfo")!.value,
 				addressLine2: this.form.get("addressInfo2")!.value,
-				birthday: this.form.get("dateOfBirth")!.value,
+				birthday: "2000-01-01", /*this.form.get("dateOfBirth")!.value.toISOString(),*/
 				city: this.form.get("city")!.value,
 				county: this.form.get("county")!.value,
 				deceased: false,
@@ -596,14 +599,12 @@ export class IndividualContentDialog {
 				firstName: this.form.get("firstName")!.value,
 				gender: this.form.get("gender")!.value,
 				lastName: this.form.get("lastName")!.value,
-				membership: membership,
+				/*membership: membership,*/
 				phone: this.form.get("phone")!.value,
 				salutation: this.form.get("salutation")!.value,
 				state: this.form.get("state")!.value,
-				id: recordId,
-				createdAt: new Date().toISOString(),
-				updatedAt: new Date().toISOString(),
-				disabilities: disabilities,
+				/*id: recordId,*/
+				/*disabilities: disabilities,*/
 			};
 
 			// 3. Push object into array
@@ -611,6 +612,9 @@ export class IndividualContentDialog {
 
 			// 4. Save back properly
 			localStorage.setItem("records", JSON.stringify(records));
+      let newPerson = this.personService.postPerson(newRecord).subscribe((data) => {
+        console.log(data);
+      });
 
 			this.dialogRef.close();
 			this.dialogRef.close();
