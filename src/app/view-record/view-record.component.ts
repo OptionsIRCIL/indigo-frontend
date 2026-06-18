@@ -18,6 +18,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddFormContentDialog, AddAttachmentContentDialog} from './add-form-or-attachment/add-form-or-attachment.component';
 import { OpenFormsService } from './open-forms.service';
 import { ConfigService } from '../../config/config.service';
+import { PersonClientService } from '../../service/client/person-client.service';
+import { Person } from "../../model/person";
 
 interface InformationAndReferralForm {
     date: string;
@@ -65,7 +67,7 @@ interface ComsumerInformationFileForm {
   county: string,
   independentLivingPlanActivity: string,
   dateOfILPAction: string,
-  individual: string, 
+  individual: string,
   id: string
 }
 
@@ -75,12 +77,12 @@ interface CommunityEducationAndOutreachForm {
   personsWithDisabilities: number,
   generalPublic: number,
   category: string,
-  futureReference: string, //enum 
+  futureReference: string, //enum
   descriptionOfService: string,
   outcome: string,
   closedAt: string,
   createdAt: string,
-  organization: string, 
+  organization: string,
   id: string
 }
 
@@ -106,26 +108,7 @@ export class IndividualViewRecordComponent {
   private _Activatedroute: any;
   private sub: any;
   currentRecordId: string = "";
-  record!: {
-    firstName: string,
-    lastName: string,
-    salutation: string,
-    email: string,
-    phone: string,
-    ethnicity: string,
-    membership: string,
-    gender: string,
-    withheldDOB: boolean,
-    optNews: boolean,
-    dateOfBirth: string,
-    withheldAddress: boolean,
-    addressLine1: string,
-    addressLine2: string,
-    city: string,
-    state: string,
-    county: string,
-    disabilities: string,
-  }
+  public record: any;
 
   recordFormsList!: {
     informationAndReferrals: InformationAndReferralForm[],
@@ -142,7 +125,8 @@ export class IndividualViewRecordComponent {
     protected readonly tokenState: TokenState,
     private readonly snackBar: MatSnackBar,
     private openFormsService: OpenFormsService,
-    private config: ConfigService
+    private config: ConfigService,
+    private personService: PersonClientService
   ) {}
 
   populateForms(id: string){
@@ -153,11 +137,11 @@ export class IndividualViewRecordComponent {
 
   handleFormClick( formChar: string, formId: string){
     switch(formChar){
-      case "i": this.openFormsService.openExistingForm('i', formId, 'individual', this.currentRecordId) 
+      case "i": this.openFormsService.openExistingForm('i', formId, 'individual', this.currentRecordId)
         break;
-      case "g": this.openFormsService.openExistingForm('g', formId, 'individual', this.currentRecordId) 
+      case "g": this.openFormsService.openExistingForm('g', formId, 'individual', this.currentRecordId)
         break;
-      case "c": this.openFormsService.openExistingForm('c', formId, 'individual', this.currentRecordId) 
+      case "c": this.openFormsService.openExistingForm('c', formId, 'individual', this.currentRecordId)
         break;
     }
   }
@@ -172,6 +156,12 @@ export class IndividualViewRecordComponent {
       const records = stored ? JSON.parse(stored) : [];
       //find the record that matches the id
       this.record =  records.find((r: any) => r.id === id);
+    } else {
+      this.personService.getPerson(this.currentRecordId).subscribe((data) => {
+        this.record = data;
+      });
+      console.log("this.record");
+      console.log(this.record);
     }
 
     if (!this.recordFormsList) {
@@ -185,7 +175,7 @@ export class IndividualViewRecordComponent {
     if (id != null){
       this.populateForms(id);
     }
-    
+
    }
   openEditRecord(mode: string) {
       return this.dialog.open(IndividualContentDialog, {
@@ -194,7 +184,7 @@ export class IndividualViewRecordComponent {
         maxWidth: '90vw',
         maxHeight: '90vh',
         panelClass: 'custom-dialog',
-        data: { 
+        data: {
           mode,
           record: this.record,
          }
@@ -236,7 +226,7 @@ export class IndividualViewRecordComponent {
       return forms.filter((r: any) => r.personId === personId);
     }
     return [];
-    
+
   }
 
   getGoalsForms(personId: string){
@@ -257,6 +247,15 @@ export class IndividualViewRecordComponent {
       return forms.filter((r: any) => r.individual === personId);
     }
     return [];
+  }
+
+  saveNotes(){
+    // TODO: Implement PUT request on Person
+    try{
+      this.snackBar.open("Placeholder", "", {duration: 2000});
+    } catch (error) {
+      console.error("Notes not saved: ", error);
+    }
   }
 }
 
@@ -279,7 +278,7 @@ export class IndividualViewRecordComponent {
 })
 export class OrganizationViewRecordComponent {
 	currentRecordId: string = "";
-	
+
   orgRecord!: {
       name: string,
       email: string,
@@ -311,8 +310,9 @@ export class OrganizationViewRecordComponent {
 
 
     public constructor(
-      private dialog: MatDialog, 
+      private dialog: MatDialog,
       private route: ActivatedRoute,
+      private readonly snackBar: MatSnackBar,
       private openFormsService: OpenFormsService,
       private config: ConfigService
     ) {}
@@ -349,9 +349,9 @@ export class OrganizationViewRecordComponent {
 
     handleFormClick( formChar: string, formId: string){
       switch(formChar){
-        case "i": this.openFormsService.openExistingForm('i', formId, 'organization', this.currentRecordId) 
+        case "i": this.openFormsService.openExistingForm('i', formId, 'organization', this.currentRecordId)
           break;
-        case "o": this.openFormsService.openExistingForm('o', formId, 'organization', this.currentRecordId) 
+        case "o": this.openFormsService.openExistingForm('o', formId, 'organization', this.currentRecordId)
           break;
       }
     }
@@ -363,7 +363,7 @@ export class OrganizationViewRecordComponent {
           maxWidth: '90vw',
           maxHeight: '90vh',
           panelClass: 'custom-dialog',
-          data: { 
+          data: {
             mode,
             orgRecord: this.orgRecord,
           }
@@ -417,5 +417,14 @@ export class OrganizationViewRecordComponent {
       return forms.filter((r: any) => r.organization === orgId);
     }
     return [];
+  }
+
+  saveNotes(){
+    // TODO: Implement PUT request on Person
+    try{
+      this.snackBar.open("Placeholder", "", {duration: 2000});
+    } catch (error) {
+      console.error("Notes not saved: ", error);
+    }
   }
 }
