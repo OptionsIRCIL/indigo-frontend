@@ -9,19 +9,18 @@ import { provideRouter } from "@angular/router";
 
 import { routes } from "./app.routes";
 import { provideHttpClient } from "@angular/common/http";
-import { ConfigService } from '../config/config.service';
+import { ConfigService } from "../config/config.service";
 
 export const appConfig: ApplicationConfig = {
 	providers: [
 		provideZoneChangeDetection({ eventCoalescing: true }),
 		provideRouter(routes),
 		provideHttpClient(),
-    provideAppInitializer(() => {
-      return inject(ConfigService).loadAppConfig();
-    }),
+		provideAppInitializer(() => {
+			return inject(ConfigService).loadAppConfig();
+		}),
 		provideEnvironmentInitializer(() => {
 			return inject(ConfigService).setToken();
-		}
-		),
+		}),
 	],
 };

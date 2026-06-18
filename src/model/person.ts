@@ -1,5 +1,4 @@
 export class Person {
-
 	public constructor(
 		public active: boolean,
 		public birthday: string,
@@ -9,9 +8,9 @@ export class Person {
 		public lastName: string,
 		public gender: string,
 		public phone: string,
-		public salutation: string | null
-	){}
+		public salutation: string | null,
+		public id?: string,
+	) {}
 
 	// TODO - add fromFormData() method
-
 }

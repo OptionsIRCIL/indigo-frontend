@@ -5,7 +5,10 @@ import { MainDashboardComponent } from "./main-dashboard/main-dashboard.componen
 import { NotFoundComponent } from "./error-components/not-found/not-found.component";
 import { ForbiddenComponent } from "./error-components/forbidden/forbidden.component";
 import { IandrComponent } from "./iandr/iandr.component";
-import { IndividualViewRecordComponent, OrganizationViewRecordComponent } from "./view-record/view-record.component";
+import {
+	IndividualViewRecordComponent,
+	OrganizationViewRecordComponent,
+} from "./view-record/view-record.component";
 import { CEOComponent } from "./ceo/ceo.component";
 import { ConsumerInformationFileComponent } from "./consumer/consumer.component";
 import { GoalsComponent } from "./goals/goals.component";
@@ -14,12 +17,12 @@ export const routes: Routes = [
 	{
 		path: "",
 		children: [
-      {
-        path: "",
-        pathMatch: "full",
-        redirectTo: "main-dashboard",
-      },
-      {
+			{
+				path: "",
+				pathMatch: "full",
+				redirectTo: "main-dashboard",
+			},
+			{
 				path: "main-dashboard",
 				canActivate: [authGuard],
 				component: MainDashboardComponent,
@@ -34,7 +37,7 @@ export const routes: Routes = [
 					{
 						path: "organization/:id",
 						component: OrganizationViewRecordComponent,
-					}
+					},
 				],
 			},
 			{
@@ -78,12 +81,12 @@ export const routes: Routes = [
 				children: [
 					{
 						path: "not-found",
-						component: NotFoundComponent
+						component: NotFoundComponent,
 					},
 					{
 						path: "forbidden",
-						component: ForbiddenComponent
-					}
+						component: ForbiddenComponent,
+					},
 				],
 			},
 			{

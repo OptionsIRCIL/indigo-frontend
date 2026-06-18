@@ -1,7 +1,5 @@
-import { Component } from '@angular/core';
-import {
-	MatInputModule,
-} from "@angular/material/input";
+import { Component } from "@angular/core";
+import { MatInputModule } from "@angular/material/input";
 import { AccessClientService } from "../../service/client/access-client.service";
 import {
 	FormControl,
@@ -48,19 +46,17 @@ export class LoginComponent {
 				.subscribe({
 					next: () => {
 						this.tokenState.token.next(true);
-						this.snackBar.open("Login successful", "", {duration: 2000});
+						this.snackBar.open("Login successful", "", { duration: 2000 });
 						this.router.navigate(["/main-dashboard"]).then(); // MAY BE REFACTORED TO ROUTE TO ACTIVATED ROUTE
 					},
 					error: (err) => {
 						this.tokenState.token.next(false);
 						if (err.status === 422) {
-							this.snackBar.open("Invalid Credentials", "", {duration: 2000});
+							this.snackBar.open("Invalid Credentials", "", { duration: 2000 });
 						} else {
-							this.snackBar.open(
-								"Something went wrong. Please try again",
-								"",
-                {duration: 2000}
-							);
+							this.snackBar.open("Something went wrong. Please try again", "", {
+								duration: 2000,
+							});
 						}
 					},
 				});
