@@ -573,9 +573,6 @@ export class IndividualContentDialog {
 	}
 
 	addIndividualInfo(): void {
-
-	  let recordId = crypto.randomUUID();
-
 		if (this.mode != "e") {
 			// TODO handle adding record to the db here
 			//todo remove this later bc local storage changes
@@ -603,28 +600,34 @@ export class IndividualContentDialog {
 				phone: this.form.get("phone")!.value,
 				salutation: this.form.get("salutation")!.value,
 				state: this.form.get("state")!.value,
-				/*id: recordId,*/
 				/*disabilities: disabilities,*/
 			};
 
 			// 3. Push object into array
 			records.push(newRecord);
 
+      let recordId = ""; /*crypto.randomUUID();*/
+
 			// 4. Save back properly
 			localStorage.setItem("records", JSON.stringify(records));
+
       let newPerson = this.personService.postPerson(newRecord).subscribe((data) => {
-        console.log(data);
+        console.log(data.body?.firstName + " " + data.body?.lastName);
+        console.log(data.body?.id);
+        console.log(data.body);
+
+        recordId = data.body?.id!;
+        this.dialogRef.close();
+        this.dialogRef.close();
+
+        //handles navigation to view-record page
+        try {
+          this.router.navigate(["/view-record", "individual", recordId]);
+        } catch (error) {
+          console.error("Navigation error:", error);
+        }
       });
 
-			this.dialogRef.close();
-			this.dialogRef.close();
-
-			//handles navigation to view-record page
-			try {
-				this.router.navigate(["/view-record", "individual", recordId]);
-			} catch (error) {
-				console.error("Navigation error:", error);
-			}
 		} else {
 			let membership =
 				this.chipsComponents.toArray()[0]?.options.join(", ") || [];

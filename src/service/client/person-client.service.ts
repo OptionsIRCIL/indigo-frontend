@@ -14,11 +14,11 @@ export class PersonClientService {
 	}
 
 	public getPerson(id: string) {
-		return this.http.get<unknown>(`${this.apiUrl}person/${id}`, {withCredentials: true});
+		return this.http.get<Person>(`${this.apiUrl}person/${id}`, {withCredentials: true});
 	}
 
 	public postPerson(data: Person) {
-		return this.http.post<unknown>(`${this.apiUrl}person`, data, {withCredentials: true});
+		return this.http.post<Person>(`${this.apiUrl}person`, data, {observe: 'response', withCredentials: true});
 	}
 
 }
