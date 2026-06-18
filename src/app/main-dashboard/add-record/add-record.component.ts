@@ -13,7 +13,7 @@ import {
 	Directive,
 	HostListener,
 } from "@angular/core";
-import { AsyncPipe } from "@angular/common"
+import { AsyncPipe } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
@@ -43,7 +43,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
-import { PersonClientService } from '../../../service/client/person-client.service';
+import { PersonClientService } from "../../../service/client/person-client.service";
 
 @Injectable({ providedIn: "root" })
 export class addRecordDialogService {
@@ -400,7 +400,7 @@ export class IndividualContentDialog {
 		private readonly router: Router,
 		public dialogRef: MatDialogRef<IndividualContentDialog>,
 		private fb: FormBuilder,
-    private personService: PersonClientService,
+		private personService: PersonClientService,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 	) {
 		if (data?.mode == "e") {
@@ -587,7 +587,8 @@ export class IndividualContentDialog {
 				active: false,
 				addressLine1: this.form.get("addressInfo")!.value,
 				addressLine2: this.form.get("addressInfo2")!.value,
-				birthday: "2000-01-01", /*this.form.get("dateOfBirth")!.value.toISOString(),*/
+				birthday:
+					"2000-01-01" /*this.form.get("dateOfBirth")!.value.toISOString(),*/,
 				city: this.form.get("city")!.value,
 				county: this.form.get("county")!.value,
 				deceased: false,
@@ -606,28 +607,29 @@ export class IndividualContentDialog {
 			// 3. Push object into array
 			records.push(newRecord);
 
-      let recordId = ""; /*crypto.randomUUID();*/
+			let recordId = ""; /*crypto.randomUUID();*/
 
 			// 4. Save back properly
 			localStorage.setItem("records", JSON.stringify(records));
 
-      let newPerson = this.personService.postPerson(newRecord).subscribe((data) => {
-        console.log(data.body?.firstName + " " + data.body?.lastName);
-        console.log(data.body?.id);
-        console.log(data.body);
+			let newPerson = this.personService
+				.postPerson(newRecord)
+				.subscribe((data) => {
+					console.log(data.body?.firstName + " " + data.body?.lastName);
+					console.log(data.body?.id);
+					console.log(data.body);
 
-        recordId = data.body?.id!;
-        this.dialogRef.close();
-        this.dialogRef.close();
+					recordId = data.body?.id!;
+					this.dialogRef.close();
+					this.dialogRef.close();
 
-        //handles navigation to view-record page
-        try {
-          this.router.navigate(["/view-record", "individual", recordId]);
-        } catch (error) {
-          console.error("Navigation error:", error);
-        }
-      });
-
+					//handles navigation to view-record page
+					try {
+						this.router.navigate(["/view-record", "individual", recordId]);
+					} catch (error) {
+						console.error("Navigation error:", error);
+					}
+				});
 		} else {
 			let membership =
 				this.chipsComponents.toArray()[0]?.options.join(", ") || [];

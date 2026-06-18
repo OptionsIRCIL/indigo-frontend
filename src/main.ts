@@ -5,9 +5,9 @@ import { importProvidersFrom } from "@angular/core";
 import { MatNativeDateModule } from "@angular/material/core";
 
 bootstrapApplication(AppComponent, {
-  ...appConfig,
-  providers: [
-    ...(appConfig.providers ?? []),
-    importProvidersFrom(MatNativeDateModule)
-  ]
-}).catch(err => console.error(err));
+	...appConfig,
+	providers: [
+		...(appConfig.providers ?? []),
+		importProvidersFrom(MatNativeDateModule),
+	],
+}).catch((err) => console.error(err));

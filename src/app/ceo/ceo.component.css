@@ -1,61 +1,61 @@
 .Ceo-form {
-    padding: 20px;
+	padding: 20px;
 }
 
 .form-Columns {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
+	display: flex;
+	align-items: flex-start;
+	gap: 20px;
 }
 
-.form-LeftColumn{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 2;
+.form-LeftColumn {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	flex: 2;
 }
 
 .form-RightColumn {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	flex: 1;
 }
 
 .form-FullWidth {
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+	width: 100%;
+	max-width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 
 .date-field {
-    max-width: 260px;
+	max-width: 260px;
 }
 
 .number-field {
-    max-width: 200px;
+	max-width: 200px;
 }
 
 .form-Table {
-    margin-bottom: -19px;
-    border: 1px solid black;
+	margin-bottom: -19px;
+	border: 1px solid black;
 }
 
 .mat-column-actions button {
-    float: right;
+	float: right;
 }
 
 .add-table-row {
-    border-radius: 0;
-    border: 1px solid black;
-    border-top: none;
+	border-radius: 0;
+	border: 1px solid black;
+	border-top: none;
 }
 
 .form-Actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 20px;
-    padding-top: 20px;
+	display: flex;
+	justify-content: flex-end;
+	gap: 20px;
+	padding-top: 20px;
 }

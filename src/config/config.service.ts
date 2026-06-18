@@ -1,22 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { firstValueFrom, tap } from "rxjs";
 import { TokenState } from "../service/state/token-state.service";
 
 @Injectable({
-  providedIn: 'root',
+	providedIn: "root",
 })
 export class ConfigService {
-  private configData: any;
+	private configData: any;
 
-	constructor(private http: HttpClient,
-							private tokenState: TokenState,) {}
+	constructor(
+		private http: HttpClient,
+		private tokenState: TokenState,
+	) {}
 
 	loadAppConfig() {
-		return firstValueFrom(this.http.get('./config.json')
-			.pipe(
-				tap(data => this.configData = data),
-			));
+		return firstValueFrom(
+			this.http
+				.get("./config.json")
+				.pipe(tap((data) => (this.configData = data))),
+		);
 	}
 
 	getAppConfig(key: keyof typeof this.configData) {

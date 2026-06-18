@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Token } from "../../interface/token";
 import { ConfigService } from "../../config/config.service";
@@ -27,5 +27,4 @@ export class AccessClientService {
 	public logout() {
 		return this.http.delete(`${this.apiUrl}auth`, { withCredentials: true });
 	}
-
 }

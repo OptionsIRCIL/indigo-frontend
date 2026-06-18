@@ -1,15 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, RouterLink, RouterOutlet } from "@angular/router";
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TokenState } from '../service/state/token-state.service';
-import { AccessClientService } from '../service/client/access-client.service';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { TokenState } from "../service/state/token-state.service";
+import { AccessClientService } from "../service/client/access-client.service";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatButtonModule } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
 import { MatCheckbox } from "@angular/material/checkbox";
 import { MatInput } from "@angular/material/input";
 import { MatSidenav, MatSidenavContainer } from "@angular/material/sidenav";
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe } from "@angular/common";
 
 @Component({
 	selector: "app-root",
@@ -52,11 +52,11 @@ export class AppComponent implements OnInit {
 			next: () => {
 				this.tokenState.token.next(false);
 				window.cookieStore.delete("IndigoAuth");
-				this.snackBar.open("Logout successful", "", {duration: 2000});
+				this.snackBar.open("Logout successful", "", { duration: 2000 });
 				this.router.navigate(["/login"]);
 			},
 			error: () => {
-				this.snackBar.open("Logout failed", "", {duration: 2000});
+				this.snackBar.open("Logout failed", "", { duration: 2000 });
 			},
 		});
 	}

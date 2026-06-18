@@ -1,17 +1,16 @@
 .individual-form-field {
-  margin-left: 10px; 
-  margin-right: 10px;
-  appearance: outline;
+	margin-left: 10px;
+	margin-right: 10px;
+	appearance: outline;
 }
 
 .individual-form-field--full-field {
-  margin-left: 10px; 
-  margin-right: 10px;
-  appearance: outline;
-  width: 100%;
+	margin-left: 10px;
+	margin-right: 10px;
+	appearance: outline;
+	width: 100%;
 }
 
-
 .chip-list {
-  width: 100%;
+	width: 100%;
 }

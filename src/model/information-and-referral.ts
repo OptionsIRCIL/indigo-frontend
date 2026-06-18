@@ -1,5 +1,4 @@
 export class InformationAndReferral {
-
 	public constructor(
 		public callerType: string,
 		public date: string,
@@ -18,8 +17,7 @@ export class InformationAndReferral {
 		public serviceType: string,
 		public travelHours: number,
 		public units: string,
-	){}
+	) {}
 
 	// TODO - make fromFormData() method
-
 }

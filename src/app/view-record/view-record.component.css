@@ -1,46 +1,45 @@
 .infoCard {
-    width: 90%;
+	width: 90%;
 }
 
 .fileNavButtons {
-    align-items: left;
-    padding: 10px;
-    padding-left: 10%;
+	align-items: left;
+	padding: 10px;
+	padding-left: 10%;
 }
 
 .primaryID {
-    display: flex;
-    flex-direction: row;
-    font-size: 17px;
-    padding: 5px;
-    width: 80%;
+	display: flex;
+	flex-direction: row;
+	font-size: 17px;
+	padding: 5px;
+	width: 80%;
 }
 
 .primaryID div {
-    margin: 10px 20px;
-    width: 80%
+	margin: 10px 20px;
+	width: 80%;
 }
 
 #notes {
-    border: 2px solid;
-    width: 80%;
-    padding: 10px;
-    font-size: 14px;
+	border: 2px solid;
+	width: 80%;
+	padding: 10px;
+	font-size: 14px;
 }
 
 .spacer {
-  flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 .toolButtons {
-  padding-right: 2%;
+	padding-right: 2%;
 }
 
-
 #addFormAttchBtn {
-    font-size: 19px;
+	font-size: 19px;
 }
 
 .middleSpacer {
-    padding-right: 2%;
+	padding-right: 2%;
 }
