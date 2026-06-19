@@ -44,6 +44,7 @@ import { Router } from "@angular/router";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
 import { PersonClientService } from "../../../service/client/person-client.service";
+import { RecordIdState } from "../../../service/state/record-id-state.service";
 
 @Injectable({ providedIn: "root" })
 export class addRecordDialogService {
@@ -396,11 +397,13 @@ export class RadioNgModel {
 export class IndividualContentDialog {
 	titleText: string = "";
 	mode: string = "";
+
 	constructor(
 		private readonly router: Router,
 		public dialogRef: MatDialogRef<IndividualContentDialog>,
 		private fb: FormBuilder,
 		private personService: PersonClientService,
+    private recordIdState: RecordIdState,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 	) {
 		if (data?.mode == "e") {
@@ -419,6 +422,7 @@ export class IndividualContentDialog {
 	selectedDate: Date | null = null;
 
 	form!: FormGroup;
+  id!: string;
 
 	showCalendar!: boolean;
 
@@ -430,6 +434,7 @@ export class IndividualContentDialog {
 
 	membership: string[] = [];
 	disabilities: string[] = [];
+
 
 	ngOnInit() {
 		if (this.data?.mode != "e") {
@@ -573,92 +578,56 @@ export class IndividualContentDialog {
 	}
 
 	addIndividualInfo(): void {
+
+    let updatedRecord = {
+      active: false,
+      addressLine1: this.form.get("addressInfo")!.value,
+      addressLine2: this.form.get("addressInfo2")!.value,
+      birthday: "2000-01-01" /*this.form.get("dateOfBirth")!.value.toISOString(),*/,
+      city: this.form.get("city")!.value,
+      county: this.form.get("county")!.value,
+      deceased: false,
+      email: this.form.get("email")!.value,
+      ethnicity: this.form.get("ethnicity")!.value,
+      firstName: this.form.get("firstName")!.value,
+      gender: this.form.get("gender")!.value,
+      lastName: this.form.get("lastName")!.value,
+      /*membership: membership,*/
+      phone: this.form.get("phone")!.value,
+      salutation: this.form.get("salutation")!.value,
+      state: this.form.get("state")!.value,
+      /*disabilities: disabilities,*/
+    };
+
 		if (this.mode != "e") {
-			// TODO handle adding record to the db here
+
+      /*
 			//todo remove this later bc local storage changes
 			let records = JSON.parse(localStorage.getItem("records") || "[]");
-
-			let membership =
-				this.chipsComponents.toArray()[0]?.options.join(", ") || [];
-			let disabilities =
-				this.chipsComponents.toArray()[1]?.options.join(", ") || [];
-
-			let newRecord = {
-				active: false,
-				addressLine1: this.form.get("addressInfo")!.value,
-				addressLine2: this.form.get("addressInfo2")!.value,
-				birthday:
-					"2000-01-01" /*this.form.get("dateOfBirth")!.value.toISOString(),*/,
-				city: this.form.get("city")!.value,
-				county: this.form.get("county")!.value,
-				deceased: false,
-				email: this.form.get("email")!.value,
-				ethnicity: this.form.get("ethnicity")!.value,
-				firstName: this.form.get("firstName")!.value,
-				gender: this.form.get("gender")!.value,
-				lastName: this.form.get("lastName")!.value,
-				/*membership: membership,*/
-				phone: this.form.get("phone")!.value,
-				salutation: this.form.get("salutation")!.value,
-				state: this.form.get("state")!.value,
-				/*disabilities: disabilities,*/
-			};
-
-			// 3. Push object into array
+			let membership = this.chipsComponents.toArray()[0]?.options.join(", ") || [];
+			let disabilities = this.chipsComponents.toArray()[1]?.options.join(", ") || [];
 			records.push(newRecord);
-
-			let recordId = ""; /*crypto.randomUUID();*/
-
-			// 4. Save back properly
+			let recordId = crypto.randomUUID();
 			localStorage.setItem("records", JSON.stringify(records));
+      */
 
 			let newPerson = this.personService
-				.postPerson(newRecord)
+				.postPerson(updatedRecord)
 				.subscribe((data) => {
-					console.log(data.body?.firstName + " " + data.body?.lastName);
-					console.log(data.body?.id);
-					console.log(data.body);
-
-					recordId = data.body?.id!;
 					this.dialogRef.close();
 					this.dialogRef.close();
-
-					//handles navigation to view-record page
 					try {
-						this.router.navigate(["/view-record", "individual", recordId]);
+            this.recordIdState.recordId = data.body?.id!
+						this.router.navigate(["/view-record", "individual", this.recordIdState.recordId]);
 					} catch (error) {
 						console.error("Navigation error:", error);
 					}
 				});
 		} else {
-			let membership =
-				this.chipsComponents.toArray()[0]?.options.join(", ") || [];
-			let disabilities =
-				this.chipsComponents.toArray()[1]?.options.join(", ") || [];
 
-			let editedRecord = {
-				active: false,
-				addressLine1: this.form.get("addressInfo")!.value,
-				addressLine2: this.form.get("addressInfo2")!.value,
-				birthday: this.form.get("dateOfBirth")!.value,
-				city: this.form.get("city")!.value,
-				county: this.form.get("county")!.value,
-				deceased: false,
-				email: this.form.get("email")!.value,
-				ethnicity: this.form.get("ethnicity")!.value,
-				firstName: this.form.get("firstName")!.value,
-				gender: this.form.get("gender")!.value,
-				lastName: this.form.get("lastName")!.value,
-				membership: membership,
-				phone: this.form.get("phone")!.value,
-				salutation: this.form.get("salutation")!.value,
-				state: this.form.get("state")!.value,
-				id: this.data.record.id,
-				createdAt: new Date().toISOString(),
-				updatedAt: new Date().toISOString(),
-				disabilities: disabilities,
-			};
-
+      /*
+			let membership = this.chipsComponents.toArray()[0]?.options.join(", ") || [];
+			let disabilities = this.chipsComponents.toArray()[1]?.options.join(", ") || [];
 			const stored = localStorage.getItem("records");
 			const records = stored ? JSON.parse(stored) : [];
 
@@ -669,9 +638,16 @@ export class IndividualContentDialog {
 			records[recordIndex] = editedRecord;
 
 			localStorage.setItem("records", JSON.stringify(records));
+      */
+
+      this.personService.putPerson(this.recordIdState.recordId, updatedRecord).subscribe((data) => {
+					console.log(data.firstName + " " + data.lastName);
+					console.log(data.id);
+					console.log(data);
+      });
 
 			this.dialogRef.close();
-			window.location.reload();
+			/* window.location.reload(); */
 		}
 	}
 }
