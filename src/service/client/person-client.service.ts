@@ -21,6 +21,12 @@ export class PersonClientService {
 		});
 	}
 
+  public putPerson(id: string, data: Person) {
+		return this.http.put<Person>(`${this.apiUrl}person/${id}`, data, {
+			withCredentials: true,
+		});
+	}
+
 	public postPerson(data: Person) {
 		return this.http.post<Person>(`${this.apiUrl}person`, data, {
 			observe: "response",

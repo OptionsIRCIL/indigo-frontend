@@ -25,7 +25,6 @@ import {
 import { OpenFormsService } from "./open-forms.service";
 import { ConfigService } from "../../config/config.service";
 import { PersonClientService } from "../../service/client/person-client.service";
-import { Person } from "../../model/person";
 
 interface InformationAndReferralForm {
 	date: string;
