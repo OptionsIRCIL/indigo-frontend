@@ -19,6 +19,7 @@ import goalsData from "../testing-data/goals-testing-data.json";
 import cifData from "../testing-data/consumer-information-file-testing-data.json";
 import ceoData from "../testing-data/community-education-and-outreach-testing-data.json";
 import { ConfigService } from "../../config/config.service";
+import { PersonClientService } from "../../service/client/person-client.service";
 
 @Component({
 	selector: "app-main-dashboard",
@@ -38,29 +39,7 @@ import { ConfigService } from "../../config/config.service";
 	styleUrl: "./main-dashboard.component.css",
 })
 export class MainDashboardComponent {
-	records!: {
-		firstName: string;
-		lastName: string;
-		salutation: string;
-		email: string;
-		phone: string;
-		ethnicity: string;
-		membership: string;
-		gender: string;
-		withheldDOB: boolean;
-		optNews: boolean;
-		dateOfBirth: string;
-		withheldAddress: boolean;
-		addressLine1: string;
-		addressLine2: string;
-		city: string;
-		state: string;
-		county: string;
-		id: string;
-		createdAt: Date;
-		updatedAt: Date;
-		disabilities: string;
-	}[];
+	records!: any;
 
 	orgRecords!: {
 		name: string;
@@ -80,6 +59,7 @@ export class MainDashboardComponent {
 		private addRecord: addRecordDialogService,
 		private readonly router: Router,
 		private config: ConfigService,
+		private personClientService: PersonClientService
 	) {}
 
 	ngOnInit() {
@@ -106,6 +86,12 @@ export class MainDashboardComponent {
 			this.records = stored ? JSON.parse(stored) : [];
 			const orgStored = localStorage.getItem("org-records");
 			this.orgRecords = orgStored ? JSON.parse(orgStored) : [];
+		} else {
+			// TODO: Implement more granular search and filtering
+			this.personClientService.getAll().subscribe((data) => {
+				console.log(data);
+				this.records = data;
+			});
 		}
 	}
 

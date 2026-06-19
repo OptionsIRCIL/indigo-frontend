@@ -15,6 +15,12 @@ export class PersonClientService {
 		this.apiUrl = this.configService.getAppConfig("apiUrl");
 	}
 
+	public getAll() {
+		return this.http.get<Person>(`${this.apiUrl}person`, {
+			withCredentials: true,
+		});
+	}
+
 	public getPerson(id: string) {
 		return this.http.get<Person>(`${this.apiUrl}person/${id}`, {
 			withCredentials: true,

@@ -402,7 +402,7 @@ export class IndividualContentDialog {
 		private readonly router: Router,
 		public dialogRef: MatDialogRef<IndividualContentDialog>,
 		private fb: FormBuilder,
-		private personService: PersonClientService,
+		private personClientService: PersonClientService,
     private recordIdState: RecordIdState,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 	) {
@@ -611,7 +611,7 @@ export class IndividualContentDialog {
 			localStorage.setItem("records", JSON.stringify(records));
       */
 
-			let newPerson = this.personService
+			let newPerson = this.personClientService
 				.postPerson(updatedRecord)
 				.subscribe((data) => {
 					this.dialogRef.close();
@@ -640,7 +640,7 @@ export class IndividualContentDialog {
 			localStorage.setItem("records", JSON.stringify(records));
       */
 
-      this.personService.putPerson(this.recordIdState.recordId, updatedRecord).subscribe((data) => {
+      this.personClientService.putPerson(this.recordIdState.recordId, updatedRecord).subscribe((data) => {
 					console.log(data.firstName + " " + data.lastName);
 					console.log(data.id);
 					console.log(data);
