@@ -647,7 +647,7 @@ export class IndividualContentDialog {
       });
 
 			this.dialogRef.close();
-			/* window.location.reload(); */
+			window.location.reload();
 		}
 	}
 }
