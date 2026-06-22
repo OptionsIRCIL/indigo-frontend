@@ -269,9 +269,11 @@
 	</div>
 	<br />
 	<mat-card-title align="center" id="notesTitle">Notes</mat-card-title>
-	<div>
-		<textarea matInput rows="5" id="notes" formControlName="notes"></textarea>
-	</div>
+  <form [formGroup]="form">
+    <div>
+      <textarea matInput rows="5" id="notes" formControlName="notes"></textarea>
+    </div>
+  </form>
 	<br />
 	<button mat-raised-button color="primary" type="button" (click)="saveNotes()">
 		Save

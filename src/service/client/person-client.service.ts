@@ -40,16 +40,18 @@ export class PersonClientService {
 		});
 	}
 
+/*
 	public getPersonNotes(id: string) {
-    return this.http.get<string>(`${this.apiUrl}person/${id}/notes`, {
-      withCredentials: true,
-    });
-  }
+		return this.http.get<string>(`${this.apiUrl}person/${id}/notes`, {
+			withCredentials: true,
+	});
+	}
 
-  public putPersonNotes(id: string, data: string) {
-    return this.http.put<string>(`${this.apiUrl}person/${id}/notes`, data, {
-      withCredentials: true,
-    });
-  }
+	public putPersonNotes(id: string, data: string) {
+		return this.http.put<string>(`${this.apiUrl}person/${id}/notes`, data, {
+		withCredentials: true,
+		});
+	}
+*/
 
 }

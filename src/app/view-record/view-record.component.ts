@@ -107,6 +107,7 @@ interface CommunityEducationAndOutreachForm {
 		MatCheckboxModule,
 		MatMenuModule,
 		MatTabsModule,
+		ReactiveFormsModule,
 	],
 	templateUrl: "./view-record-individual.component.html",
 	styleUrl: "./view-record.component.css",
@@ -139,7 +140,7 @@ export class IndividualViewRecordComponent {
     disabilities?: string,
   }
   */
- form!: FormGroup;
+  form!: FormGroup;
 
 	recordFormsList!: {
 		informationAndReferrals: InformationAndReferralForm[];
@@ -158,7 +159,8 @@ export class IndividualViewRecordComponent {
 		private openFormsService: OpenFormsService,
 		private config: ConfigService,
 		private personClientService: PersonClientService,
-    private recordIdState: RecordIdState
+    private recordIdState: RecordIdState,
+    private fb: FormBuilder,
 	) {}
 
 	populateForms(id: string) {
@@ -211,13 +213,12 @@ export class IndividualViewRecordComponent {
 		} else {
 			this.personClientService.getPerson(this.currentRecordId).subscribe((data) => {
 				this.record = data;
+        this.form = new FormGroup({
+          notes: new FormControl(this.record.notes),
+        });
         console.log(data);
 			});
 		}
-
-    this.form = new FormGroup({
-				notes: new FormControl(this.record?.notes),
-    });
 
 		if (!this.recordFormsList) {
 			this.recordFormsList = {
@@ -304,11 +305,39 @@ export class IndividualViewRecordComponent {
 	}
 
 	saveNotes() {
-      let notes = "example"; // this.form.get("notes")!.value;
+      this.record.notes = this.form.get("notes")?.value ?? ""
 
+      let updatedRecord = {
+        active: this.record.active,
+        addressLine1: this.record.addressLine1,
+        addressLine2: this.record.addressLine2,
+        birthday: this.record.birthday,
+        city: this.record.city,
+        county: this.record.county,
+        deceased: this.record.deceased,
+        email: this.record.email,
+        ethnicity: this.record.ethnicity,
+        firstName: this.record.firstName,
+        gender: this.record.gender,
+        lastName: this.record.lastName,
+        /*membership: membership,*/
+        phone: this.record.phone,
+        salutation: this.record.salutation,
+        state: this.record.state,
+        /*disabilities: disabilities,*/
+        notes: this.record.notes
+      };
+
+      this.personClientService.putPerson(this.recordIdState.recordId, updatedRecord).subscribe((data) => {
+					console.log(data);
+      });
+
+      /*
       this.personClientService.putPersonNotes(this.recordIdState.recordId, notes).subscribe((data) => {
 					console.log(data);
       });
+      */
+
 		// TODO: Implement PUT request on Person
 		try {
 			this.snackBar.open("Placeholder", "", { duration: 2000 });
