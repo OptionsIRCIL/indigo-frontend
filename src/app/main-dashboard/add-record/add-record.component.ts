@@ -532,9 +532,10 @@ export class IndividualContentDialog {
 		this.dialogRef.close();
 	}
 
-	addIndividualInfo(): void {
-
-    let updatedRecord = {
+  getForm(){
+    let membership = this.chipsComponents.toArray()[0]?.options.join(", ") || [];
+    let disabilities = this.chipsComponents.toArray()[1]?.options.join(", ") || [];
+    return {
       active: false,
       addressLine1: this.form.get("addressInfo")!.value,
       addressLine2: this.form.get("addressInfo2")!.value,
@@ -553,19 +554,19 @@ export class IndividualContentDialog {
       state: this.form.get("state")!.value,
       /*disabilities: disabilities,*/
     };
+  }
 
-		if (this.mode != "e") {
-
-      /*
-			//todo remove this later bc local storage changes
-			let records = JSON.parse(localStorage.getItem("records") || "[]");
-			let membership = this.chipsComponents.toArray()[0]?.options.join(", ") || [];
-			let disabilities = this.chipsComponents.toArray()[1]?.options.join(", ") || [];
-			records.push(newRecord);
-			let recordId = crypto.randomUUID();
-			localStorage.setItem("records", JSON.stringify(records));
-      */
-
+	addIndividualInfo(): void {
+    let updatedRecord = this.getForm();
+		if (this.mode == "e") {
+      this.personClientService.putPerson(this.recordIdState.recordId, updatedRecord).subscribe((data) => {
+					console.log(data.firstName + " " + data.lastName);
+					console.log(data.id);
+					console.log(data);
+      });
+			this.dialogRef.close();
+			window.location.reload();
+    } else {
 			this.personClientService.postPerson(updatedRecord).subscribe((data) => {
 					this.dialogRef.close();
 					this.dialogRef.close();
@@ -576,31 +577,6 @@ export class IndividualContentDialog {
 						console.error("Navigation error:", error);
 					}
 				});
-		} else {
-
-      /*
-			let membership = this.chipsComponents.toArray()[0]?.options.join(", ") || [];
-			let disabilities = this.chipsComponents.toArray()[1]?.options.join(", ") || [];
-			const stored = localStorage.getItem("records");
-			const records = stored ? JSON.parse(stored) : [];
-
-			//find the record that matches the id
-			let record = records.find((r: any) => r.id === this.data.record.id);
-			let recordIndex = records.indexOf(record);
-
-			records[recordIndex] = editedRecord;
-
-			localStorage.setItem("records", JSON.stringify(records));
-      */
-
-      this.personClientService.putPerson(this.recordIdState.recordId, updatedRecord).subscribe((data) => {
-					console.log(data.firstName + " " + data.lastName);
-					console.log(data.id);
-					console.log(data);
-      });
-
-			this.dialogRef.close();
-			window.location.reload();
 		}
 	}
 }
