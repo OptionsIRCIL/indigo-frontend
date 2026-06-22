@@ -37,21 +37,8 @@
 			<mat-expansion-panel-header>
 				<mat-panel-title> Individuals </mat-panel-title>
 			</mat-expansion-panel-header>
-
-			<!---
-      <mat-card class="result-organizations" *ngFor="let o of organizationResults">
-        <div class = "card-grid">
-          <div class="name">{{o.name}}</div>
-          <div class="title">{{o.title}}</div>
-          <div class="space"></div>
-          <div class="space"></div>
-          <div class="location">{{o.location}}</div>
-          <div class="last-contact">{{o.lastContact}}</div>
-        </div>
-      </mat-card>
-      -->
 			@for (record of records; track record) {
-				<mat-card class="result-organizations">
+				<mat-card class="result-individuals">
 					<div class="card-grid" (click)="viewRecord(record.id, true)">
 						<div class="name">{{ record.firstName }} {{ record.lastName }}</div>
 						@if (record.city == "" || record.state == "") {
