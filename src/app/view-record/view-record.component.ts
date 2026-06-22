@@ -25,6 +25,9 @@ import {
 import { OpenFormsService } from "./open-forms.service";
 import { ConfigService } from "../../config/config.service";
 import { PersonClientService } from "../../service/client/person-client.service";
+import { RecordIdState } from "../../service/state/record-id-state.service";
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 interface InformationAndReferralForm {
 	date: string;
@@ -113,7 +116,30 @@ export class IndividualViewRecordComponent {
 	private _Activatedroute: any;
 	private sub: any;
 	currentRecordId: string = "";
-	public record: any;
+	record!: any; // mismatch between record's type and Person
+  /*
+  {
+    firstName: string,
+    lastName: string,
+    salutation?: string,
+    email?: string,
+    phone?: string,
+    ethnicity?: string,
+    membership?: string,
+    gender?: string,
+    withheldDOB?: boolean,
+    optNews?: boolean,
+    dateOfBirth?: string,
+    withheldAddress?: boolean,
+    addressLine1?: string,
+    addressLine2?: string,
+    city?: string,
+    state?: string,
+    county?: string,
+    disabilities?: string,
+  }
+  */
+ form!: FormGroup;
 
 	recordFormsList!: {
 		informationAndReferrals: InformationAndReferralForm[];
@@ -131,7 +157,8 @@ export class IndividualViewRecordComponent {
 		private readonly snackBar: MatSnackBar,
 		private openFormsService: OpenFormsService,
 		private config: ConfigService,
-		private personService: PersonClientService,
+		private personClientService: PersonClientService,
+    private recordIdState: RecordIdState
 	) {}
 
 	populateForms(id: string) {
@@ -174,7 +201,7 @@ export class IndividualViewRecordComponent {
 	ngOnInit() {
 		// get the id from the route
 		const id = this.route.snapshot.paramMap.get("id");
-		this.currentRecordId = id ?? "";
+		this.currentRecordId = this.recordIdState.recordId; // id ?? "";
 
 		if (this.config.demoMode == true) {
 			const stored = localStorage.getItem("records");
@@ -182,11 +209,15 @@ export class IndividualViewRecordComponent {
 			//find the record that matches the id
 			this.record = records.find((r: any) => r.id === id);
 		} else {
-			this.personService.getPerson(this.currentRecordId).subscribe((data) => {
+			this.personClientService.getPerson(this.currentRecordId).subscribe((data) => {
 				this.record = data;
+        console.log(data);
 			});
-			console.log(this.record);
 		}
+
+    this.form = new FormGroup({
+				notes: new FormControl(this.record?.notes),
+    });
 
 		if (!this.recordFormsList) {
 			this.recordFormsList = {
@@ -195,10 +226,11 @@ export class IndividualViewRecordComponent {
 				consumerInformationFiles: [],
 			};
 		}
-
-		if (id != null) {
-			this.populateForms(id);
-		}
+    if (this.config.demoMode == true) {
+			if (id != null) {
+				this.populateForms(id);
+			}
+  	}
 	}
 	openEditRecord(mode: string) {
 		return this.dialog.open(IndividualContentDialog, {
@@ -272,6 +304,11 @@ export class IndividualViewRecordComponent {
 	}
 
 	saveNotes() {
+      let notes = "example"; // this.form.get("notes")!.value;
+
+      this.personClientService.putPersonNotes(this.recordIdState.recordId, notes).subscribe((data) => {
+					console.log(data);
+      });
 		// TODO: Implement PUT request on Person
 		try {
 			this.snackBar.open("Placeholder", "", { duration: 2000 });

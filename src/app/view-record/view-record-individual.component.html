@@ -30,10 +30,10 @@
 				<table align="center">
 					<tr>
 						<td>
-							<div id="fname">First Name: {{ record.firstName }}</div>
+							<div id="fname">First Name: {{ record.firstName || "N/A" }}</div>
 						</td>
 						<td>
-							<div id="lname">Last Name: {{ record.lastName }}</div>
+							<div id="lname">Last Name: {{ record.lastName || "N/A" }}</div>
 						</td>
 						<td>
 							<div id="salutation">

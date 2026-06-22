@@ -1,17 +1,16 @@
-export class Person {
+export class Organization {
 	public constructor(
 		public active: boolean,
 		public birthday: string,
 		public deceased: boolean,
 		public email: string,
-		public firstName: string,
-		public lastName: string,
+		public name: string,
 		public gender: string,
 		public phone: string,
-		public salutation: string | null,
 		public id?: string,
 		public notes?: string,
+		public repFirstName?: string;
+		public repLastName?: string;
+		public repPosition?: string;
   ) {}
-
-	// TODO - add fromFormData() method
 }

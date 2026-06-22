@@ -611,9 +611,7 @@ export class IndividualContentDialog {
 			localStorage.setItem("records", JSON.stringify(records));
       */
 
-			let newPerson = this.personClientService
-				.postPerson(updatedRecord)
-				.subscribe((data) => {
+			this.personClientService.postPerson(updatedRecord).subscribe((data) => {
 					this.dialogRef.close();
 					this.dialogRef.close();
 					try {
