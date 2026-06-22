@@ -305,42 +305,34 @@ export class IndividualViewRecordComponent {
 	}
 
 	saveNotes() {
-      this.record.notes = this.form.get("notes")?.value ?? ""
+    this.record.notes = this.form.get("notes")?.value ?? ""
 
-      let updatedRecord = {
-        active: this.record.active,
-        addressLine1: this.record.addressLine1,
-        addressLine2: this.record.addressLine2,
-        birthday: this.record.birthday,
-        city: this.record.city,
-        county: this.record.county,
-        deceased: this.record.deceased,
-        email: this.record.email,
-        ethnicity: this.record.ethnicity,
-        firstName: this.record.firstName,
-        gender: this.record.gender,
-        lastName: this.record.lastName,
-        /*membership: membership,*/
-        phone: this.record.phone,
-        salutation: this.record.salutation,
-        state: this.record.state,
-        /*disabilities: disabilities,*/
-        notes: this.record.notes
-      };
+    let updatedRecord = {
+      active: this.record.active,
+      addressLine1: this.record.addressLine1,
+      addressLine2: this.record.addressLine2,
+      birthday: this.record.birthday,
+      city: this.record.city,
+      county: this.record.county,
+      deceased: this.record.deceased,
+      email: this.record.email,
+      ethnicity: this.record.ethnicity,
+      firstName: this.record.firstName,
+      gender: this.record.gender,
+      lastName: this.record.lastName,
+      /*membership: membership,*/
+      phone: this.record.phone,
+      salutation: this.record.salutation,
+      state: this.record.state,
+      /*disabilities: disabilities,*/
+      notes: this.record.notes
+    };
 
+		try {
       this.personClientService.putPerson(this.recordIdState.recordId, updatedRecord).subscribe((data) => {
 					console.log(data);
       });
-
-      /*
-      this.personClientService.putPersonNotes(this.recordIdState.recordId, notes).subscribe((data) => {
-					console.log(data);
-      });
-      */
-
-		// TODO: Implement PUT request on Person
-		try {
-			this.snackBar.open("Placeholder", "", { duration: 2000 });
+			this.snackBar.open("Notes saved", "", { duration: 2000 });
 		} catch (error) {
 			console.error("Notes not saved: ", error);
 		}
