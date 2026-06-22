@@ -435,95 +435,50 @@ export class IndividualContentDialog {
 	membership: string[] = [];
 	disabilities: string[] = [];
 
-
 	ngOnInit() {
-		if (this.data?.mode != "e") {
-			this.form = new FormGroup({
-				firstName: new FormControl(""),
-				lastName: new FormControl(""),
-				salutation: new FormControl(""),
-				email: new FormControl(""),
-				phone: new FormControl(""),
-				ethnicity: new FormControl(""),
-				membership: new FormControl(""),
-				gender: new FormControl(""),
-				withheldDOB: new FormControl(false),
-				formattedDOB: new FormControl<Date | null>({
-					value: null,
-					disabled: false,
-				}),
-				dateOfBirth: new FormControl<Date | null>({
-					value: null,
-					disabled: false,
-				}),
-				withheldAddress: new FormControl(false),
-				addressInfo: new FormControl<string>({
-					value: "",
-					disabled: false,
-				}),
-				addressInfo2: new FormControl<string>({
-					value: "",
-					disabled: false,
-				}),
-				city: new FormControl<string>({
-					value: "",
-					disabled: false,
-				}),
-				state: new FormControl<string>({
-					value: "",
-					disabled: false,
-				}),
-				county: new FormControl(""),
-				optNews: new FormControl(false),
-				hasDisability: new FormControl("No"),
-				disabilities: new FormControl(""),
-			});
-		} else {
-			let addressExists =
-				this.data.record?.addressLine1 == "" ||
-				this.data.record?.addressLine2 == "" ||
-				this.data.record?.city == "" ||
-				this.data.record?.state == "";
+    let addressExists =
+      this.data.record?.addressLine1 == "" ||
+      this.data.record?.addressLine2 == "" ||
+      this.data.record?.city == "" ||
+      this.data.record?.state == "";
 
-			this.form = new FormGroup({
-				firstName: new FormControl(this.data.record?.firstName),
-				lastName: new FormControl(this.data.record?.lastName),
-				salutation: new FormControl(this.data.record?.salutation),
-				email: new FormControl(this.data.record?.email),
-				phone: new FormControl(this.data.record?.phone),
-				ethnicity: new FormControl(this.data.record?.ethnicity),
-				gender: new FormControl(this.data.record?.gender),
-				withheldDOB: new FormControl(this.data.record?.dateOfBirth == null),
-				dateOfBirth: new FormControl<Date | null>({
-					value: this.data.record?.dateOfBirth || null,
-					disabled: this.data.record?.dateOfBirth !== "" || false,
-				}),
-				withheldAddress: new FormControl(addressExists),
-				addressInfo: new FormControl<string>({
-					value: this.data.record?.addressLine1,
-					disabled: addressExists,
-				}),
-				addressInfo2: new FormControl<string>({
-					value: this.data.record?.addressLine2,
-					disabled: addressExists,
-				}),
-				city: new FormControl<string>({
-					value: this.data.record?.city,
-					disabled: addressExists,
-				}),
-				state: new FormControl<string>({
-					value: this.data.record?.state,
-					disabled: addressExists,
-				}),
-				county: new FormControl(this.data.record?.county),
-				optNews: new FormControl(false),
-				hasDisability: new FormControl(
-					this.data.record?.disabilities != "" ? "Yes" : "No",
-				),
-			});
-
-			this.showDisabilityList = this.form.get("hasDisability")?.value;
-		}
+    this.form = new FormGroup({
+      firstName: new FormControl(this.data.record?.firstName ?? ""),
+      lastName: new FormControl(this.data.record?.lastName ?? ""),
+      salutation: new FormControl(this.data.record?.salutation ?? ""),
+      email: new FormControl(this.data.record?.email ?? ""),
+      phone: new FormControl(this.data.record?.phone ?? ""),
+      ethnicity: new FormControl(this.data.record?.ethnicity ?? ""),
+      gender: new FormControl(this.data.record?.gender ?? ""),
+      withheldDOB: new FormControl(this.data.record?.dateOfBirth == null || false),
+      dateOfBirth: new FormControl<Date | null>({
+        value: this.data.record?.dateOfBirth || null,
+        disabled: this.data.record?.dateOfBirth !== "" || false,
+      }),
+      withheldAddress: new FormControl(addressExists),
+      addressInfo: new FormControl<string>({
+        value: this.data.record?.addressLine1 ?? "",
+        disabled: addressExists,
+      }),
+      addressInfo2: new FormControl<string>({
+        value: this.data.record?.addressLine2 ?? "",
+        disabled: addressExists,
+      }),
+      city: new FormControl<string>({
+        value: this.data.record?.city ?? "",
+        disabled: addressExists,
+      }),
+      state: new FormControl<string>({
+        value: this.data.record?.state ?? "",
+        disabled: addressExists,
+      }),
+      county: new FormControl(this.data.record?.county ?? ""),
+      optNews: new FormControl(false),
+      hasDisability: new FormControl(
+        this.data.record?.disabilities != "" ? "Yes" : "No",
+      ),
+    });
+    this.showDisabilityList = this.form.get("hasDisability")?.value ?? "";
 
 		this.showCalendar = false;
 		this.selectedDate = this.form.get("dateOfBirth")?.value ?? null;
@@ -693,49 +648,26 @@ export class OrganizationContentDialog {
 	form!: FormGroup;
 
 	ngOnInit() {
-		if (this.data?.mode != "e") {
-			this.form = new FormGroup({
-				name: new FormControl(""),
-				email: new FormControl(""),
-				phone: new FormControl(""),
-				addressInfo: new FormControl(""),
-				addressInfo2: new FormControl(""),
-				city: new FormControl(""),
-				state: new FormControl(""),
-				county: new FormControl(""),
-				repFirstName: new FormControl(""),
-				repLastName: new FormControl(""),
-				repPosition: new FormControl(""),
-				repDepartment: new FormControl(""),
-				// descServices: new FormControl(''),
-				// eligReqs: new FormControl(''),
-				// intakeProc: new FormControl(''),
-				// FeesChg: new FormControl(''),
-				// hrsOp: new FormControl(''),
-				// other: new FormControl('')
-			});
-		} else {
-			this.form = new FormGroup({
-				name: new FormControl(this.data.orgRecord?.name),
-				email: new FormControl(this.data.orgRecord?.email),
-				phone: new FormControl(this.data.orgRecord?.phone),
-				addressInfo: new FormControl(this.data.orgRecord?.addressLine1),
-				addressInfo2: new FormControl(this.data?.orgRecord?.addressLine2),
-				city: new FormControl(this.data.orgRecord?.city),
-				state: new FormControl(this.data.orgRecord?.state),
-				county: new FormControl(this.data.orgRecord?.county),
-				repFirstName: new FormControl(this.data.orgRecord?.repFirstName),
-				repLastName: new FormControl(this.data.orgRecord?.repLastName),
-				repPosition: new FormControl(this.data.orgRecord?.repPosition),
-				repDepartment: new FormControl(this.data.orgRecord?.repDepartment),
-				// descServices: new FormControl(this.data.orgRecord?.descServices),
-				// eligReqs: new FormControl(this.data.orgRecord?.eligReqs),
-				// intakeProc: new FormControl(this.data.orgRecord?.intakeProc),
-				// feesChg: new FormControl(this.data.orgRecord?.feesChg),
-				// hrsOp: new FormControl(this.data.orgRecord?.hrsOp),
-				// other: new FormControl(this.data.orgRecord?.other)
-			});
-		}
+    this.form = new FormGroup({
+      name: new FormControl(this.data.orgRecord?.name ?? ""),
+      email: new FormControl(this.data.orgRecord?.email ?? ""),
+      phone: new FormControl(this.data.orgRecord?.phone ?? ""),
+      addressInfo: new FormControl(this.data.orgRecord?.addressLine1 ?? ""),
+      addressInfo2: new FormControl(this.data?.orgRecord?.addressLine2 ?? ""),
+      city: new FormControl(this.data.orgRecord?.city ?? ""),
+      state: new FormControl(this.data.orgRecord?.state ?? ""),
+      county: new FormControl(this.data.orgRecord?.county ?? ""),
+      repFirstName: new FormControl(this.data.orgRecord?.repFirstName ?? ""),
+      repLastName: new FormControl(this.data.orgRecord?.repLastName ?? ""),
+      repPosition: new FormControl(this.data.orgRecord?.repPosition ?? ""),
+      repDepartment: new FormControl(this.data.orgRecord?.repDepartment ?? ""),
+      // descServices: new FormControl(this.data.orgRecord?.descServices ?? ""),
+      // eligReqs: new FormControl(this.data.orgRecord?.eligReqs ?? ""),
+      // intakeProc: new FormControl(this.data.orgRecord?.intakeProc ?? ""),
+      // feesChg: new FormControl(this.data.orgRecord?.feesChg ?? ""),
+      // hrsOp: new FormControl(this.data.orgRecord?.hrsOp ?? ""),
+      // other: new FormControl(this.data.orgRecord?.other ?? "")
+    });
 	}
 
 	onCancelClick(): void {
