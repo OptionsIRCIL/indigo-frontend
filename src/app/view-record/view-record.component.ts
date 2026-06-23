@@ -117,6 +117,9 @@ export class IndividualViewRecordComponent {
 	private _Activatedroute: any;
 	private sub: any;
 	currentRecordId: string = "";
+  tab: string = "information-and-referral";
+  form!: FormGroup;
+
 	record!: any; // mismatch between record's type and Person
   /*
   {
@@ -140,8 +143,6 @@ export class IndividualViewRecordComponent {
     disabilities?: string,
   }
   */
-  form!: FormGroup;
-  tab!: string;
 
 	recordFormsList!: {
 		informationAndReferrals: InformationAndReferralForm[];
@@ -249,9 +250,11 @@ export class IndividualViewRecordComponent {
 		});
 	}
 
-	openAddForm(message?: string) {
-    console.log("openAddForm");
+  onTabChange(event: MatTabChangeEvent) {
+    this.tab = event.tab.ariaLabelledby;
+  }
 
+	openAddForm(message?: string) {
 		let url = this.router.serializeUrl(
 			this.router.createUrlTree(["/error", "not-found"]),
 		);
@@ -305,31 +308,25 @@ export class IndividualViewRecordComponent {
   */
 	getInformationAndReferralForms(personId: string) {
 		personId != "" ? "" : console.log("No Forms Found.");
-		if (this.config.demoMode == true) {
-			const storedForms = localStorage.getItem("iAndR-forms");
-			const forms = storedForms ? JSON.parse(storedForms) : [];
-			return forms.filter((r: any) => r.personId === personId);
-		}
+    const storedForms = localStorage.getItem("iAndR-forms");
+    const forms = storedForms ? JSON.parse(storedForms) : [];
+    return forms.filter((r: any) => r.personId === personId);
 		return [];
 	}
 
 	getGoalsForms(personId: string) {
 		personId != "" ? "" : console.log("No Forms Found.");
-		if (this.config.demoMode == true) {
-			const storedForms = localStorage.getItem("goals-forms");
-			const forms = storedForms ? JSON.parse(storedForms) : [];
-			return forms.filter((r: any) => r.individual === personId);
-		}
+    const storedForms = localStorage.getItem("goals-forms");
+    const forms = storedForms ? JSON.parse(storedForms) : [];
+    return forms.filter((r: any) => r.individual === personId);
 		return [];
 	}
 
 	getConsumerInformationFileForms(personId: string) {
 		personId != "" ? "" : console.log("No Forms Found.");
-		if (this.config.demoMode == true) {
-			const storedForms = localStorage.getItem("cif-forms");
-			const forms = storedForms ? JSON.parse(storedForms) : [];
-			return forms.filter((r: any) => r.individual === personId);
-		}
+    const storedForms = localStorage.getItem("cif-forms");
+    const forms = storedForms ? JSON.parse(storedForms) : [];
+    return forms.filter((r: any) => r.individual === personId);
 		return [];
 	}
 
@@ -366,11 +363,6 @@ export class IndividualViewRecordComponent {
 			console.error("Notes not saved: ", error);
 		}
 	}
-
-  onTabChange(event: MatTabChangeEvent) {
-    this.tab = event.tab.ariaLabelledby;
-  }
-
 }
 
 @Component({
@@ -392,6 +384,7 @@ export class IndividualViewRecordComponent {
 })
 export class OrganizationViewRecordComponent {
 	currentRecordId: string = "";
+  tab: string = "information-and-referral";
 
 	orgRecord!: {
 		name: string;
@@ -425,29 +418,24 @@ export class OrganizationViewRecordComponent {
 	public constructor(
 		private dialog: MatDialog,
 		private route: ActivatedRoute,
+		private router: Router,
 		private readonly snackBar: MatSnackBar,
 		private openFormsService: OpenFormsService,
 		private config: ConfigService,
 	) {}
 
 	populateForms(id: string) {
-		if (this.config.demoMode == true) {
-			this.recordFormsList.informationAndReferrals =
-				this.getInformationAndReferralForms(id);
-			this.recordFormsList.communityEducationAndOutreaches =
-				this.getCommunityEducationAndutreachForms(id);
-		}
+		this.recordFormsList.informationAndReferrals = this.getInformationAndReferralForms(id);
+	  this.recordFormsList.communityEducationAndOutreaches = this.getCommunityEducationAndutreachForms(id);
 	}
 
 	ngOnInit() {
 		const id = this.route.snapshot.paramMap.get("id");
 		this.currentRecordId = id ?? "";
 
-		if (this.config.demoMode == true) {
-			const orgStored = localStorage.getItem("org-records");
-			const orgRecords = orgStored ? JSON.parse(orgStored) : [];
-			this.orgRecord = orgRecords.find((r: any) => r.id === id);
-		}
+    const orgStored = localStorage.getItem("org-records");
+    const orgRecords = orgStored ? JSON.parse(orgStored) : [];
+    this.orgRecord = orgRecords.find((r: any) => r.id === id);
 
 		if (!this.recordFormsList) {
 			this.recordFormsList = {
@@ -496,20 +484,42 @@ export class OrganizationViewRecordComponent {
 		});
 	}
 
+  onTabChange(event: MatTabChangeEvent) {
+    this.tab = event.tab.ariaLabelledby;
+  }
+
 	openAddForm(message?: string) {
-		return this.dialog.open(AddFormContentDialog, {
-			width: "fit-content",
-			height: "fit-content",
-			maxWidth: "90vw",
-			maxHeight: "90vh",
-			panelClass: "custom-dialog",
-			data: {
-				message,
-				recordType: "organization",
-				recordId: this.currentRecordId,
-			},
-		});
+		let url = this.router.serializeUrl(
+			this.router.createUrlTree(["/error", "not-found"]),
+		);
+
+		const queryParams = { recordType: "organization", recordId: this.currentRecordId }
+
+		switch (this.tab) {
+			case "information-and-referral":
+				url = this.router.serializeUrl(
+					this.router.createUrlTree(["/information-and-referral"], {
+						queryParams,
+					}),
+				);
+				break;
+			case "ceo":
+				url = this.router.serializeUrl(
+					this.router.createUrlTree(["/community-education-outreach"], { queryParams }),
+				);
+				break;
+			default:
+				break;
+		}
+
+		try {
+			this.router.navigateByUrl(url);
+		} catch (error) {
+			console.error("Navigation error:", error);
+		}
 	}
+
+
 	openAddAttachment() {
 		return this.dialog.open(AddAttachmentContentDialog, {
 			width: "fit-content",
@@ -526,22 +536,16 @@ export class OrganizationViewRecordComponent {
   */
 	getInformationAndReferralForms(orgId: string) {
 		orgId != "" ? "" : console.log("No Forms Found.");
-		if (this.config.demoMode == true) {
-			const storedForms = localStorage.getItem("iAndR-forms");
-			const forms = storedForms ? JSON.parse(storedForms) : [];
-			return forms.filter((r: any) => r.organizationId === orgId);
-		}
-		return [];
+    const storedForms = localStorage.getItem("iAndR-forms");
+    const forms = storedForms ? JSON.parse(storedForms) : [];
+    return forms.filter((r: any) => r.organizationId === orgId);
 	}
 
 	getCommunityEducationAndutreachForms(orgId: string) {
 		orgId != "" ? "" : console.log("No Forms Found.");
-		if (this.config.demoMode == true) {
-			const storedForms = localStorage.getItem("ceo-forms");
-			const forms = storedForms ? JSON.parse(storedForms) : [];
-			return forms.filter((r: any) => r.organization === orgId);
-		}
-		return [];
+    const storedForms = localStorage.getItem("ceo-forms");
+    const forms = storedForms ? JSON.parse(storedForms) : [];
+    return forms.filter((r: any) => r.organization === orgId);
 	}
 
 	saveNotes() {
