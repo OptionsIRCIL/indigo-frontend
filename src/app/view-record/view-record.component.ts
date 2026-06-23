@@ -9,7 +9,7 @@ import { AccessClientService } from "../../service/client/access-client.service"
 import { MatSelectModule } from "@angular/material/select";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatMenuModule } from "@angular/material/menu";
-import { MatTabsModule } from "@angular/material/tabs";
+import { MatTabChangeEvent, MatTabsModule } from "@angular/material/tabs";
 import {
 	IndividualContentDialog,
 	OrganizationContentDialog,
@@ -18,10 +18,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { Router, ActivatedRoute } from "@angular/router";
 import { TokenState } from "../../service/state/token-state.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import {
-	AddFormContentDialog,
-	AddAttachmentContentDialog,
-} from "./add-form-or-attachment/add-form-or-attachment.component";
+import { AddAttachmentContentDialog } from "../add-attachment/add-attachment.component";
 import { OpenFormsService } from "./open-forms.service";
 import { ConfigService } from "../../config/config.service";
 import { PersonClientService } from "../../service/client/person-client.service";
@@ -117,6 +114,9 @@ export class IndividualViewRecordComponent {
 	private _Activatedroute: any;
 	private sub: any;
 	currentRecordId: string = "";
+  tab: string = "information-and-referral";
+  form!: FormGroup;
+
 	record!: any; // mismatch between record's type and Person
   /*
   {
@@ -140,7 +140,6 @@ export class IndividualViewRecordComponent {
     disabilities?: string,
   }
   */
-  form!: FormGroup;
 
 	recordFormsList!: {
 		informationAndReferrals: InformationAndReferralForm[];
@@ -152,7 +151,7 @@ export class IndividualViewRecordComponent {
 		private dialog: MatDialog,
 		_Activatedroute: ActivatedRoute,
 		private route: ActivatedRoute,
-		private _router: Router,
+		private router: Router,
 		private readonly accessClient: AccessClientService,
 		protected readonly tokenState: TokenState,
 		private readonly snackBar: MatSnackBar,
@@ -204,6 +203,7 @@ export class IndividualViewRecordComponent {
 		// get the id from the route
 		const id = this.route.snapshot.paramMap.get("id");
 		this.currentRecordId = this.recordIdState.recordId; // id ?? "";
+    this.tab = "information-and-referral";
 
 		if (this.config.demoMode == true) {
 			const stored = localStorage.getItem("records");
@@ -246,20 +246,49 @@ export class IndividualViewRecordComponent {
 			},
 		});
 	}
-	openAddForm(message: string) {
-		return this.dialog.open(AddFormContentDialog, {
-			width: "fit-content",
-			height: "fit-content",
-			maxWidth: "90vw",
-			maxHeight: "90vh",
-			panelClass: "custom-dialog",
-			data: {
-				message,
-				recordType: "individual",
-				recordId: this.currentRecordId,
-			},
-		});
+
+  onTabChange(event: MatTabChangeEvent) {
+    this.tab = event.tab.ariaLabelledby;
+  }
+
+	openAddForm(message?: string) {
+		let url = this.router.serializeUrl(
+			this.router.createUrlTree(["/error", "not-found"]),
+		);
+
+		const queryParams = { recordType: "individual", recordId: this.currentRecordId }
+
+		switch (this.tab) {
+			case "information-and-referral":
+				url = this.router.serializeUrl(
+					this.router.createUrlTree(["/information-and-referral"], {
+						queryParams,
+					}),
+				);
+				break;
+			case "goals":
+				url = this.router.serializeUrl(
+					this.router.createUrlTree(["/goals"], { queryParams }),
+				);
+				break;
+			case "consumer-information-file":
+				url = this.router.serializeUrl(
+					this.router.createUrlTree(["/consumer-information-file"], {
+						queryParams,
+					}),
+				);
+				break;
+			default:
+				break;
+		}
+
+		try {
+			this.router.navigateByUrl(url);
+		} catch (error) {
+			console.error("Navigation error:", error);
+		}
 	}
+
 	openAddAttachment() {
 		return this.dialog.open(AddAttachmentContentDialog, {
 			width: "fit-content",
@@ -276,31 +305,25 @@ export class IndividualViewRecordComponent {
   */
 	getInformationAndReferralForms(personId: string) {
 		personId != "" ? "" : console.log("No Forms Found.");
-		if (this.config.demoMode == true) {
-			const storedForms = localStorage.getItem("iAndR-forms");
-			const forms = storedForms ? JSON.parse(storedForms) : [];
-			return forms.filter((r: any) => r.personId === personId);
-		}
+    const storedForms = localStorage.getItem("iAndR-forms");
+    const forms = storedForms ? JSON.parse(storedForms) : [];
+    return forms.filter((r: any) => r.personId === personId);
 		return [];
 	}
 
 	getGoalsForms(personId: string) {
 		personId != "" ? "" : console.log("No Forms Found.");
-		if (this.config.demoMode == true) {
-			const storedForms = localStorage.getItem("goals-forms");
-			const forms = storedForms ? JSON.parse(storedForms) : [];
-			return forms.filter((r: any) => r.individual === personId);
-		}
+    const storedForms = localStorage.getItem("goals-forms");
+    const forms = storedForms ? JSON.parse(storedForms) : [];
+    return forms.filter((r: any) => r.individual === personId);
 		return [];
 	}
 
 	getConsumerInformationFileForms(personId: string) {
 		personId != "" ? "" : console.log("No Forms Found.");
-		if (this.config.demoMode == true) {
-			const storedForms = localStorage.getItem("cif-forms");
-			const forms = storedForms ? JSON.parse(storedForms) : [];
-			return forms.filter((r: any) => r.individual === personId);
-		}
+    const storedForms = localStorage.getItem("cif-forms");
+    const forms = storedForms ? JSON.parse(storedForms) : [];
+    return forms.filter((r: any) => r.individual === personId);
 		return [];
 	}
 
@@ -358,6 +381,7 @@ export class IndividualViewRecordComponent {
 })
 export class OrganizationViewRecordComponent {
 	currentRecordId: string = "";
+  tab: string = "information-and-referral";
 
 	orgRecord!: {
 		name: string;
@@ -391,29 +415,24 @@ export class OrganizationViewRecordComponent {
 	public constructor(
 		private dialog: MatDialog,
 		private route: ActivatedRoute,
+		private router: Router,
 		private readonly snackBar: MatSnackBar,
 		private openFormsService: OpenFormsService,
 		private config: ConfigService,
 	) {}
 
 	populateForms(id: string) {
-		if (this.config.demoMode == true) {
-			this.recordFormsList.informationAndReferrals =
-				this.getInformationAndReferralForms(id);
-			this.recordFormsList.communityEducationAndOutreaches =
-				this.getCommunityEducationAndutreachForms(id);
-		}
+		this.recordFormsList.informationAndReferrals = this.getInformationAndReferralForms(id);
+	  this.recordFormsList.communityEducationAndOutreaches = this.getCommunityEducationAndutreachForms(id);
 	}
 
 	ngOnInit() {
 		const id = this.route.snapshot.paramMap.get("id");
 		this.currentRecordId = id ?? "";
 
-		if (this.config.demoMode == true) {
-			const orgStored = localStorage.getItem("org-records");
-			const orgRecords = orgStored ? JSON.parse(orgStored) : [];
-			this.orgRecord = orgRecords.find((r: any) => r.id === id);
-		}
+    const orgStored = localStorage.getItem("org-records");
+    const orgRecords = orgStored ? JSON.parse(orgStored) : [];
+    this.orgRecord = orgRecords.find((r: any) => r.id === id);
 
 		if (!this.recordFormsList) {
 			this.recordFormsList = {
@@ -462,20 +481,42 @@ export class OrganizationViewRecordComponent {
 		});
 	}
 
+  onTabChange(event: MatTabChangeEvent) {
+    this.tab = event.tab.ariaLabelledby;
+  }
+
 	openAddForm(message?: string) {
-		return this.dialog.open(AddFormContentDialog, {
-			width: "fit-content",
-			height: "fit-content",
-			maxWidth: "90vw",
-			maxHeight: "90vh",
-			panelClass: "custom-dialog",
-			data: {
-				message,
-				recordType: "organization",
-				recordId: this.currentRecordId,
-			},
-		});
+		let url = this.router.serializeUrl(
+			this.router.createUrlTree(["/error", "not-found"]),
+		);
+
+		const queryParams = { recordType: "organization", recordId: this.currentRecordId }
+
+		switch (this.tab) {
+			case "information-and-referral":
+				url = this.router.serializeUrl(
+					this.router.createUrlTree(["/information-and-referral"], {
+						queryParams,
+					}),
+				);
+				break;
+			case "ceo":
+				url = this.router.serializeUrl(
+					this.router.createUrlTree(["/community-education-outreach"], { queryParams }),
+				);
+				break;
+			default:
+				break;
+		}
+
+		try {
+			this.router.navigateByUrl(url);
+		} catch (error) {
+			console.error("Navigation error:", error);
+		}
 	}
+
+
 	openAddAttachment() {
 		return this.dialog.open(AddAttachmentContentDialog, {
 			width: "fit-content",
@@ -492,22 +533,16 @@ export class OrganizationViewRecordComponent {
   */
 	getInformationAndReferralForms(orgId: string) {
 		orgId != "" ? "" : console.log("No Forms Found.");
-		if (this.config.demoMode == true) {
-			const storedForms = localStorage.getItem("iAndR-forms");
-			const forms = storedForms ? JSON.parse(storedForms) : [];
-			return forms.filter((r: any) => r.organizationId === orgId);
-		}
-		return [];
+    const storedForms = localStorage.getItem("iAndR-forms");
+    const forms = storedForms ? JSON.parse(storedForms) : [];
+    return forms.filter((r: any) => r.organizationId === orgId);
 	}
 
 	getCommunityEducationAndutreachForms(orgId: string) {
 		orgId != "" ? "" : console.log("No Forms Found.");
-		if (this.config.demoMode == true) {
-			const storedForms = localStorage.getItem("ceo-forms");
-			const forms = storedForms ? JSON.parse(storedForms) : [];
-			return forms.filter((r: any) => r.organization === orgId);
-		}
-		return [];
+    const storedForms = localStorage.getItem("ceo-forms");
+    const forms = storedForms ? JSON.parse(storedForms) : [];
+    return forms.filter((r: any) => r.organization === orgId);
 	}
 
 	saveNotes() {

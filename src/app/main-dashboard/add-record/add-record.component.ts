@@ -100,13 +100,10 @@ export class addRecordContentDialog {
 	}
 
 	recordTypeClick(type: string) {
+    this.dialogRef.close();
 		if (type == "Individual") {
-			this.dialogRef.close();
-
-			// show html page for individual
 			this.addRecord.openIndividual("");
 		} else {
-			// show html page for organization
 			this.addRecord.openOrganization("");
 		}
 	}
