@@ -9,7 +9,7 @@ import { AccessClientService } from "../../service/client/access-client.service"
 import { MatSelectModule } from "@angular/material/select";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatMenuModule } from "@angular/material/menu";
-import { MatTabsModule } from "@angular/material/tabs";
+import { MatTabChangeEvent, MatTabsModule } from "@angular/material/tabs";
 import {
 	IndividualContentDialog,
 	OrganizationContentDialog,
@@ -141,6 +141,7 @@ export class IndividualViewRecordComponent {
   }
   */
   form!: FormGroup;
+  tab!: string;
 
 	recordFormsList!: {
 		informationAndReferrals: InformationAndReferralForm[];
@@ -152,7 +153,7 @@ export class IndividualViewRecordComponent {
 		private dialog: MatDialog,
 		_Activatedroute: ActivatedRoute,
 		private route: ActivatedRoute,
-		private _router: Router,
+		private router: Router,
 		private readonly accessClient: AccessClientService,
 		protected readonly tokenState: TokenState,
 		private readonly snackBar: MatSnackBar,
@@ -204,6 +205,7 @@ export class IndividualViewRecordComponent {
 		// get the id from the route
 		const id = this.route.snapshot.paramMap.get("id");
 		this.currentRecordId = this.recordIdState.recordId; // id ?? "";
+    this.tab = "information-and-referral";
 
 		if (this.config.demoMode == true) {
 			const stored = localStorage.getItem("records");
@@ -246,7 +248,48 @@ export class IndividualViewRecordComponent {
 			},
 		});
 	}
-	openAddForm(message: string) {
+
+	openAddForm(message?: string) {
+    console.log("openAddForm");
+
+		let url = this.router.serializeUrl(
+			this.router.createUrlTree(["/error", "not-found"]),
+		);
+		const queryParams = { recordType: "individual", recordId: this.currentRecordId }
+
+		switch (this.tab) {
+			case "information-and-referral":
+				url = this.router.serializeUrl(
+					this.router.createUrlTree(["/information-and-referral"], {
+						queryParams,
+					}),
+				);
+				break;
+			case "goals":
+				url = this.router.serializeUrl(
+					this.router.createUrlTree(["/goals"], { queryParams }),
+				);
+				break;
+			case "consumer-information-file":
+				url = this.router.serializeUrl(
+					this.router.createUrlTree(["/consumer-information-file"], {
+						queryParams,
+					}),
+				);
+				break;
+			default:
+				break;
+		}
+
+    console.log("url:" + url)
+
+		try {
+			window.open(url, "_blank"); // opens in a new tab
+		} catch (error) {
+			console.error("Navigation error:", error);
+		}
+
+    /*
 		return this.dialog.open(AddFormContentDialog, {
 			width: "fit-content",
 			height: "fit-content",
@@ -259,7 +302,9 @@ export class IndividualViewRecordComponent {
 				recordId: this.currentRecordId,
 			},
 		});
+    */
 	}
+
 	openAddAttachment() {
 		return this.dialog.open(AddAttachmentContentDialog, {
 			width: "fit-content",
@@ -337,6 +382,11 @@ export class IndividualViewRecordComponent {
 			console.error("Notes not saved: ", error);
 		}
 	}
+
+  onTabChange(event: MatTabChangeEvent) {
+    this.tab = event.tab.ariaLabelledby;
+  }
+
 }
 
 @Component({
