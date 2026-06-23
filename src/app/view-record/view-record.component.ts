@@ -255,6 +255,7 @@ export class IndividualViewRecordComponent {
 		let url = this.router.serializeUrl(
 			this.router.createUrlTree(["/error", "not-found"]),
 		);
+
 		const queryParams = { recordType: "individual", recordId: this.currentRecordId }
 
 		switch (this.tab) {
@@ -281,28 +282,11 @@ export class IndividualViewRecordComponent {
 				break;
 		}
 
-    console.log("url:" + url)
-
 		try {
-			window.open(url, "_blank"); // opens in a new tab
+			this.router.navigateByUrl(url);
 		} catch (error) {
 			console.error("Navigation error:", error);
 		}
-
-    /*
-		return this.dialog.open(AddFormContentDialog, {
-			width: "fit-content",
-			height: "fit-content",
-			maxWidth: "90vw",
-			maxHeight: "90vh",
-			panelClass: "custom-dialog",
-			data: {
-				message,
-				recordType: "individual",
-				recordId: this.currentRecordId,
-			},
-		});
-    */
 	}
 
 	openAddAttachment() {
