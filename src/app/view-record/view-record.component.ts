@@ -13,7 +13,7 @@ import { MatTabChangeEvent, MatTabsModule } from "@angular/material/tabs";
 import {
 	IndividualContentDialog,
 	OrganizationContentDialog,
-} from "../main-dashboard/add-record/add-record.component";
+} from "../add-record/add-record.component";
 import { MatDialog } from "@angular/material/dialog";
 import { Router, ActivatedRoute } from "@angular/router";
 import { TokenState } from "../../service/state/token-state.service";

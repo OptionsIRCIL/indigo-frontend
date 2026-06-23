@@ -6,7 +6,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatCardModule } from "@angular/material/card";
-import { addRecordDialogService } from "./add-record/add-record.component";
+
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { CommonModule } from "@angular/common";
@@ -20,6 +20,7 @@ import cifData from "../testing-data/consumer-information-file-testing-data.json
 import ceoData from "../testing-data/community-education-and-outreach-testing-data.json";
 import { ConfigService } from "../../config/config.service";
 import { PersonClientService } from "../../service/client/person-client.service";
+import { addRecordDialogService } from "../add-record/add-record.component";
 
 @Component({
 	selector: "app-main-dashboard",

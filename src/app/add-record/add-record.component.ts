@@ -43,8 +43,8 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
-import { PersonClientService } from "../../../service/client/person-client.service";
-import { RecordIdState } from "../../../service/state/record-id-state.service";
+import { PersonClientService } from "../../service/client/person-client.service";
+import { RecordIdState } from "../../service/state/record-id-state.service";
 
 @Injectable({ providedIn: "root" })
 export class addRecordDialogService {
@@ -164,7 +164,7 @@ export interface Alias {
 			/>
 		</mat-chip-grid>
 	</mat-form-field>`,
-	styleUrls: ["././individual/add-record-individual-content.css"],
+	styleUrls: ["./individual/add-record-individual-content.css"],
 	imports: [MatFormFieldModule, MatChipsModule, MatIconModule],
 })
 export class AliasChipsInput {
@@ -244,7 +244,7 @@ export let additionalDisabilityList = [
 			</mat-autocomplete>
 		</mat-form-field>
 	`,
-	styleUrls: ["././individual/add-record-individual-content.css"],
+	styleUrls: ["./individual/add-record-individual-content.css"],
 	imports: [
 		AsyncPipe,
 		ReactiveFormsModule,
@@ -370,8 +370,8 @@ export class RadioNgModel {
 
 @Component({
 	selector: "individual-content-dialog",
-	templateUrl: "././individual/add-record-individual-content.html",
-	styleUrls: ["././individual/add-record-individual-content.css"],
+	templateUrl: "./individual/add-record-individual-content.html",
+	styleUrls: ["./individual/add-record-individual-content.css"],
 	standalone: true,
 	imports: [
 		MatDialogModule,
@@ -582,8 +582,8 @@ export class IndividualContentDialog {
 
 @Component({
 	selector: "organization-content-dialog",
-	templateUrl: "././organization/add-record-organization-content.html",
-	styleUrls: ["././organization/add-record-organization-content.css"],
+	templateUrl: "./organization/add-record-organization-content.html",
+	styleUrls: ["./organization/add-record-organization-content.css"],
 	imports: [
 		MatDialogModule,
 		MatIconModule,
