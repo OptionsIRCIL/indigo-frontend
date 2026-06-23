@@ -18,7 +18,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { Router, ActivatedRoute } from "@angular/router";
 import { TokenState } from "../../service/state/token-state.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { AddAttachmentContentDialog } from "./add-form-or-attachment/add-form-or-attachment.component";
+import { AddAttachmentContentDialog } from "../add-attachment/add-attachment.component";
 import { OpenFormsService } from "./open-forms.service";
 import { ConfigService } from "../../config/config.service";
 import { PersonClientService } from "../../service/client/person-client.service";
