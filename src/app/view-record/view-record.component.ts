@@ -22,7 +22,6 @@ import { AddAttachmentContentDialog } from "../add-attachment/add-attachment.com
 import { OpenFormsService } from "./open-forms.service";
 import { ConfigService } from "../../config/config.service";
 import { PersonClientService } from "../../service/client/person-client.service";
-import { RecordIdState } from "../../service/state/record-id-state.service";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 
@@ -158,7 +157,6 @@ export class IndividualViewRecordComponent {
 		private openFormsService: OpenFormsService,
 		private config: ConfigService,
 		private personClientService: PersonClientService,
-    private recordIdState: RecordIdState,
     private fb: FormBuilder,
 	) {}
 
@@ -202,7 +200,7 @@ export class IndividualViewRecordComponent {
 	ngOnInit() {
 		// get the id from the route
 		const id = this.route.snapshot.paramMap.get("id");
-		this.currentRecordId = this.recordIdState.recordId; // id ?? "";
+		this.currentRecordId = id ?? "";
     this.tab = "information-and-referral";
 
 		if (this.config.demoMode == true) {
@@ -352,7 +350,7 @@ export class IndividualViewRecordComponent {
     };
 
 		try {
-      this.personClientService.putPerson(this.recordIdState.recordId, updatedRecord).subscribe((data) => {
+      this.personClientService.putPerson(this.currentRecordId, updatedRecord).subscribe((data) => {
 					console.log(data);
       });
 			this.snackBar.open("Notes saved", "", { duration: 2000 });

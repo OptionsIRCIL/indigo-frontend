@@ -40,11 +40,10 @@ import {
 	MatAutocompleteModule,
 } from "@angular/material/autocomplete";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
 import { PersonClientService } from "../../service/client/person-client.service";
-import { RecordIdState } from "../../service/state/record-id-state.service";
 
 @Injectable({ providedIn: "root" })
 export class addRecordDialogService {
@@ -400,7 +399,7 @@ export class IndividualContentDialog {
 		public dialogRef: MatDialogRef<IndividualContentDialog>,
 		private fb: FormBuilder,
 		private personClientService: PersonClientService,
-    private recordIdState: RecordIdState,
+    private route: ActivatedRoute,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 	) {
 		if (data?.mode == "e") {
@@ -433,6 +432,8 @@ export class IndividualContentDialog {
 	disabilities: string[] = [];
 
 	ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get("id") ?? localStorage.getItem("recordId") ?? "";
+
     let addressExists =
       this.data.record?.addressLine1 == "" ||
       this.data.record?.addressLine2 == "" ||
@@ -555,8 +556,9 @@ export class IndividualContentDialog {
 
 	addIndividualInfo(): void {
     let updatedRecord = this.getForm();
+
 		if (this.mode == "e") {
-      this.personClientService.putPerson(this.recordIdState.recordId, updatedRecord).subscribe((data) => {
+      this.personClientService.putPerson(this.id, updatedRecord).subscribe((data) => {
 					console.log(data.firstName + " " + data.lastName);
 					console.log(data.id);
 					console.log(data);
@@ -568,8 +570,8 @@ export class IndividualContentDialog {
 					this.dialogRef.close();
 					this.dialogRef.close();
 					try {
-            this.recordIdState.recordId = data.body?.id!
-						this.router.navigate(["/view-record", "individual", this.recordIdState.recordId]);
+            this.id = data.body?.id!
+						this.router.navigate(["/view-record", "individual", this.id]);
 					} catch (error) {
 						console.error("Navigation error:", error);
 					}
