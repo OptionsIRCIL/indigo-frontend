@@ -52,6 +52,7 @@ export class AppComponent implements OnInit {
 			next: () => {
 				this.tokenState.token.next(false);
 				window.cookieStore.delete("IndigoAuth");
+				localStorage.setItem("recordId", "");
 				this.snackBar.open("Logout successful", "", { duration: 2000 });
 				this.router.navigate(["/login"]);
 			},

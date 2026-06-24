@@ -112,9 +112,10 @@ interface CommunityEducationAndOutreachForm {
 export class IndividualViewRecordComponent {
 	private _Activatedroute: any;
 	private sub: any;
-	currentRecordId: string = "";
+	recordId: string = "";
   tab: string = "information-and-referral";
   form!: FormGroup;
+  id!: string;
 
 	record!: any; // mismatch between record's type and Person
   /*
@@ -175,7 +176,7 @@ export class IndividualViewRecordComponent {
 					"i",
 					formId,
 					"individual",
-					this.currentRecordId,
+					this.recordId,
 				);
 				break;
 			case "g":
@@ -183,7 +184,7 @@ export class IndividualViewRecordComponent {
 					"g",
 					formId,
 					"individual",
-					this.currentRecordId,
+					this.recordId,
 				);
 				break;
 			case "c":
@@ -191,25 +192,25 @@ export class IndividualViewRecordComponent {
 					"c",
 					formId,
 					"individual",
-					this.currentRecordId,
+					this.recordId,
 				);
 				break;
 		}
 	}
 
 	ngOnInit() {
-		// get the id from the route
-		const id = this.route.snapshot.paramMap.get("id");
-		this.currentRecordId = id ?? "";
-    this.tab = "information-and-referral";
+		// get the id from the route or localStorage as a fallback
+    this.recordId = this.route.snapshot.paramMap.get("id") ?? localStorage.getItem("recordId") ?? "";
+    localStorage.setItem("recordId", this.recordId);
+    console.log("this.recordId: " + this.recordId);
 
 		if (this.config.demoMode == true) {
 			const stored = localStorage.getItem("records");
 			const records = stored ? JSON.parse(stored) : [];
 			//find the record that matches the id
-			this.record = records.find((r: any) => r.id === id);
+			this.record = records.find((r: any) => r.id === this.id);
 		} else {
-			this.personClientService.getPerson(this.currentRecordId).subscribe((data) => {
+			this.personClientService.getPerson(this.recordId).subscribe((data) => {
 				this.record = data;
         this.form = new FormGroup({
           notes: new FormControl(this.record.notes),
@@ -226,8 +227,8 @@ export class IndividualViewRecordComponent {
 			};
 		}
     if (this.config.demoMode == true) {
-			if (id != null) {
-				this.populateForms(id);
+			if (this.id != null) {
+				this.populateForms(this.id);
 			}
   	}
 	}
@@ -254,7 +255,7 @@ export class IndividualViewRecordComponent {
 			this.router.createUrlTree(["/error", "not-found"]),
 		);
 
-		const queryParams = { recordType: "individual", recordId: this.currentRecordId }
+		const queryParams = { recordType: "individual", recordId: this.recordId }
 
 		switch (this.tab) {
 			case "information-and-referral":
@@ -350,7 +351,7 @@ export class IndividualViewRecordComponent {
     };
 
 		try {
-      this.personClientService.putPerson(this.currentRecordId, updatedRecord).subscribe((data) => {
+      this.personClientService.putPerson(this.recordId, updatedRecord).subscribe((data) => {
 					console.log(data);
       });
 			this.snackBar.open("Notes saved", "", { duration: 2000 });
@@ -378,7 +379,7 @@ export class IndividualViewRecordComponent {
 	styleUrl: "./view-record.component.css",
 })
 export class OrganizationViewRecordComponent {
-	currentRecordId: string = "";
+	recordId: string = "";
   tab: string = "information-and-referral";
 
 	orgRecord!: {
@@ -426,7 +427,7 @@ export class OrganizationViewRecordComponent {
 
 	ngOnInit() {
 		const id = this.route.snapshot.paramMap.get("id");
-		this.currentRecordId = id ?? "";
+		this.recordId = id ?? "";
 
     const orgStored = localStorage.getItem("org-records");
     const orgRecords = orgStored ? JSON.parse(orgStored) : [];
@@ -451,7 +452,7 @@ export class OrganizationViewRecordComponent {
 					"i",
 					formId,
 					"organization",
-					this.currentRecordId,
+					this.recordId,
 				);
 				break;
 			case "o":
@@ -459,7 +460,7 @@ export class OrganizationViewRecordComponent {
 					"o",
 					formId,
 					"organization",
-					this.currentRecordId,
+					this.recordId,
 				);
 				break;
 		}
@@ -488,7 +489,7 @@ export class OrganizationViewRecordComponent {
 			this.router.createUrlTree(["/error", "not-found"]),
 		);
 
-		const queryParams = { recordType: "organization", recordId: this.currentRecordId }
+		const queryParams = { recordType: "organization", recordId: this.recordId }
 
 		switch (this.tab) {
 			case "information-and-referral":

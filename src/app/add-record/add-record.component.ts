@@ -418,7 +418,7 @@ export class IndividualContentDialog {
 	selectedDate: Date | null = null;
 
 	form!: FormGroup;
-  id!: string;
+	recordId: string = "";
 
 	showCalendar!: boolean;
 
@@ -432,7 +432,10 @@ export class IndividualContentDialog {
 	disabilities: string[] = [];
 
 	ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get("id") ?? localStorage.getItem("recordId") ?? "";
+		// get the id from the route or localStorage as a fallback
+    this.recordId = this.route.snapshot.paramMap.get("id") ?? localStorage.getItem("recordId") ?? "";
+    localStorage.setItem("recordId", this.recordId);
+    console.log("this.recordId: " + this.recordId);
 
     let addressExists =
       this.data.record?.addressLine1 == "" ||
@@ -558,20 +561,20 @@ export class IndividualContentDialog {
     let updatedRecord = this.getForm();
 
 		if (this.mode == "e") {
-      this.personClientService.putPerson(this.id, updatedRecord).subscribe((data) => {
+      this.personClientService.putPerson(this.recordId, updatedRecord).subscribe((data) => {
 					console.log(data.firstName + " " + data.lastName);
 					console.log(data.id);
 					console.log(data);
       });
 			this.dialogRef.close();
-			window.location.reload();
+			//window.location.reload();
     } else {
 			this.personClientService.postPerson(updatedRecord).subscribe((data) => {
 					this.dialogRef.close();
 					this.dialogRef.close();
 					try {
-            this.id = data.body?.id!
-						this.router.navigate(["/view-record", "individual", this.id]);
+            this.recordId = data.body?.id!
+						this.router.navigate(["/view-record", "individual", this.recordId]);
 					} catch (error) {
 						console.error("Navigation error:", error);
 					}
