@@ -10,7 +10,7 @@
 			>
 				<mat-icon>filter_list</mat-icon>
 			</button>
-			<input matInput type="text" />
+			<input matInput type="text" (keyup.enter)="search()" />
 			<button mat-icon-button matSuffix aria-label="Search" (click)="search()">
 				<mat-icon>search</mat-icon>
 			</button>
