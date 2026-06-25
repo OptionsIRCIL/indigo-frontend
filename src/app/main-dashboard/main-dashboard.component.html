@@ -26,14 +26,12 @@
 				</mat-chip>
 			}
 		</mat-chip-set>
-
-		<button mat-button (click)="addNewRecord()">Add Record</button>
 	</header>
 </div>
 
 <div class="search-results">
 	<mat-accordion multi>
-		<mat-expansion-panel [expanded]="true">
+		<mat-expansion-panel [disabled]="!individualPanelEnabled" [expanded]="individualPanelExpanded">
 			<mat-expansion-panel-header>
 				<mat-panel-title> Individuals </mat-panel-title>
 			</mat-expansion-panel-header>
@@ -55,7 +53,7 @@
 			}
 			<br />
 		</mat-expansion-panel>
-		<mat-expansion-panel [expanded]="false">
+		<mat-expansion-panel [disabled]="!organizationPanelEnabled" [expanded]="organizationPanelExpanded">
 			<mat-expansion-panel-header>
 				<mat-panel-title> Organizations </mat-panel-title>
 			</mat-expansion-panel-header>
@@ -91,4 +89,8 @@
 			}
 		</mat-expansion-panel>
 	</mat-accordion>
+</div>
+
+<div class="buttons">
+  <button mat-raised-button id="addFormAttchBtn" color="primary" (click)="addNewRecord()">Add Record</button>
 </div>

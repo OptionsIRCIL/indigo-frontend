@@ -41,6 +41,10 @@ import { addRecordDialogService } from "../add-record/add-record.component";
 })
 export class MainDashboardComponent {
 	records!: any;
+	individualPanelEnabled: boolean = false;
+	individualPanelExpanded: boolean = false;
+	organizationPanelEnabled: boolean = false;
+	organizationPanelExpanded: boolean = false;
 
 	orgRecords!: {
 		name: string;
@@ -64,7 +68,7 @@ export class MainDashboardComponent {
 	) {}
 
 	ngOnInit() {
-		this.loadData();
+		// this.loadData();
 	}
 
 	loadData() {
@@ -108,6 +112,14 @@ export class MainDashboardComponent {
 
 	search() {
 		console.log("Searching...");
+		this.personClientService.getAll().subscribe((data) => {
+			console.log(data);
+			this.records = data;
+		});
+		this.individualPanelEnabled = true;
+		this.organizationPanelEnabled = true;
+		this.individualPanelExpanded = true;
+		this.organizationPanelExpanded = true;
 	}
 
 	addNewRecord() {

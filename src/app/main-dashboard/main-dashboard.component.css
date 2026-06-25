@@ -13,3 +13,8 @@
 	gap: 10px;
 	padding: 20px;
 }
+
+.buttons {
+	display: grid;
+	place-items: center;
+}
