@@ -40,13 +40,13 @@ import { addRecordDialogService } from "../add-record/add-record.component";
 	styleUrl: "./main-dashboard.component.css",
 })
 export class MainDashboardComponent {
-	records!: any;
+	individuals!: any;
 	individualPanelEnabled: boolean = false;
 	individualPanelExpanded: boolean = false;
 	organizationPanelEnabled: boolean = false;
 	organizationPanelExpanded: boolean = false;
 
-	orgRecords!: {
+	organizations!: {
 		name: string;
 		email: string;
 		phone: string;
@@ -64,7 +64,7 @@ export class MainDashboardComponent {
 		private addRecord: addRecordDialogService,
 		private readonly router: Router,
 		private config: ConfigService,
-		private personClientService: PersonClientService
+		private personClientService: PersonClientService,
 	) {}
 
 	ngOnInit() {
@@ -75,8 +75,8 @@ export class MainDashboardComponent {
 		if (this.config.demoMode) {
 			if (!localStorage.getItem("dataLoaded")) {
 				//load dummy data from json
-				localStorage.setItem("records", JSON.stringify(indivData));
-				localStorage.setItem("org-records", JSON.stringify(orgData));
+				localStorage.setItem("individuals", JSON.stringify(indivData));
+				localStorage.setItem("organizations", JSON.stringify(orgData));
 				localStorage.setItem(
 					"iAndR-forms",
 					JSON.stringify(informationAndReferralData),
@@ -88,14 +88,14 @@ export class MainDashboardComponent {
 				localStorage.setItem("dataLoaded", "true");
 			}
 			const stored = localStorage.getItem("records");
-			this.records = stored ? JSON.parse(stored) : [];
-			const orgStored = localStorage.getItem("org-records");
-			this.orgRecords = orgStored ? JSON.parse(orgStored) : [];
+			this.individuals = stored ? JSON.parse(stored) : [];
+			const orgStored = localStorage.getItem("organizations");
+			this.organizations = orgStored ? JSON.parse(orgStored) : [];
 		} else {
 			// TODO: Implement more granular search and filtering
 			this.personClientService.getAll().subscribe((data) => {
 				console.log(data);
-				this.records = data;
+				this.individuals = data;
 			});
 		}
 	}
@@ -114,8 +114,9 @@ export class MainDashboardComponent {
 		console.log("Searching...");
 		this.personClientService.getAll().subscribe((data) => {
 			console.log(data);
-			this.records = data;
+			this.individuals = data;
 		});
+
 		this.individualPanelEnabled = true;
 		this.organizationPanelEnabled = true;
 		this.individualPanelExpanded = true;
